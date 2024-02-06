@@ -1,12 +1,3 @@
-.header-container {
-  background-color: rgb(140, 140, 166);
-}
-.header-container *:not(.search-bar input) {
-  background-color: transparent;
-}
-
-
-
 .header {
   display: flex;
   justify-content: space-between; /* Распределяем элементы по ширине контейнера */

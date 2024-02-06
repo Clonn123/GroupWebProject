@@ -1,12 +1,22 @@
 *{
+  margin: 0;
+  padding: 0;
   color: black;
-  background-color: #bfb5b5;
-
+  font-family: "Montserrat", sans-serif;
+  font-weight: 450;
 }
 
-
+body{
+  background-color: #bfb5b5;
+  
+}
+.header-container {
+  background-color: #957878;
+}
 h1{
   margin: 10px 10px;
+  font-weight: 600;
 }
 
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap')
