@@ -1,23 +1,19 @@
-*{
+/* App.css */
+
+body {
   margin: 0;
   padding: 0;
-  color: black;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 450;
-  color: #000;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4; /* Новый цвет фона */
 }
 
-body{
-  background-color: #d4d2d2;
-  
+.panel {
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #d06d09;
 }
-.header-container {
-  background-color: #747474;
-}
-h1{
+
+h1 {
   margin: 10px 10px;
-  font-weight: 600;
 }
 
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap')

@@ -1,37 +1,66 @@
+/* header.css */
+
+.header-container {
+  background-color: #d24f08; /* Новый цвет фона */
+  padding: 10px 0;
+}
+
 .header {
   display: flex;
-  justify-content: space-between; /* Распределяем элементы по ширине контейнера */
-  align-items: center; /* Выравниваем элементы по центру по вертикали */
-  font-size: 14pt;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
+}
+
+.header h1 {
+  font-size: 24px;
 }
 
 .categories {
-  display: flex; /* Отображаем дочерние элементы в строку */
+  display: flex;
 }
 
 .category {
-  margin-right: 30px; /* Добавляем отступ между категориями */
+  color: #ffffff;
   text-decoration: none;
   transition: opacity 0.2s;
+  margin-left: 20px;
+  font-weight: bold;
 }
+
+.category:last-child {
+  margin-right: 0;
+}
+
 .category:hover {
   opacity: 0.7;
 }
 
-.search-bar input{
-  width: 300px;
-  height: 30px;
+.search-bar input {
+  width: 250px;
+  height: 40px;
   outline: none;
-  border-radius: 4px;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 16px;
 }
 
-.reg{
-  margin-right: 20px; /* Добавляем отступ между категориями */
+.search-bar input::placeholder {
+  color: #ffffff;
+}
+
+.search-bar input:focus {
+  background-color: #2c3e50; /* Новый цвет фона при фокусе */
 }
 
 .registration-link a {
+  color: #ffffff;
   text-decoration: none;
   transition: opacity 0.2s;
+  margin-left: 20px;
+  margin-right: 10px;
+  font-weight: bold;
 }
 
 .registration-link a:hover {
