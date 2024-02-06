@@ -1,0 +1,47 @@
+.header-container {
+  background-color: rgb(140, 140, 166);
+}
+.header-container *:not(.search-bar input) {
+  background-color: transparent;
+}
+
+
+
+.header {
+  display: flex;
+  justify-content: space-between; /* Распределяем элементы по ширине контейнера */
+  align-items: center; /* Выравниваем элементы по центру по вертикали */
+  font-size: 14pt;
+}
+
+.categories {
+  display: flex; /* Отображаем дочерние элементы в строку */
+}
+
+.category {
+  margin-right: 20px; /* Добавляем отступ между категориями */
+  text-decoration: none;
+}
+
+
+.search-bar input{
+  width: 300px;
+  height: 20px;
+}
+
+.reg{
+  
+  margin-right: 20px; /* Добавляем отступ между категориями */
+}
+
+.registration-link a {
+  text-decoration: none;
+  color: blue;
+}
+
+.registration-link a:hover {
+  text-decoration: underline;
+}
+
+
+  
