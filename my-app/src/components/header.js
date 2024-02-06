@@ -1,23 +1,22 @@
-// header.js
-
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../css/header.css';
 
 function Header() {
   return (
     <div className="header-container">
         <div className="header">
-          <h1>Название сайта</h1>
+        <h1><Link to="/" className="header-link" >Стартовая страница</Link></h1> {/* Обертываем надпись в Link и устанавливаем to="/" для перехода на стартовую страницу */}
           <div className="categories">
-            <div><a href="animes" className="category">Аниме</a></div>
-            <div><a href="book" className="category">Книги</a></div>
+            <div><Link to="/animes" className="category">Аниме</Link></div>
+            <div><Link to="/book" className="category">Книги</Link></div>
           </div>
           <div className="search-bar">
             <input type="text" placeholder="🔍 Поиск..." />
           </div>
           <div className="registration-link">
-            <a href="/registration">Регистрация</a>
-            <a href="/login">Вход</a>
+            <Link to="/registration">Регистрация</Link>
+            <Link to="/login">Вход</Link>
           </div>
         </div>
     </div>
