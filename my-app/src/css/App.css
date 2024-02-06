@@ -4,14 +4,15 @@
   color: black;
   font-family: "Montserrat", sans-serif;
   font-weight: 450;
+  color: #000;
 }
 
 body{
-  background-color: #bfb5b5;
+  background-color: #d4d2d2;
   
 }
 .header-container {
-  background-color: #957878;
+  background-color: #747474;
 }
 h1{
   margin: 10px 10px;
