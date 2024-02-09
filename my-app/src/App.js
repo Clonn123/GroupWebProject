@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Используем Routes вместо Switch
 import Header from './components/header.js';
 import './css/App.css';
@@ -63,6 +63,7 @@ function App() {
   const handleAddUser = (newUser) => {
     setUsers([...users, newUser]); // Добавляем нового пользователя в список
   };
+  
 
   return (
     <Router>
@@ -73,7 +74,9 @@ function App() {
           <Route path="/" element={<UserList users={users} />} />
           <Route path="/animes" element={<ContentList dataList={dataList}  />} />
         </Routes>
-        <BotHeader className="botPanel"/>
+
+        {/* <BotHeader className="botPanel"/> */}
+
       </div>
     </Router>
   );
