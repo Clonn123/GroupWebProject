@@ -1,0 +1,10 @@
+.botheader-container {
+    background-color: #3D5A80; 
+    position: absolute; 
+    bottom: auto; /* Прижимаем к нижней части экрана */
+    left: 0; /* Выравниваем по левому краю */
+    width: 100%; /* Занимаем всю ширину */
+}
+h3{
+    color: #F4F4F4;
+}
