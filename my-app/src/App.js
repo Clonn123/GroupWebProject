@@ -5,6 +5,7 @@ import './css/App.css';
 import RegistrationForm from './components/RegistrationForm.js';
 import ContentList from './components/contentList.js';
 import UserList from './components/UserList.js';
+import BotHeader from './components/botheader.js';
 
 function App() {
   const [users, setUsers] = useState([
@@ -72,6 +73,7 @@ function App() {
           <Route path="/" element={<UserList users={users} />} />
           <Route path="/animes" element={<ContentList dataList={dataList}  />} />
         </Routes>
+        <BotHeader className="botPanel"/>
       </div>
     </Router>
   );
