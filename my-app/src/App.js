@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // И
 import Header from './components/header.js';
 import './css/App.css';
 import RegistrationForm from './components/RegistrationForm.js';
+import Content from './components/content.js';
 import UserList from './components/UserList.js';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/registration" element={<RegistrationForm onUserAdd={handleAddUser} />} />
           <Route path="/" element={<UserList users={users} />} />
+          <Route path="/animes" element={<Content onUserAdd={handleAddUser} />} />
         </Routes>
       </div>
     </Router>

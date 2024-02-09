@@ -1,0 +1,32 @@
+.Content-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 10px;
+}
+  
+.item {
+    max-width: min-content;
+    max-height: max-content;
+    padding: 5px;
+    background-color: #F4F4F4;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+}
+
+.item img {
+    margin-bottom: -20px; /* Уменьшаем отступ между изображением и текстом */
+}
+
+.item p {
+    margin-top: -15px; /* Уменьшаем отступ между текстом и другим контентом */
+}
+
+.item h2 {
+    
+    /* Стили для заголовка */
+}
+
+
+  

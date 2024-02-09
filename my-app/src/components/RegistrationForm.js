@@ -2,24 +2,6 @@ import '../css/RegistrationForm.css';
 
 import React, { useState } from "react";
 
-// class RegistrationForm extends React.Component {
-//     render(){
-//         return (
-//             <div className="registration-form">
-//                 <h2>Форма регистрации</h2>
-//                 <form>
-//                     <input placeholder="E-mail" />
-//                     <input placeholder="Имя" />
-//                     <input placeholder="Фамилия" />
-//                     <input placeholder="Логин (никнейм)" />
-//                     <input type="password" placeholder="Пароль" />
-//                     <button type="submit">Зарегистрироваться</button>
-//                 </form>
-//             </div>
-//         )
-//     }
-// }
-
 function RegistrationForm({ onUserAdd }) {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
