@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../css/header.css';
 
-function Header() {
+function Header({ currentUser, onLogout }) {
   return (
     <div className="header-container">
         <div className="header">
@@ -15,8 +15,14 @@ function Header() {
             <input type="text" placeholder="🔍 Поиск..." />
           </div>
           <div className="registration-link">
-            <Link to="/registration">Регистрация</Link>
-            <Link to="/login">Вход</Link>
+          {currentUser ? (
+              <Link to="/profile">Профиль</Link>
+            ) : (
+              <>
+                <Link to="/registration">Регистрация</Link>
+                <Link to="/login">Вход</Link>
+              </>
+            )}
           </div>
         </div>
     </div>
