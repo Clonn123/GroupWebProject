@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../css/header.css';
 
-function Header({ currentUser, onLogout }) {
+function Header({ currentUser }) {
   return (
     <div className="header-container">
         <div className="header">
@@ -16,7 +16,7 @@ function Header({ currentUser, onLogout }) {
           </div>
           <div className="registration-link">
           {currentUser ? (
-              <Link to="/profile">Профиль</Link>
+              <Link to="/profile">{currentUser.username}</Link>//имя пользователя сюда и его аву
             ) : (
               <>
                 <Link to="/registration">Регистрация</Link>
