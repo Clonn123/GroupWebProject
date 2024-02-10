@@ -37,9 +37,27 @@
     margin-top: -15px; 
 }
 
-.item h2 {
+.navigation{
+    opacity: 1;
     
 }
+
+
+.sort-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.sort-menu li {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.sort-menu li:hover {
+    text-decoration: underline;
+}
+
+
 
 
 
