@@ -1,6 +1,7 @@
 import '../css/RegistrationForm.css';
 
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 
 function RegistrationForm({ onUserAdd }) {
     const [email, setEmail] = useState('');
@@ -69,6 +70,7 @@ function RegistrationForm({ onUserAdd }) {
           />
           <button type="submit">Зарегистрироваться</button>
         </form>
+        <p>Уже есть аккаунт? <Link to="/login">Войдите</Link></p>
       </div>
     );
   }
