@@ -8,8 +8,25 @@ import UserList from './components/UserList.js';
 import BotHeader from './components/botheader.js';
 import LoginForm from './components/LoginForm.js';
 import Profile from './components/Profile.js';
+import axios from 'axios';
 
 function App() {
+  // Я ВОРОВАЛ Я УБИВАЛ (грузим с бека данные жи есть)
+  const [dataList, setDataList] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/data/')
+      .then(response => {
+        setDataList(response.data);
+      })
+      .catch(error => {
+        console.error('Ошибка:', error);
+      });
+  }, []);
+
+
+
+
   const [users, setUsers] = useState([
     { id: 1, name: 'Артем', surname: 'Полозников', username: 'Clonn123', password: 'Clonn123', email: 'art-clon@mail.ru' },
     { id: 2, name: 'Андрей', surname: 'Смирнов', username: 'Gifon', password: 'Gifon', email: 'gifon@mail.ru' },
@@ -18,53 +35,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
 
-  const dataList = [
-    { 
-      imageUrl: 'https://desu.shikimori.one/uploads/poster/animes/52991/preview_alt-f180ae801fddf9551e27aff2d96f2112.jpeg',
-      title: 'Название1',
-      description: 'Описание1',
-    },
-    { 
-      imageUrl: 'https://desu.shikimori.one/uploads/poster/animes/52991/preview_alt-f180ae801fddf9551e27aff2d96f2112.jpeg',
-      title: 'Название2',
-      description: 'Описание2',
-    },
-    { 
-      imageUrl: 'https://desu.shikimori.one/uploads/poster/animes/52991/preview_alt-f180ae801fddf9551e27aff2d96f2112.jpeg',
-      title: 'Название2',
-      description: 'Описание2',
-    },
-    { 
-      imageUrl: 'https://desu.shikimori.one/uploads/poster/animes/52991/preview_alt-f180ae801fddf9551e27aff2d96f2112.jpeg',
-      title: 'Название2',
-      description: 'Описание2',
-    },
-    { 
-      imageUrl: 'https://desu.shikimori.one/uploads/poster/animes/52991/preview_alt-f180ae801fddf9551e27aff2d96f2112.jpeg',
-      title: 'Название2',
-      description: 'Описание2',
-    },
-    { 
-      imageUrl: 'https://desu.shikimori.one/uploads/poster/animes/52991/preview_alt-f180ae801fddf9551e27aff2d96f2112.jpeg',
-      title: 'Название2',
-      description: 'Описание2',
-    },
-    { 
-      imageUrl: 'https://desu.shikimori.one/uploads/poster/animes/52991/preview_alt-f180ae801fddf9551e27aff2d96f2112.jpeg',
-      title: 'Название2',
-      description: 'Описание2',
-    },
-    { 
-      imageUrl: 'https://desu.shikimori.one/uploads/poster/animes/52991/preview_alt-f180ae801fddf9551e27aff2d96f2112.jpeg',
-      title: 'Название2',
-      description: 'Описание2',
-    },
-    { 
-      imageUrl: 'https://desu.shikimori.one/uploads/poster/animes/52991/preview_alt-f180ae801fddf9551e27aff2d96f2112.jpeg',
-      title: 'Название2',
-      description: 'Описание2',
-    },
-  ];
+  
 
   useEffect(() => {
     // Проверяем наличие токена в localStorage при загрузке компонента
@@ -118,7 +89,7 @@ function App() {
           <Route path="/registration" element={<RegistrationForm onUserAdd={handleAddUser} />} />
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
           <Route path="/" element={<UserList users={users} />} />
-          <Route path="/animes" element={<ContentList dataList={dataList}  />} />
+          <Route path="/animes" element={<ContentList dataList={dataList} />} />
           {currentUser && <Route path="/profile" element={<Profile currentUser={currentUser} onLogout={handleLogout} />} />}
         </Routes>
       </div>
