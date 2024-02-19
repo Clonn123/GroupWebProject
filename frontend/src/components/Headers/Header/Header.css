@@ -1,7 +1,6 @@
 .header-container {
-  background-color: #3D5A80; /* Новый цвет фона */
   padding: 10px 0;
-  position: relative; /* Добавляем относительное позиционирование */
+  position: relative; 
 }
 
 .header-container::after {

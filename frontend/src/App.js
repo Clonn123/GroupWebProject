@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; // Используем Routes вместо Switch
 import Header from './components/Headers/Header/Header.js';
-import './css/App.css';
+import './css/DarkTheme.css';
+import './css/LightTheme.css'; 
+ 
+import ThemeToggleButton from './components/Headers/Header/ThemeToggleButton.js' 
 import RegistrationForm from './components/Authorization/RegistrationForm/RegistrationForm.js';
 import ContentList from './components/Contents/ContentList/ContentList.js';
 import UserList from './components/User/UserList/UserList.js';
@@ -11,6 +14,8 @@ import Profile from './components/User/Profile/Profile.js';
 import axios from 'axios';
 
 function App() {
+  
+
   // Я ВОРОВАЛ Я УБИВАЛ (грузим с бека данные жи есть)
   const [dataList, setDataList] = useState([]);
 
@@ -79,12 +84,18 @@ function App() {
 
   const generateToken = (userId) => {
     return `token_${userId}`;
+  };
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
   };  
   
   return (
-    <Router>
-      <div>
-        <Header currentUser={currentUser} onLogout={handleLogout} />
+    <back className='bb'>
+      <Router>
+      <div className={`app-container ${isDarkMode ? 'dark-theme' : 'light-theme'}`}>
+        <Header currentUser={currentUser} toggleTheme={toggleTheme} isDarkMode={isDarkMode} onLogout={handleLogout} />
         <Routes>
           <Route path="/registration" element={<RegistrationForm onUserAdd={handleAddUser} />} />
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
@@ -94,6 +105,9 @@ function App() {
         </Routes>
       </div>
     </Router>
+
+    </back>
+    
   );
 }
 
