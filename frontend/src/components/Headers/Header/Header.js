@@ -10,6 +10,7 @@ function Header({ currentUser }) {
           <div className="categories">
             <div><Link to="/animes"  className="category">Аниме</Link></div>
             <div><Link to="/book" className="category">Книги</Link></div>
+            <div><Link to="/Recommendations" className="category">Рекомендации</Link></div>
           </div>
           <div className="search-bar">
             <input type="text" placeholder="🔍 Поиск..." />
