@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; // Используем Routes вместо Switch
-import Header from './components/header.js';
+import Header from './components/Headers/Header/Header.js';
 import './css/App.css';
-import RegistrationForm from './components/RegistrationForm.js';
-import ContentList from './components/contentList.js';
-import UserList from './components/UserList.js';
-import BotHeader from './components/botheader.js';
-import LoginForm from './components/LoginForm.js';
-import Profile from './components/Profile.js';
+import RegistrationForm from './components/Authorization/RegistrationForm/RegistrationForm.js';
+import ContentList from './components/Contents/ContentList/ContentList.js';
+import UserList from './components/User/UserList/UserList.js';
+import BotHeader from './components/Headers/BotHeader/BotHeader.js';
+import LoginForm from './components/Authorization/LoginForm/LoginForm.js';
+import Profile from './components/User/Profile/Profile.js';
 import axios from 'axios';
 
 function App() {
