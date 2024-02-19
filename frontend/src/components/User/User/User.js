@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/UserList.css';
+import '../UserList/UserList.css';
 
 function User({ user }) {
   return (

@@ -1,4 +1,4 @@
-import '../css/RegistrationForm.css';
+import './RegistrationForm.css';
 
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';

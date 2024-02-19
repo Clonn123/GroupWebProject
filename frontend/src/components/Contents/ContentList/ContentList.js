@@ -1,6 +1,6 @@
 import React from 'react';
-import Content from './Content';
-import '../css/Content.css';
+import Content from '../Content/Content';
+import '../Content/Content.css';
 
 function ContentList({ dataList }) {
     return (
