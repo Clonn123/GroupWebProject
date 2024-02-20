@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; // Используем Routes вместо Switch
 import Header from './components/Headers/Header/Header.js';
-import './css/DarkTheme.css';
+import './css/App.css';
 import './css/LightTheme.css'; 
- 
+import './css/DarkTheme.css';
 import ThemeToggleButton from './components/Headers/Header/ThemeToggleButton.js' 
 import RegistrationForm from './components/Authorization/RegistrationForm/RegistrationForm.js';
 import ContentList from './components/Contents/ContentList/ContentList.js';
@@ -89,13 +89,23 @@ function App() {
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
-  };  
+  };
+
+  useEffect(() => {
+    const root = document.documentElement;
+
+    if (isDarkMode) {
+      root.style.setProperty('--background-color', '#0e4f74');
+    } else {
+      root.style.setProperty('--background-color', '#98C1D9');
+    }
+  }, [isDarkMode]);  
   
   return (
-    <back className='bb'>
       <Router>
       <div className={`app-container ${isDarkMode ? 'dark-theme' : 'light-theme'}`}>
         <Header currentUser={currentUser} toggleTheme={toggleTheme} isDarkMode={isDarkMode} onLogout={handleLogout} />
+        <div className='all_bady'>
         <Routes>
           <Route path="/registration" element={<RegistrationForm onUserAdd={handleAddUser} />} />
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
@@ -103,11 +113,9 @@ function App() {
           <Route path="/animes" element={<ContentList dataList={dataList} />} />
           {currentUser && <Route path="/profile" element={<Profile currentUser={currentUser} onLogout={handleLogout} />} />}
         </Routes>
+        </div>   
       </div>
     </Router>
-
-    </back>
-    
   );
 }
 

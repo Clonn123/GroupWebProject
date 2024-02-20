@@ -2,12 +2,8 @@
   background-color: #a2c2ed; 
 }
 
-.light-theme {
-  background-color: #98C1D9;
-}
 
 .light-theme * {
-  font-weight: 450;
   color: #293241;
 }
 

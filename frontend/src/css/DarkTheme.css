@@ -2,12 +2,8 @@
   background-color: #3D5A80; 
 }
 
-.dark-theme {
-  background-color: #0e4f74;
-}
 
 .dark-theme * {
-  font-weight: 450;
   color: #d1d6df;
 }
 

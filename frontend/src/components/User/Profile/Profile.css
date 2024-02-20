@@ -1,0 +1,48 @@
+.profile{
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+
+.chenge_profile{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.setting{
+    margin-bottom: 22px;
+    margin-left: -5px;
+    color: #000;
+}
+.name{
+    margin-top: 10px;
+}
+h4{
+    margin-top: 0px;
+}
+.onLogout_but{
+    color: #000;
+}
+.youself{
+    display: flex;
+    justify-content: space-evenly;
+    align-content: space-around;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+
+
+
+
+.separator {
+    border: none;
+    border-top: 1px solid #ddd; /* Цвет и стиль линии */
+    margin: 15px 0; /* Отступы сверху и снизу */
+    width: 100%; /* Ширина линии */
+  }
+  
