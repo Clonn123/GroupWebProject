@@ -24,6 +24,9 @@
 h4{
     margin-top: 0px;
 }
+h4:hover{
+    opacity: 0.8;
+}
 .onLogout_but{
     color: #000;
 }
