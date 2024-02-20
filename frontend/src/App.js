@@ -16,7 +16,7 @@ import axios from 'axios';
 function App() {
   
 
-  // Я ВОРОВАЛ Я УБИВАЛ (грузим с бека данные жи есть)
+  // грузим с бека данные
   const [dataList, setDataList] = useState([]);
 
   useEffect(() => {
