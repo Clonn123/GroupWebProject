@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; // Используем Routes вместо Switch
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; 
 import Header from './components/Headers/Header/Header.js';
 import './css/App.css';
 import './css/LightTheme.css'; 
@@ -12,26 +12,9 @@ import UserList from './components/User/UserList/UserList.js';
 import BotHeader from './components/Headers/BotHeader/BotHeader.js';
 import LoginForm from './components/Authorization/LoginForm/LoginForm.js';
 import Profile from './components/User/Profile/Profile.js';
-import axios from 'axios';
+
 
 function App() {
-  
-
-  // грузим с бека данные
-  const [dataList, setDataList] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/data/')
-      .then(response => {
-        setDataList(response.data);
-      })
-      .catch(error => {
-        console.error('Ошибка:', error);
-      });
-  }, []);
-
-
-
 
   const [users, setUsers] = useState([
     { id: 1, name: 'Артем', surname: 'Полозников', username: 'Clonn123', password: 'Clonn123', email: 'art-clon@mail.ru' },
@@ -112,7 +95,7 @@ function App() {
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
           <Route path="/setting" element={<SettingsPage />} />
           <Route path="/" element={<UserList users={users} />} />
-          <Route path="/animes" element={<ContentList dataList={dataList} />} />
+          <Route path="/animes" element={<ContentList />} />
           {currentUser && <Route path="/profile" element={<Profile currentUser={currentUser} onLogout={handleLogout} />} />}
         </Routes>
         </div>   

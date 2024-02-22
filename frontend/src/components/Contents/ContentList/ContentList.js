@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Content from '../Content/Content';
+import axios from 'axios';
 import '../Content/Content.css';
 
-function ContentList({ dataList }) {
+function ContentList() {
+    // грузим с бека данные
+  const [dataList, setDataList] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/data/')
+      .then(response => {
+        setDataList(response.data);
+      })
+      .catch(error => {
+        console.error('Ошибка:', error);
+      });
+  }, []);
+
+    
     return (
         <div className='head'>
             <div className='notice'>
