@@ -25,6 +25,9 @@
 .dark-theme .user-container {
   color: #293241 !important;
 }
+.dark-theme .menu * {
+  color: #293241;
+}
 
 
   

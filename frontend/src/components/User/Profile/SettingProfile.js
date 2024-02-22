@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import './SettingProfile.css';
+import SaveButton from './Save';
 
 
-function SettingsPage() {
+function SettingsPage( {currentUser} ) {
   const [photo, setPhoto] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [nickname, setNickname] = useState(currentUser.username);
+  const [firstName, setFirstName] = useState(currentUser.name);
+  const [lastName, setLastName] = useState(currentUser.surname);
   const [gender, setGender] = useState('');
-  const [age, setAge] = useState('');
+  const [birthdate, setBirthdate] = useState('');
   const [previewPhoto, setPreviewPhoto] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Здесь вы можете добавить код для отправки данных формы на сервер или их обработки
-    console.log('Form submitted:', { photo, nickname, firstName, lastName, gender, age });
+    console.log('Form submitted:', { photo, nickname, firstName, lastName, gender, setBirthdate });
   };
 
   const handlePhotoChange = (e) => {
@@ -59,9 +60,9 @@ function SettingsPage() {
         </div>
         <div>
           <label htmlFor="age">Возраст:</label>
-          <input type="number" id="age" value={age} onChange={(e) => setAge(e.target.value)} />
+          <input type="date" id="birthdate" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} />
         </div>
-        <button className='savebut' type="submit">Сохранить</button>
+        <SaveButton />
       </form>
       {previewPhoto && <img className='avatar_img' src={previewPhoto} alt="Preview"style={{ width: '200px', height: '200px', marginTop: '10px' }}/>}
     </div>

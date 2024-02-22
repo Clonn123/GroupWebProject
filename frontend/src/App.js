@@ -7,7 +7,6 @@ import './css/DarkTheme.css';
 import ThemeToggleButton from './components/Headers/Header/ThemeToggleButton.js' 
 import RegistrationForm from './components/Authorization/RegistrationForm/RegistrationForm.js';
 import ContentList from './components/Contents/ContentList/ContentList.js';
-import SettingsPage from './components/User/Profile/SettingProfile.js'
 import UserList from './components/User/UserList/UserList.js';
 import BotHeader from './components/Headers/BotHeader/BotHeader.js';
 import LoginForm from './components/Authorization/LoginForm/LoginForm.js';
@@ -93,7 +92,6 @@ function App() {
         <Routes>
           <Route path="/registration" element={<RegistrationForm onUserAdd={handleAddUser} />} />
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
-          <Route path="/setting" element={<SettingsPage />} />
           <Route path="/" element={<UserList users={users} />} />
           <Route path="/animes" element={<ContentList />} />
           {currentUser && <Route path="/profile" element={<Profile currentUser={currentUser} onLogout={handleLogout} />} />}

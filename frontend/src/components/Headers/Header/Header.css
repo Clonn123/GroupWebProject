@@ -63,7 +63,7 @@ h1{
   
 }
 
-.registration-link a:hover {
+.registration-link a:hover{
   opacity: 0.7;
 }
 
@@ -74,7 +74,7 @@ h1{
   font-weight: 700;
 }
 
-.header-link:hover {
+.header-link:hover :not(h1) {
   opacity: 0.7;
 }
 

@@ -1,17 +1,11 @@
 .settint-container{
-    width: 85%;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    margin-top: 50px;
-    display: flex;
+    width: 400px;
 }
 .avatar_img{
     margin-left: 20px;
     border-radius: 5%;
 }
-.formsetting{
-    width: 600px;
-}
+
 .formsetting input {
     width: 100%;
     margin-bottom: 10px;
@@ -29,6 +23,4 @@ select {
     border-radius: 5px;
     box-sizing: border-box;
   }
-.savebut{
-    color: #000;
-}
+

@@ -1,36 +1,52 @@
-.profile{
+.profile {
     display: flex;
     justify-content: space-between;
     width: 85%;
     margin: 0 auto;
     flex-wrap: wrap;
     margin-top: 50px;
+    align-items: flex-start;
 }
 
-
-.chenge_profile{
+.change_profile {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
 }
-.setting{
+
+.setting {
     margin-bottom: 22px;
     margin-left: -5px;
     color: #000;
 }
-.name{
+
+.name {
     margin-top: 10px;
 }
-h4{
-    margin-top: 0px;
+
+h4 {
+    margin-top: 0;
+    cursor: pointer; /* Добавил указатель при наведении */
 }
-h4:hover{
+
+h4:hover {
     opacity: 0.8;
 }
-.onLogout_but{
-    color: #000;
+
+.onLogout_but {
+    color: #293241;
+    border: none;
+    background-color: #cbd0d6; /* Добавил фон кнопки */
+    padding: 8px 16px; /* Добавил отступы внутри кнопки */
+    border-radius: 5px; /* Скруглил углы кнопки */
+    transition: background-color 0.3s, color 0.3s;
 }
-.youself{
+
+.onLogout_but:hover {
+    opacity: 0.9; /* Изменил цвет фона при наведении */
+}
+
+.yourself {
     display: flex;
     justify-content: space-evenly;
     align-content: space-around;
@@ -38,14 +54,21 @@ h4:hover{
     flex-direction: column;
 }
 
-
-
-
-
 .separator {
     border: none;
-    border-top: 1px solid #ddd; /* Цвет и стиль линии */
-    margin: 15px 0; /* Отступы сверху и снизу */
+    border-top: 1px solid #ddd; 
+    margin: 15px 0; 
     width: 100%; /* Ширина линии */
-  }
-  
+}
+
+.info-container {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.info-container.visible {
+    opacity: 1;
+    max-height: 1000px; 
+}
