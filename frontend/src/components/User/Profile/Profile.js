@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Profile.css';
 import Avatar from './Avatar';
 import Menu from './Menu';
@@ -37,7 +38,9 @@ function Profile({ currentUser, onLogout }) {
       </div>
       
       <hr className="separator" />
-          <button className='onLogout_but' onClick={onLogout}>Выйти</button>
+        <button className='onLogout_but' onClick={onLogout}>
+            <Link to="/" className="link">Выйти</Link>
+        </button>
       </div>
       
   

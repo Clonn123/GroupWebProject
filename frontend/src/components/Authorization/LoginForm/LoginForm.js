@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 import './LoginForm.css';
 
 function LoginForm({ users, onLogin }) {
@@ -12,22 +13,6 @@ function LoginForm({ users, onLogin }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    // try {
-    //   const response = await axios.post('http://127.0.0.1:8000/api/login', {
-    //     username: login,
-    //     password: password,
-    //   });
-
-    //   // onLogin(response.data, rememberMe);
-
-    //   // Если успешно вошли, перенаправляем пользователя на страницу профиля
-    //   navigate('/profile');
-    // } catch (error) {
-    //   // В случае ошибки выводим сообщение об ошибке
-    //   console.error('Ошибка:', error);
-    //   setError('Invalid username or password');
-    // }
 
     try {
       axios.post('http://127.0.0.1:8000/api/login/', {
@@ -39,8 +24,6 @@ function LoginForm({ users, onLogin }) {
       .catch(error => {
         console.error('Ошибка:', error);
       });;
-
-      // onLogin(response.data, rememberMe);
 
       // Если успешно вошли, перенаправляем пользователя на страницу профиля
       navigate('/profile');

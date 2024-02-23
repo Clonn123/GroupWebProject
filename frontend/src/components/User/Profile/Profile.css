@@ -40,10 +40,16 @@ h4:hover {
     padding: 8px 16px; /* Добавил отступы внутри кнопки */
     border-radius: 5px; /* Скруглил углы кнопки */
     transition: background-color 0.3s, color 0.3s;
+    text-decoration: none;
 }
 
 .onLogout_but:hover {
     opacity: 0.9; /* Изменил цвет фона при наведении */
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
 }
 
 .yourself {
