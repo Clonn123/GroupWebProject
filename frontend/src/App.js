@@ -11,7 +11,7 @@ import UserList from './components/User/UserList/UserList.js';
 import BotHeader from './components/Headers/BotHeader/BotHeader.js';
 import LoginForm from './components/Authorization/LoginForm/LoginForm.js';
 import Profile from './components/User/Profile/Profile.js';
-
+import axios from 'axios';
 
 function App() {
 
@@ -33,10 +33,6 @@ function App() {
       autoLogin(accessToken);
     }
   }, []);
-
-  const handleAddUser = (newUser) => {
-    setUsers([...users, newUser]); // Добавляем нового пользователя в список
-  };
   
   const handleLogin = (user, rememberMe) => {
     setCurrentUser(user);
@@ -90,7 +86,7 @@ function App() {
         <Header currentUser={currentUser} toggleTheme={toggleTheme} isDarkMode={isDarkMode} onLogout={handleLogout} />
         <div className='all_bady'>
         <Routes>
-          <Route path="/registration" element={<RegistrationForm onUserAdd={handleAddUser} />} />
+          <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
           <Route path="/" element={<UserList users={users} />} />
           <Route path="/animes" element={<ContentList />} />
