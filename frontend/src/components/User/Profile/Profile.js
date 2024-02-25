@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './Profile.css';
 import Avatar from './Avatar';
 import Menu from './Menu';
+import SettingsPage from './SettingProfile';
+import { Link } from 'react-router-dom';
 
 
 
@@ -13,14 +15,13 @@ function Profile({ currentUser, onLogout }) {
     setShowPersonalInfo(!showPersonalInfo);
   };
 
+
+
   return (
     <div className='profile'>
       <div className='youself'>
-
-        
         <div className='chenge_profile'>
           <Avatar />
-          
         </div>
           <h2 className='name'>{currentUser.username}</h2>
           <hr className="separator" />
@@ -38,18 +39,10 @@ function Profile({ currentUser, onLogout }) {
       </div>
       
       <hr className="separator" />
-        <button className='onLogout_but' onClick={onLogout}>
-            <Link to="/" className="link">Выйти</Link>
-        </button>
+          <button className='onLogout_but' onClick={onLogout}>Выйти</button>
       </div>
-      
-  
-      <Menu currentUser={currentUser}/>
-      
-      
+      <Menu currentUser={currentUser} />
     </div>
-    
-    
   );
 }
 

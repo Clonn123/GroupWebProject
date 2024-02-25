@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './SettingProfile.css';
 import SaveButton from './Save';
+import Avatar from './Avatar';
 
 
 function SettingsPage( {currentUser} ) {
@@ -32,6 +33,7 @@ function SettingsPage( {currentUser} ) {
 
   return (
     <div className='settint-container'>
+      <Avatar photoUrl={previewPhoto} />
       <form className='formsetting' onSubmit={handleSubmit}>
       <h2>Настройки</h2>
         <div>
@@ -64,7 +66,6 @@ function SettingsPage( {currentUser} ) {
         </div>
         <SaveButton />
       </form>
-      {previewPhoto && <img className='avatar_img' src={previewPhoto} alt="Preview"style={{ width: '200px', height: '200px', marginTop: '10px' }}/>}
     </div>
   );
 }
