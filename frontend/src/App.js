@@ -1,31 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; // Используем Routes вместо Switch
-import Header from './components/header.js';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; 
+import Header from './components/Headers/Header/Header.js';
 import './css/App.css';
-import RegistrationForm from './components/RegistrationForm.js';
-import ContentList from './components/contentList.js';
-import UserList from './components/UserList.js';
-import BotHeader from './components/botheader.js';
-import LoginForm from './components/LoginForm.js';
-import Profile from './components/Profile.js';
+import './css/LightTheme.css'; 
+import './css/DarkTheme.css';
+import ThemeToggleButton from './components/Headers/Header/ThemeToggleButton.js' 
+import RegistrationForm from './components/Authorization/RegistrationForm/RegistrationForm.js';
+import ContentList from './components/Contents/ContentList/ContentList.js';
+import UserList from './components/User/UserList/UserList.js';
+import BotHeader from './components/Headers/BotHeader/BotHeader.js';
+import LoginForm from './components/Authorization/LoginForm/LoginForm.js';
+import Profile from './components/User/Profile/Profile.js';
 import axios from 'axios';
 
 function App() {
-  // Я ВОРОВАЛ Я УБИВАЛ (грузим с бека данные жи есть)
-  const [dataList, setDataList] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/data/')
-      .then(response => {
-        setDataList(response.data);
-      })
-      .catch(error => {
-        console.error('Ошибка:', error);
-      });
-  }, []);
-
-
-
 
   const [users, setUsers] = useState([
     { id: 1, name: 'Артем', surname: 'Полозников', username: 'Clonn123', password: 'Clonn123', email: 'art-clon@mail.ru' },
@@ -45,10 +33,6 @@ function App() {
       autoLogin(accessToken);
     }
   }, []);
-
-  const handleAddUser = (newUser) => {
-    setUsers([...users, newUser]); // Добавляем нового пользователя в список
-  };
   
   const handleLogin = (user, rememberMe) => {
     setCurrentUser(user);
@@ -79,19 +63,36 @@ function App() {
 
   const generateToken = (userId) => {
     return `token_${userId}`;
-  };  
+  };
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  useEffect(() => {
+    const root = document.documentElement;
+
+    if (isDarkMode) {
+      root.style.setProperty('--background-color', '#0e4f74');
+    } else {
+      root.style.setProperty('--background-color', '#98C1D9');
+    }
+  }, [isDarkMode]);  
   
   return (
-    <Router>
-      <div>
-        <Header currentUser={currentUser} onLogout={handleLogout} />
+      <Router>
+      <div className={`app-container ${isDarkMode ? 'dark-theme' : 'light-theme'}`}>
+        <Header currentUser={currentUser} toggleTheme={toggleTheme} isDarkMode={isDarkMode} onLogout={handleLogout} />
+        <div className='all_bady'>
         <Routes>
-          <Route path="/registration" element={<RegistrationForm onUserAdd={handleAddUser} />} />
+          <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
           <Route path="/" element={<UserList users={users} />} />
-          <Route path="/animes" element={<ContentList dataList={dataList} />} />
+          <Route path="/animes" element={<ContentList />} />
           {currentUser && <Route path="/profile" element={<Profile currentUser={currentUser} onLogout={handleLogout} />} />}
         </Routes>
+        </div>   
       </div>
     </Router>
   );

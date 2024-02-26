@@ -1,0 +1,33 @@
+.dark-theme .header-container{
+  background-color: #3D5A80; 
+}
+
+.dark-theme .registration-link a{
+  color: #d1d6df;
+}
+.dark-theme {
+  color: #d1d6df;
+}
+
+
+.dark-theme .registration-form {
+  color: #293241;
+}
+.dark-theme .registration-form p a{
+  color: #293241;
+}
+.dark-theme .login-form{
+  color: #293241;
+}
+.dark-theme .login-form p a{
+  color: #293241;
+}
+.dark-theme .user-container {
+  color: #293241 !important;
+}
+.dark-theme .menu * {
+  color: #293241;
+}
+
+
+  

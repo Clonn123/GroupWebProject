@@ -1,7 +1,6 @@
 .header-container {
-  background-color: #3D5A80; /* Новый цвет фона */
   padding: 10px 0;
-  position: relative; /* Добавляем относительное позиционирование */
+  position: relative; 
 }
 
 .header-container::after {
@@ -23,6 +22,7 @@
 h1{
   margin: 10px 10px;
   font-size: 26px;
+  
 }
 
 .categories {
@@ -34,6 +34,7 @@ h1{
   transition: opacity 0.2s;
   margin-left: 20px;
   color: #F4F4F4;
+  
 }
 
 .category:last-child {
@@ -59,10 +60,10 @@ h1{
   transition: opacity 0.2s;
   margin-left: 20px;
   margin-right: 10px;
-  color: #F4F4F4;
+  
 }
 
-.registration-link a:hover {
+.registration-link a:hover{
   opacity: 0.7;
 }
 
@@ -70,10 +71,10 @@ h1{
   text-decoration: none; /* Убираем подчеркивание ссылки */
   transition: opacity 0.2s;
   color: #F4F4F4;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.header-link:hover {
+.header-link:hover :not(h1) {
   opacity: 0.7;
 }
 

@@ -1,17 +1,27 @@
+:root {
+  --background-color: #0e4f74;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--background-color)
+}
+
+.light-theme {
+  --background-color: #98C1D9;
+}
+
 body {
   margin: 0;
   padding: 0;
-  background-color: #98C1D9;
-}
-
-*{
   font-family: "Montserrat", sans-serif;
   font-weight: 450;
-  color: #293241;
 }
 
 
 
 
 
+@import './DarkTheme.css';
+@import './LightTheme.css';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap')

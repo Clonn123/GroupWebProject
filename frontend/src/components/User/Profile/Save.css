@@ -1,0 +1,20 @@
+.savebut {
+    color: #293241;
+    background-color: #cbd0d6;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .savebut:hover {
+    opacity: 0.9;
+  }
+  
+  .savebut.saved {
+    background-color: #4caf50; /* Зеленый цвет кнопки при сохранении */
+    color: white; /* Белый цвет текста при сохранении */
+  }
+  

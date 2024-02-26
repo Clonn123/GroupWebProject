@@ -1,0 +1,48 @@
+.menu {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+    width: 200px;
+    background-color: #d1d6df;
+    padding: 20px;
+    border-radius: 10px; /* Увеличил радиус скругления границ */
+}
+
+.menu h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px; /* Увеличил размер шрифта заголовка */
+    color: #293241; /* Установил цвет текста */
+}
+
+.menu div {
+    border: 2px solid transparent; /* Убрал границу по умолчанию */
+    background-color: transparent;
+    padding: 12px 20px; /* Увеличил отступы внутри элемента */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 8px; /* Увеличил отступ между элементами */
+}
+
+.menu div:hover {
+    background-color: #cbd0d6;
+    border-color: #293241ba; /* Изменил цвет границы при наведении */
+}
+
+.separatorDark {
+    border: none;
+    margin: 15px 0; 
+    width: 100%;
+    border-top: 1px solid #293241ba; 
+}
+
+.settings-container {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.settings-container.visible {
+    opacity: 1;
+    max-height: 1000px; /* Установите высоту, достаточную для отображения содержимого */
+}

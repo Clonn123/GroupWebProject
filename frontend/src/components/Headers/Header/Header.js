@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../css/header.css';
+import './Header.css';
+import ThemeToggleButton from './ThemeToggleButton.js'
 
-function Header({ currentUser }) {
+function Header({ currentUser, toggleTheme, isDarkMode }) {
   return (
     <div className="header-container">
         <div className="header">
@@ -10,6 +11,7 @@ function Header({ currentUser }) {
           <div className="categories">
             <div><Link to="/animes"  className="category">Аниме</Link></div>
             <div><Link to="/book" className="category">Книги</Link></div>
+            <div><Link to="/recommendations" className="category">Рекомендации</Link></div>
           </div>
           <div className="search-bar">
             <input type="text" placeholder="🔍 Поиск..." />
@@ -23,7 +25,9 @@ function Header({ currentUser }) {
                 <Link to="/login">Вход</Link>
               </>
             )}
+            <ThemeToggleButton toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
           </div>
+          
         </div>
     </div>
   );

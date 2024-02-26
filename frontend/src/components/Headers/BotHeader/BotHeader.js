@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../css/bootheader.css';
+import './BotHeader.css';
 
 function BotHeader() {
   return (

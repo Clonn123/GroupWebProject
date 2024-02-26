@@ -1,25 +1,35 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../css/LoginForm.css';
+import axios from 'axios';
+
+import './LoginForm.css';
 
 function LoginForm({ users, onLogin }) {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate(); //Это необходимо для перехода на страницу профиля после авторизации. useNavigate заменило useHistory
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Поиск пользователя с введенным логином и паролем
-    const user = users.find(u => u.username === login && u.password === password);
+    try {
+      axios.post('http://127.0.0.1:8000/api/login/', {
+        username: login,
+        password: password,
+      }).then((response) => {
+        onLogin(response.data, rememberMe);
+      })
+      .catch(error => {
+        console.error('Ошибка:', error);
+      });;
 
-    if (user) {
-        onLogin(user, rememberMe);
-        // Перенаправляем пользователя на страницу профиля
-        navigate('/profile');
-    } else {
-      alert('Неверный логин или пароль');
+      // Если успешно вошли, перенаправляем пользователя на страницу профиля
+      navigate('/profile');
+    } catch (error) {
+      // В случае ошибки выводим сообщение об ошибке
+      setError('Invalid username or password');
     }
   };
 
@@ -48,6 +58,7 @@ function LoginForm({ users, onLogin }) {
           Запомнить меня
         </label>
         <button type="submit">Войти</button>
+        {error && <p className="error-message">{error}</p>}
         <p>Нет аккаунта? <Link to="/registration">Зарегистрируйтесь</Link></p>
       </form>
     </div>
