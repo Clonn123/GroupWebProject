@@ -74,7 +74,7 @@ function App() {
     const root = document.documentElement;
 
     if (isDarkMode) {
-      root.style.setProperty('--background-color', '#0e4f74');
+      root.style.setProperty('--background-image', 'linear-gradient(135deg, #96816e, #96816E, #987F69)');
     } else {
       root.style.setProperty('--background-color', '#98C1D9');
     }

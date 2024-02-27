@@ -1,10 +1,20 @@
+@font-face {
+  font-family: 'KoreanCalligraphy';
+  src: url('./han-zi.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'NipponcyrBold';
+  src: url('./BleakChop.ttf') format('truetype');
+}
+
+
 :root {
-  --background-color: #0e4f74;
+  --background: linear-gradient(135deg, #96816e, #96816E, #987F69); 
 }
 
 body {
   overflow-x: hidden;
-  background-color: var(--background-color)
+  background: var(--background)
 }
 
 .light-theme {
@@ -14,7 +24,7 @@ body {
 body {
   margin: 0;
   padding: 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'KoreanCalligraphy', sans-serif;
   font-weight: 450;
 }
 

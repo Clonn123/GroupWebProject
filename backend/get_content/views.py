@@ -3,10 +3,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Animes
 from .models import Users
+from .models import UserProfile
 from .serializer import MyModelSerializer
 from .serializer import UserModelSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.request import Request
+from rest_framework.decorators import api_view
 
 # Users = get_user_model()
 
@@ -15,17 +17,31 @@ class DataAPIView(APIView):
         data_list = Animes.objects.all()
         serializer = MyModelSerializer(data_list, many=True)
         return Response(serializer.data)
+    
+class SettingsProfile(APIView):#проверка по нику так ка нет id 
+    def get(self, request):
+        data_list = Users.objects.all()
+        serializer = UserModelSerializer(data_list, many=True)
+        return Response(serializer.data)
+    
+    def put(self, request):
+        username = request.data.get('username')
+        try:
+            user_profile = Users.objects.get(username=username)
+        except Users.DoesNotExist:
+            return Response({"message": "User does not exist"}, status=status.HTTP_102_PROCESSING)
+        
+        serializer = UserModelSerializer(user_profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginAPIView(APIView): 
     def get(self, request):
         data_list = Users.objects.all()
         serializer = UserModelSerializer(data_list, many=True)
         return Response(serializer.data)
-
-    # def user(request: Request):
-    #     return Response({
-    #         'data': UserModelSerializer(request.user).data
-    #     })
     
     def post(self, request):
         username = request.data.get('username')

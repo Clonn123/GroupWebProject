@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './SettingProfile.css';
 import SaveButton from './Save';
 import Avatar from './Avatar';
+import { ProfileContext } from './context';
+import axios from 'axios';
 
 
 function SettingsPage( {currentUser} ) {
@@ -12,16 +14,35 @@ function SettingsPage( {currentUser} ) {
   const [gender, setGender] = useState(currentUser.gender);
   const [birthdate, setBirthdate] = useState(currentUser.age);
   const [previewPhoto, setPreviewPhoto] = useState(null);
+  
+  const imageCtx = useContext(ProfileContext);
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Здесь вы можете добавить код для отправки данных формы на сервер или их обработки
     console.log('Form submitted:', { photo, nickname, firstName, lastName, gender, birthdate });
+
+    try {
+      axios.put('http://127.0.0.1:8000/api/settings/', {
+        username: nickname,
+        name: firstName,
+        surname: lastName,
+
+      }).then((response) => {
+      })
+      .catch(error => {
+      });;
+    } catch (error) {
+
+    }
   };
+  
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      imageCtx.setUserImage(URL.createObjectURL(file));
       setPhoto(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -31,9 +52,10 @@ function SettingsPage( {currentUser} ) {
     }
   };
 
+  
+
   return (
     <div className='settint-container'>
-      <Avatar photoUrl={previewPhoto} />
       <form className='formsetting' onSubmit={handleSubmit}>
       <h2>Настройки</h2>
         <div>
@@ -64,7 +86,8 @@ function SettingsPage( {currentUser} ) {
           <label htmlFor="age">Возраст:</label>
           <input type="date" id="birthdate" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} />
         </div>
-        <SaveButton />
+        <button type="submit"> Сохранить </button>
+
       </form>
     </div>
   );

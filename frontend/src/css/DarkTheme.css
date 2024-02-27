@@ -1,32 +1,33 @@
 .dark-theme .header-container{
-  background-color: #3D5A80; 
+  background: linear-gradient(135deg, #95642c, #94642d, #95652e);
+  
 }
 
 .dark-theme .registration-link a{
-  color: #d1d6df;
+  color: #170600;
 }
 .dark-theme {
-  color: #d1d6df;
+  color: #170600;
 }
 
 
 .dark-theme .registration-form {
-  color: #293241;
+  color: #170600;
 }
 .dark-theme .registration-form p a{
-  color: #293241;
+  color: #170600;
 }
 .dark-theme .login-form{
-  color: #293241;
+  color: #170600;
 }
 .dark-theme .login-form p a{
-  color: #293241;
+  color: #170600;
 }
 .dark-theme .user-container {
-  color: #293241 !important;
+  color: #170600 !important;
 }
 .dark-theme .menu * {
-  color: #293241;
+  color: #170600 !important;
 }
 
 

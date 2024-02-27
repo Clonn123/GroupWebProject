@@ -14,7 +14,7 @@ function Header({ currentUser, toggleTheme, isDarkMode }) {
             <div><Link to="/recommendations" className="category">Рекомендации</Link></div>
           </div>
           <div className="search-bar">
-            <input type="text" placeholder="🔍 Поиск..." />
+            <input type="text" placeholder="Поиск..."/>
           </div>
           <div className="registration-link">
           {currentUser ? (
