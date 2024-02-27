@@ -61,7 +61,6 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 
-
 ROOT_URLCONF = 'back_api.urls'
 
 TEMPLATES = [

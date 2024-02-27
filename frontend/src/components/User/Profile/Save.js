@@ -9,7 +9,7 @@ const SaveButton = () => {
   };
 
   return (
-    <button className={`savebut ${isSaved ? 'saved' : ''}`} onClick={handleClick}>
+    <button type="submit" className={`savebut ${isSaved ? 'saved' : ''}`} onClick={handleClick}>
       {isSaved ? 'Сохранено!' : 'Сохранить'}
     </button>
   );

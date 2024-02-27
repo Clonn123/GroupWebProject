@@ -4,12 +4,13 @@ import Avatar from './Avatar';
 import Menu from './Menu';
 import SettingsPage from './SettingProfile';
 import { Link } from 'react-router-dom';
-
+import { ProfileContext } from './context';
 
 
 function Profile({ currentUser, onLogout }) {
   const [showPersonalInfo, setShowPersonalInfo] = useState(false);
 
+  const [userImage, setUserImage] = useState('');
   const togglePersonalInfo = () => {
     setShowPersonalInfo(!showPersonalInfo);
   };
@@ -17,6 +18,7 @@ function Profile({ currentUser, onLogout }) {
 
 
   return (
+    <ProfileContext.Provider value={{ setUserImage, userImage}} >
     <div className='profile'>
       <div className='youself'>
         <div className='chenge_profile'>
@@ -44,6 +46,7 @@ function Profile({ currentUser, onLogout }) {
       </div>
       <Menu currentUser={currentUser} />
     </div>
+    </ProfileContext.Provider>
   );
 }
 

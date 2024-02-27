@@ -1,16 +1,16 @@
 .menu {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
     width: 200px;
-    background-color: #d1d6df;
+    background-color: none;
     padding: 20px;
-    border-radius: 10px; /* Увеличил радиус скругления границ */
+    border-radius: 10px; 
+    border: 1.5px solid #170600; 
 }
 
 .menu h3 {
     margin-top: 0;
     margin-bottom: 10px;
     font-size: 18px; /* Увеличил размер шрифта заголовка */
-    color: #293241; /* Установил цвет текста */
+    color: #170600; /* Установил цвет текста */
 }
 
 .menu div {
@@ -24,16 +24,9 @@
 }
 
 .menu div:hover {
-    background-color: #cbd0d6;
-    border-color: #293241ba; /* Изменил цвет границы при наведении */
+    border-color: #170600; /* Изменил цвет границы при наведении */
 }
 
-.separatorDark {
-    border: none;
-    margin: 15px 0; 
-    width: 100%;
-    border-top: 1px solid #293241ba; 
-}
 
 .settings-container {
     opacity: 0;

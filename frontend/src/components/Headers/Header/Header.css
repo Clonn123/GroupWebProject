@@ -9,8 +9,8 @@
   left: 0; /* Положение слева */
   bottom: 0; /* Положение снизу */
   width: 100%; /* Ширина полоски */
-  height: 3px; /* Высота полоски */
-  background-color: #F4F4F4; /* Цвет полоски */
+  height: 2px; /* Высота полоски */
+  background-color: #170600; /* Цвет полоски */
 }
 
 .header {
@@ -33,7 +33,7 @@ h1{
   text-decoration: none;
   transition: opacity 0.2s;
   margin-left: 20px;
-  color: #F4F4F4;
+  color: #170600;
   
 }
 
@@ -47,14 +47,19 @@ h1{
 
 .search-bar input {
   width: 250px;
-  height: 40px;
+  height: 38px;
   outline: none;
   border: none;
-  border-radius: 20px;
+  border-radius: 25px;
   padding: 10px 15px;
   font-size: 16px;
+  border: 1.5px solid #170600; 
+  background: none;
 }
-
+.search-bar input[type="text"]::placeholder {
+  color: #170600; /* Цвет плейсхолдера */
+  font-family: 'KoreanCalligraphy', sans-serif;
+}
 .registration-link a {
   text-decoration: none;
   transition: opacity 0.2s;
@@ -70,7 +75,7 @@ h1{
 .header-link {
   text-decoration: none; /* Убираем подчеркивание ссылки */
   transition: opacity 0.2s;
-  color: #F4F4F4;
+  color: #170600;
   font-weight: 700;
 }
 
