@@ -4,6 +4,7 @@ class Animes(models.Model):
     url_img = models.TextField()
     title = models.TextField()
     description = models.TextField()
+    score = models.FloatField()
 
     class Meta:
         db_table = 'animes'

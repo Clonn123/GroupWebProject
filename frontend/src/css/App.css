@@ -2,6 +2,10 @@
   font-family: 'KoreanCalligraphy';
   src: url('./han-zi.ttf') format('truetype');
 }
+@font-face {
+  font-family: 'NipponcyrBold';
+  src: url('./BleakChop.ttf') format('truetype');
+}
 
 
 :root {
