@@ -16,7 +16,7 @@ function Menu({currentUser}) {
       </div>
         <div className='menu'>
         <h3>Меню</h3>
-        <hr className="separatorDarck" />
+        <hr className="separator" />
         <ln>
           <div>Главная</div>
           <div>Список Аниме</div>
@@ -24,7 +24,7 @@ function Menu({currentUser}) {
           <div>Друзья</div>
         </ln>
         
-        <hr className="separatorDarck" />
+        <hr className="separator" />
         <div onClick={togglesSettting}>
           {showSettint ? 'Скрыть настройки' : 'Настройки'}
         </div>

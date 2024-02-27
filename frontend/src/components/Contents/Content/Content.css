@@ -21,15 +21,30 @@
     margin: 10px 10px;
     max-width: min-content;
     max-height: max-content;
-    padding: 5px;
-    background-color: #F4F4F4;
+    padding: 7px;
+    background: linear-gradient(135deg, #b8aba1, #ada097, #b8aba1);
     border-radius: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 100%;
+    width: 160px;
+    height: 300px;
+    font-family: 'Arial', sans-serif;
+    font-weight: 150;
+    
 }
 
+.h2Item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 160px;
+    font-weight: 150;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  
 .item img {
+    width: 150px;
+    height: 200px;
     margin-bottom: -20px; 
 }
 
