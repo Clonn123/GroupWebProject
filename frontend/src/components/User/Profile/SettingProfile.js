@@ -20,7 +20,6 @@ function SettingsPage( {currentUser} ) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Здесь вы можете добавить код для отправки данных формы на сервер или их обработки
     console.log('Form submitted:', { photo, nickname, firstName, lastName, gender, birthdate });
 
     try {
