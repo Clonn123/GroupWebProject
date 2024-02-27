@@ -14,7 +14,7 @@
 }
 
 .menu div {
-    border: 2px solid transparent; /* Убрал границу по умолчанию */
+    border: 1.8px solid transparent; /* Убрал границу по умолчанию */
     background-color: transparent;
     padding: 12px 20px; /* Увеличил отступы внутри элемента */
     border-radius: 5px;
@@ -24,7 +24,7 @@
 }
 
 .menu div:hover {
-    border-color: #170600; /* Изменил цвет границы при наведении */
+    border-color: #170600;
 }
 
 

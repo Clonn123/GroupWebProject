@@ -26,15 +26,16 @@ h4:hover {
     color: #170600;
     border: 1.5px solid #170600; 
     background: none;
-    padding: 8px 16px; /* Добавил отступы внутри кнопки */
-    border-radius: 5px; /* Скруглил углы кнопки */
+    padding: 8px 16px; 
+    border-radius: 5px; 
     transition: background-color 0.3s, color 0.3s;
     text-decoration: none;
     font-family: 'KoreanCalligraphy', sans-serif;
 }
 
 .onLogout_but:hover {
-    opacity: 0.9; /* Изменил цвет фона при наведении */
+    background-color: #92632d;
+    opacity: 0.9; 
 }
 
 .link {
@@ -42,7 +43,7 @@ h4:hover {
     color: inherit;
 }
 .youself{
-    width: 200px;
+    width: 250px;
 }
 .avatar img{
     margin-left: 20px;

@@ -54,10 +54,11 @@ h1{
   padding: 10px 15px;
   font-size: 16px;
   border: 1.5px solid #170600; 
-  background: none;
+  background: linear-gradient(135deg, #b8aba1, #ada097, #b8aba1);
+  font-family: 'KoreanCalligraphy', sans-serif; 
 }
 .search-bar input[type="text"]::placeholder {
-  color: #170600; /* Цвет плейсхолдера */
+  color: #17060098; /* Цвет плейсхолдера */
   font-family: 'KoreanCalligraphy', sans-serif;
 }
 .registration-link a {
