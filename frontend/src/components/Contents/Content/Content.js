@@ -7,7 +7,8 @@ function Content({ cont }) {
         <img src={cont.url_img} alt={cont.title} />
         <h2 className='h2Item' >{cont.title}</h2>
         <p>{cont.score}</p>  
-        <p>{cont.description}</p>     
+        <p>{cont.descriptionEpisod}</p>
+        <p>{cont.descriptionData}</p>       
       </div>
   );
 }
