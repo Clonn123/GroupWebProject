@@ -16,8 +16,8 @@ import axios from 'axios';
 function App() {
 
   const [users, setUsers] = useState([
-    { id: 1, name: 'Артем', surname: 'Полозников', username: 'Clonn123', password: 'Clonn123', email: 'art-clon@mail.ru' },
-    { id: 2, name: 'Андрей', surname: 'Смирнов', username: 'Gifon', password: 'Gifon', email: 'gifon@mail.ru' },
+    { id: 1, name: 'Артем', surname: 'Полозников', username: 'Clonn123', password: 'Clonn123', email: 'art-clon@mail.ru', gender: "Мужчина", age: "21" },
+    { id: 2, name: 'Андрей', surname: 'Смирнов', username: 'Gifon', password: 'Gifon', email: 'gifon@mail.ru' }, 
   ]);
 
   const [currentUser, setCurrentUser] = useState(null);
@@ -84,7 +84,7 @@ function App() {
       <Router>
       <div className={`app-container ${isDarkMode ? 'dark-theme' : 'light-theme'}`}>
         <Header currentUser={currentUser} toggleTheme={toggleTheme} isDarkMode={isDarkMode} onLogout={handleLogout} />
-        <div className='all_bady'>
+        <div className='all_buddy'>
         <Routes>
           <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />

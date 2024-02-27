@@ -10,9 +10,9 @@ class Animes(models.Model):
 
 class Users(models.Model):
     GENDER_CHOICES = [
-        ('male', 'Мужчина'),
-        ('female', 'Женщина'),
-        ('other', 'Другое'),
+        ('Мужской', 'Мужской'),
+        ('Женский', 'Женский'),
+        ('Другой', 'Другой'),
     ]
         
     name = models.TextField()
@@ -20,7 +20,7 @@ class Users(models.Model):
     username = models.TextField()
     password = models.TextField()
     email = models.TextField()
-    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default='other')
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default='Другое')
     age = models.IntegerField(default=0)
 
     class Meta:

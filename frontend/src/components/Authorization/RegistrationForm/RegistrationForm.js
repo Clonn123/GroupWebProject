@@ -92,9 +92,9 @@ function RegistrationForm() {
               value={gender}
               onChange={(e) => setGender(e.target.value)}
           >
-              <option value="other">Другой</option>
-              <option value="male">Мужской</option>
-              <option value="female">Женский</option>              
+              <option value="Другой">Другой</option>
+              <option value="Мужской">Мужской</option>
+              <option value="Женский">Женский</option>              
           </select>
           <input
               type="number"
