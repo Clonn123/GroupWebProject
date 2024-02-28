@@ -1,4 +1,4 @@
 # Ignore virtual environment
 .venv/
-
+**/__pycache__/
 # Add other files or directories to ignore if needed
