@@ -34,8 +34,8 @@ function Profile({ currentUser, onLogout }) {
       <div>
           <div>Имя: {currentUser.name}</div>
           <div>Фамилия: {currentUser.surname}</div>
-          <div>Пол: {}</div>
-          <div>Возраст: {}</div>
+          <div>Пол: {currentUser.gender}</div>
+          <div>Возраст: {currentUser.age}</div>
         </div>
       </div>
       
