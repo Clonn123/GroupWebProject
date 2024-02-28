@@ -9,6 +9,7 @@ from .serializer import UserModelSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.request import Request
 from rest_framework.decorators import api_view
+from datetime import datetime
 
 # Users = get_user_model()
 
@@ -65,8 +66,16 @@ def authenticate_user(username_check, password):
 
 class RegistrationAPIView(APIView): 
     def post(self, request):
-        serializer = UserModelSerializer(data=request.data)
+        data = request.data
+        data['age'] = self.calculate_age(data.get('birthdate'))
+        serializer = UserModelSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def calculate_age(self, birthdate):
+        birthdate = datetime.strptime(birthdate, '%Y-%m-%d')
+        today = datetime.today()
+        age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+        return age
