@@ -23,7 +23,6 @@ class Users(models.Model):
     email = models.TextField()
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default='Другое')
     age = models.IntegerField(default=0)
-    birthdate = models.DateField()
     photo = models.ImageField(upload_to='users_photos/', null=True, blank=True) 
 
     class Meta:
@@ -34,9 +33,5 @@ class UserProfile(models.Model):
     user = models.OneToOneField(Users, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='user_photos/', null=True, blank=True) 
 
-    class Meta:
-        db_table = 'user_profile'
-
     def __str__(self):
         return self.user.username
-    

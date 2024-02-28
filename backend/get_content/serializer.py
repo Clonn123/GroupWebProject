@@ -23,7 +23,6 @@ class UserModelSerializer(serializers.ModelSerializer):
             'email': instance.email,
             'gender': instance.gender,
             'age': instance.age,
-            'birthdate': instance.birthdate,
             'photo': instance.photo.url if instance.photo else None, 
         }
         return representation

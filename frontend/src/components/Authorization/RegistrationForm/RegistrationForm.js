@@ -12,7 +12,6 @@ function RegistrationForm() {
     const [password, setPassword] = useState('');
     const [gender, setGender] = useState('other');
     const [age, setAge] = useState('');
-    const [birthdate, setBirthdate] = useState('');
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [showModal, setShowModal] = useState(false); // Состояние для отслеживания видимости модального окна
@@ -21,7 +20,7 @@ function RegistrationForm() {
     const handleSubmit = async (event) => {
       event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
 
-      if (!email || !name || !surname || !username || !password || !gender || !birthdate) {
+      if (!email || !name || !surname || !username || !password || !gender || !age) {
         setError('Пожалуйста, заполните все поля');
         return;
       }
@@ -34,7 +33,7 @@ function RegistrationForm() {
           username,
           password,
           gender,
-          birthdate
+          age
       }).then((response) => {
         
       // Успешно зарегистрирован
@@ -97,17 +96,11 @@ function RegistrationForm() {
               <option value="Мужской">Мужской</option>
               <option value="Женский">Женский</option>              
           </select>
-          {/* <input
+          <input
               type="number"
               placeholder="Возраст"
               value={age}
               onChange={(e) => setAge(e.target.value)}
-          /> */}
-          <input
-              type="date"
-              placeholder="Дата рождения"
-              value={birthdate}
-              onChange={(e) => setBirthdate(e.target.value)}
           />
           <button type="submit">Зарегистрироваться</button>
           {error && <p className="error-message">{error}</p>}
