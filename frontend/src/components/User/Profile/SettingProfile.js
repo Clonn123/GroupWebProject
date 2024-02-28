@@ -11,8 +11,8 @@ function SettingsPage( {currentUser} ) {
   const [nickname, setNickname] = useState(currentUser.username);
   const [firstName, setFirstName] = useState(currentUser.name);
   const [lastName, setLastName] = useState(currentUser.surname);
-  const [gender, setGender] = useState('');
-  const [birthdate, setBirthdate] = useState('');
+  const [gender, setGender] = useState(currentUser.gender);
+  const [birthdate, setBirthdate] = useState(currentUser.age);
   const [previewPhoto, setPreviewPhoto] = useState(null);
   
   const imageCtx = useContext(ProfileContext);
@@ -20,6 +20,7 @@ function SettingsPage( {currentUser} ) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Form submitted:', { photo, nickname, firstName, lastName, gender, birthdate });
 
     try {
       axios.put('http://127.0.0.1:8000/api/settings/', {
@@ -75,9 +76,9 @@ function SettingsPage( {currentUser} ) {
         <div>
           <label htmlFor="gender">Пол:</label>
           <select id="gender" value={gender} onChange={(e) => setGender(e.target.value)}>
-            <option value="male">Мужской</option>
-            <option value="female">Женский</option>
-            <option value="pupu">Другое</option>
+            <option value="Мужской">Мужской</option>
+            <option value="Женский">Женский</option>
+            <option value="Другой">Другой</option>
           </select>
         </div>
         <div>
