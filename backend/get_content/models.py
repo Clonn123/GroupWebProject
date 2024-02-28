@@ -11,9 +11,9 @@ class Animes(models.Model):
 
 class Users(models.Model):
     GENDER_CHOICES = [
-        ('male', 'Мужчина'),
-        ('female', 'Женщина'),
-        ('other', 'Другое'),
+        ('Мужской', 'Мужской'),
+        ('Женский', 'Женский'),
+        ('Другой', 'Другой'),
     ]
         
     name = models.TextField()
@@ -21,8 +21,9 @@ class Users(models.Model):
     username = models.TextField()
     password = models.TextField()
     email = models.TextField()
-    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default='other')
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default='Другое')
     age = models.IntegerField(default=0)
+    birthdate = models.DateField()
     photo = models.ImageField(upload_to='users_photos/', null=True, blank=True) 
 
     class Meta:
@@ -33,5 +34,9 @@ class UserProfile(models.Model):
     user = models.OneToOneField(Users, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='user_photos/', null=True, blank=True) 
 
+    class Meta:
+        db_table = 'user_profile'
+
     def __str__(self):
         return self.user.username
+    
