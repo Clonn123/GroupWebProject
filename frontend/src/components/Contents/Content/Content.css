@@ -6,20 +6,12 @@
     flex-wrap: wrap;
     margin-top: 10px;
 }
-.notice{
-    width: 68%;
-    flex-wrap: wrap;
-    margin: 0 auto;
-    margin-top: 30px;
-}
-.title{
-    margin: 0;
-}
 .Link{
     text-decoration: none;
     color: #170600;
 }
-.item {
+
+.no_selected .item{
     margin: 10px 10px;
     max-width: min-content;
     max-height: max-content;
@@ -32,12 +24,13 @@
     font-family: 'Arial', sans-serif;
     font-weight: 150;
 }
+
 .item:hover{
     text-decoration: underline;
     color: #2c4b95;
 }
 
-.h2Item {
+.no_selected .h2Item{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -47,39 +40,92 @@
     margin-bottom: -10px;
     font-size: 20px;
   }
-.item img {
+.no_selected .item img{
     width: 150px;
     height: 200px;
+    margin-top: 4px;
     margin-bottom: -15px; 
     border-radius: 10px;
 }
 
-.item p:not(.score) {
+.no_selected .item p:not(.score) {
     margin-top: -14px;
     font-size: 14px; 
 }
-.score{
+.no_selected .score{
     font-size: 18px;  
 }
-.navigation{
-    opacity: 1;
+.no_selected .allInfoContainer {
+    display: none;
+}
+
+
+/* Другой стиль */
+.selected .smolInfoContainer {
+    display: block;
+}
+
+.selected .item{
+    margin: 10px 10px;
+    padding: 10px;
+    background: linear-gradient(135deg, #b8aba1, #ada097, #b8aba1);
+    border-radius: 10px;
+    width: 800px;
+    height: 155px;
+    font-family: 'Arial', sans-serif;
+    font-weight: 150;
+    display: flex; 
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.selected .h2Item{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 150;
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+  }
+.selected .item:hover {
+    text-decoration: underline;
+    color: #2c4b95;
+}
+
+.selected .item img {
+    flex: 0 0 auto; 
+    width: 110px;
+    height: 155px;
+    border-radius: 10px;
+    margin-right: 10px; 
+    margin-bottom: 0;
+    margin-top: 0;  
+}
+
+.selected .item p {
+    height: 10px;
     
 }
 
-
-.sort-menu {
-    list-style: none;
-    padding: 0;
+.selected .score {
+    margin-top: -10px;
+    margin-bottom: 40px;
+    font-size: 24px;
+    font-weight: 550;  
 }
 
-.sort-menu li {
-    margin-bottom: 10px;
-    cursor: pointer;
+.selected .allInfoContainer{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    padding: 10px 10px;
+    font-size: 14px;
+    max-height: 130px;
+    max-width:500px
 }
 
-.sort-menu li:hover {
-    text-decoration: underline;
-}
+
+
+
 
 /* Окно */
 .hoverable {
