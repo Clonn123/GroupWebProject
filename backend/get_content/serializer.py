@@ -16,6 +16,7 @@ class UserModelSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = {
             'id': instance.id,
+            'identifier': instance.identifier,
             'name': instance.name,
             'surname': instance.surname,
             'username': instance.username,

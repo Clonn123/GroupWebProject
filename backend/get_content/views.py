@@ -79,3 +79,17 @@ class RegistrationAPIView(APIView):
         today = datetime.today()
         age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
         return age
+    
+class CheckEmailAPIView(APIView):
+    def post(self, request):
+        emailCheck = request.data.get('email')
+        if Users.objects.filter(email=emailCheck).exists():
+            return Response(True)
+        else: return Response(False)
+
+class CheckUsernameAPIView(APIView):
+    def post(self, request):
+        usernameCheck = request.data.get('username')
+        if Users.objects.filter(username=usernameCheck).exists():
+            return Response(True)
+        else: return Response(False)

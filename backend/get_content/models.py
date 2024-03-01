@@ -1,8 +1,10 @@
 from django.db import models
+import uuid
 
 class Animes(models.Model):
     url_img = models.TextField()
     title = models.TextField()
+    description = models.TextField()
     descriptionEpisod = models.TextField()
     descriptionData = models.TextField()
     score = models.FloatField()
@@ -17,6 +19,7 @@ class Users(models.Model):
         ('Другой', 'Другой'),
     ]
         
+    identifier = models.CharField(max_length=32, default=uuid.uuid4)
     name = models.TextField()
     surname = models.TextField()
     username = models.TextField()
