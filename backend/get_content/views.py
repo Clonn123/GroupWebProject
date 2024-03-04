@@ -6,12 +6,12 @@ from .models import Users
 from .models import UserProfile
 from .serializer import MyModelSerializer
 from .serializer import UserModelSerializer
-from django.contrib.auth import get_user_model
 from rest_framework.request import Request
-from rest_framework.decorators import api_view
 from datetime import datetime
-
-# Users = get_user_model()
+from rest_framework_simplejwt.tokens import RefreshToken
+import jwt
+from django.conf import settings
+from rest_framework_simplejwt.tokens import AccessToken
 
 class DataAPIView(APIView): 
     def get(self, request):
@@ -50,19 +50,41 @@ class LoginAPIView(APIView):
 
         user = authenticate_user(username, password)
         if user:
+            # Генерируем JWT-токен
+            refresh = RefreshToken.for_user(user)
+            # refresh['identifier'] = user.identifier
+            # refresh['name'] = user.name
+            # refresh['surname'] = user.surname
+            # refresh['username'] = user.username
+            # refresh['password'] = user.password
+            # refresh['email'] = user.email
+            # refresh['gender'] = user.gender
+            # refresh['age'] = user.age
+            # refresh['birthdate'] = user.birthdate
+            # refresh['photo'] = user.photo
             serializer = UserModelSerializer(user)
-            return Response(serializer.data)
+            # return Response(serializer.data)
+            return Response({'access_token': str(refresh.access_token)}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 def authenticate_user(username_check, password):
-    try:
-        user = Users.objects.get(username=username_check)
-        if user.password == password:
-            return user
-    except Users.DoesNotExist:
-        pass
-    return None
+        try:
+            user = Users.objects.get(username=username_check)
+            if user.password == password:
+                return user
+        except Users.DoesNotExist:
+            pass
+        return None
+
+class UserDetailView(APIView):
+    def get(self, request, user_id):
+        try:
+            user = Users.objects.get(id=user_id)
+            serializer = UserModelSerializer(user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Users.DoesNotExist:
+            return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
 class RegistrationAPIView(APIView): 
     def post(self, request):

@@ -17,7 +17,8 @@ class Users(models.Model):
         ('Женский', 'Женский'),
         ('Другой', 'Другой'),
     ]
-        
+
+    # id = models.AutoField(primary_key=True)
     identifier = models.CharField(max_length=32, default=uuid.uuid4)
     name = models.TextField()
     surname = models.TextField()

@@ -12,18 +12,17 @@ import BotHeader from './components/Headers/BotHeader/BotHeader.js';
 import LoginForm from './components/Authorization/LoginForm/LoginForm.js';
 import Profile from './components/User/Profile/Profile.js';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'
 
 function App() {
 
   const [users, setUsers] = useState([
     { id: 1, name: 'Артем', surname: 'Полозников', username: 'Clonn123', password: 'Clonn123', email: 'art-clon@mail.ru', gender: "Мужчина", age: "21" },
-    { id: 2, name: 'Андрей', surname: 'Смирнов', username: 'Gifon', password: 'Gifon', email: 'gifon@mail.ru' }, 
+    { id: 2, name: 'Андрей', surname: 'Смирнов', username: 'Gifon', password: 'Gifon', email: 'gifon@mail.ru', gender: "Мужчина", age: "21"  }, 
   ]);
 
   const [currentUser, setCurrentUser] = useState(null);
   const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
-
-  
 
   useEffect(() => {
     // Проверяем наличие токена в localStorage при загрузке компонента
@@ -34,36 +33,85 @@ function App() {
     }
   }, []);
   
-  const handleLogin = (user, rememberMe) => {
-    setCurrentUser(user);
-    if (rememberMe) {    
-        // Сохранение токена доступа в локальном хранилище
-        localStorage.setItem('accessToken', generateToken(user.id));
+  // const handleLogin = (user, rememberMe) => {
+  //   setCurrentUser(user);
+  //   if (rememberMe) {    
+  //       // Сохранение токена доступа в локальном хранилище
+  //       localStorage.setItem('accessToken', generateToken(user.id));
+  //   }
+  // };
+
+  const handleLogin = async (accessToken) => {
+    try {
+      const decodedToken = jwtDecode(accessToken); // раскодировать токен
+      console.log('Токен:', accessToken);
+      console.log('Декодированный токен:', decodedToken);
+      const authUser = await findUserById(decodedToken.user_id);
+      setCurrentUser(authUser); // установить текущего пользователя на основе раскодированного токена
+      setAccessToken(accessToken);
+      console.log('Все прошло успешно');
+    } catch (error) {
+      console.error('Ошибка при декодировании токена:', error);
+      // Очищаем текущего пользователя и токен в случае ошибки декодирования
+      setCurrentUser(null);
+      setAccessToken(null);
+      localStorage.removeItem('accessToken');
     }
+    // localStorage.setItem('accessToken', accessToken);
   };
+
+// Функция для поиска пользователя по идентификатору
+const findUserById = async (userId) => {
+  try {
+    // Отправляем запрос на сервер для получения данных о пользователе по его идентификатору
+    const response = await axios.get(`/api/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка при получении данных о пользователе:', error);
+    throw error;
+  }
+};
 
   const handleLogout = () => {
     setCurrentUser(null);
+    setAccessToken(null);
     // Удаляем токен из localStorage при выходе пользователя
     localStorage.removeItem('accessToken');
   };
 
-  const autoLogin = () => {
-    const accessToken = localStorage.getItem('accessToken');
+  // const autoLogin = () => {
+  //   const accessToken = localStorage.getItem('accessToken');
   
+  //   if (accessToken) {
+  //     // Находим пользователя по токену
+  //     const user = users.find(u => generateToken(u.id) === accessToken);
+  
+  //     if (user) {
+  //       setCurrentUser(user);
+  //     }
+  //   }
+  // };
+
+  const autoLogin = async (accessToken) => {
     if (accessToken) {
-      // Находим пользователя по токену
-      const user = users.find(u => generateToken(u.id) === accessToken);
-  
-      if (user) {
-        setCurrentUser(user);
+      try {
+        const decodedToken = jwtDecode(accessToken); // раскодировать токен
+        const authUser = await findUserById(decodedToken.user_id);
+        setCurrentUser(authUser); // установить текущего пользователя на основе раскодированного токена        setAccessToken(accessToken);
+      } catch (error) {
+        console.error('Ошибка при декодировании токена:', error);
+        // Очищаем текущего пользователя и токен в случае ошибки декодирования
+        setCurrentUser(null);
+        setAccessToken(null);
+        localStorage.removeItem('accessToken');
       }
     }
   };
 
-  const generateToken = (userId) => {
-    return `token_${userId}`;
-  };
+  // const generateToken = (userId) => {
+  //   return `token_${userId}`;
+  // };
+
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   const toggleTheme = () => {
@@ -87,7 +135,8 @@ function App() {
         <div className='all_buddy'>
         <Routes>
           <Route path="/registration" element={<RegistrationForm />} />
-          <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
+          {/* <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} /> */}
+          <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
           <Route path="/" element={<UserList users={users} />} />
           <Route path="/animes" element={<ContentList />} />
           {currentUser && <Route path="/profile" element={<Profile currentUser={currentUser} onLogout={handleLogout} />} />}

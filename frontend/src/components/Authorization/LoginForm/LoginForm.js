@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import './LoginForm.css';
 
-function LoginForm({ users, onLogin }) {
+function LoginForm({ onLogin }) {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -19,12 +19,22 @@ function LoginForm({ users, onLogin }) {
         username: login,
         password: password,
       }).then((response) => {
-        onLogin(response.data, rememberMe);
+        const accessToken = response.data.access_token;
+        if (accessToken != null) {
+          // Проверяем, нужно ли запомнить пользователя
+          if (rememberMe) {
+            localStorage.setItem('accessToken', accessToken); //Не стоит ложить токен авторизации?
+            console.log('Положили в хранилище')
+          }
+          onLogin(accessToken);
+        }
+        console.log('Идентификатор:', response.data.access_token);
       })
       .catch(error => {
         console.error('Ошибка:', error);
       });;
 
+      console.log('Авторизация прошла');
       // Если успешно вошли, перенаправляем пользователя на страницу профиля
       navigate('/profile');
     } catch (error) {

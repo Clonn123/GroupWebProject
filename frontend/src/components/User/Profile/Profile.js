@@ -15,8 +15,6 @@ function Profile({ currentUser, onLogout }) {
     setShowPersonalInfo(!showPersonalInfo);
   };
 
-
-
   return (
     <ProfileContext.Provider value={{ setUserImage, userImage}} >
     <div className='profile'>
