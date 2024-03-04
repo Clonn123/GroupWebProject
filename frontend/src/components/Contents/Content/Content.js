@@ -9,9 +9,9 @@ function Content({ cont, selectedIcon }) {
       <div class="hoverable">
       <Link className='Link' to="/some-page">
       <div className="item">
-        <img src={cont.url_img} alt={cont.title} />
+        <img src={cont.url_img} alt={cont.title_ru} />
         <div className='smolInfoContainer'>
-        <h2 className='h2Item' >{cont.title}</h2>
+        <h2 className='h2Item' >{cont.title_ru}</h2>
         <p className='score'>{cont.score}</p>  
         <p>{cont.descriptionEpisod}</p>
         <p>{cont.descriptionData}</p>

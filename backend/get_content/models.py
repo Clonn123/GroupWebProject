@@ -3,7 +3,8 @@ import uuid
 
 class Animes(models.Model):
     url_img = models.TextField()
-    title = models.TextField()
+    title_ru = models.TextField()
+    title_en = models.TextField()
     descriptionEpisod = models.TextField()
     descriptionData = models.TextField()
     score = models.FloatField()
