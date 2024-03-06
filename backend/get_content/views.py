@@ -1,15 +1,16 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Animes
+from .models import Animes, Anime_info
 from .models import Users
 from .models import UserProfile
-from .serializer import MyModelSerializer
+from .serializer import MyModelSerializer, InfoAnimeSerializer
 from .serializer import UserModelSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.request import Request
 from rest_framework.decorators import api_view
 from datetime import datetime
+from django.db.models import Q
 
 # Users = get_user_model()
 
@@ -17,6 +18,29 @@ class DataAPIView(APIView):
     def get(self, request):
         data_list = Animes.objects.all()
         serializer = MyModelSerializer(data_list, many=True)
+        return Response(serializer.data)
+class InfoAPIView(APIView): 
+    def get(self, request, anime_id):
+        try:
+            anime_info = Anime_info.objects.get(anime_id=anime_id)
+            serializer = InfoAnimeSerializer(anime_info)
+            
+            anime_info2 = Animes.objects.get(anime_list_id=anime_id)
+            serializer2 = MyModelSerializer(anime_info2)
+            
+            response_data = {
+                "anime_info": serializer.data,
+                "anime_info2": serializer2.data
+            }
+            return Response(response_data)
+        except Anime_info.DoesNotExist or Animes.DoesNotExist:
+            return Response({"message": "Anime not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class SearchAPIView(APIView):
+    def get(self, request):
+        query = request.query_params.get('query', '')
+        results = Animes.objects.filter(Q(title_en__startswith=query))
+        serializer = MyModelSerializer(results, many=True)
         return Response(serializer.data)
     
 class SettingsProfile(APIView):#проверка по нику так ка нет id 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import ThemeToggleButton from './ThemeToggleButton.js'
+import SearchBar from './SearchBar.js'
 
 function Header({ currentUser, toggleTheme, isDarkMode }) {
   return (
@@ -13,9 +14,7 @@ function Header({ currentUser, toggleTheme, isDarkMode }) {
             <div><Link to="/book" className="category">Книги</Link></div>
             <div><Link to="/recommendations" className="category">Рекомендации</Link></div>
           </div>
-          <div className="search-bar">
-            <input type="text" placeholder="Поиск..."/>
-          </div>
+          <SearchBar />
           <div className="registration-link">
           {currentUser ? (
               <Link to="/profile">{currentUser.username}</Link>//имя пользователя сюда и его аву

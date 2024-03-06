@@ -7,7 +7,7 @@ function Content({ cont, selectedIcon }) {
     
     <div className={`${selectedIcon === 'infoSort' ? 'selected' : 'no_selected'}`}>
       <div class="hoverable">
-      <Link className='Link' to="/some-page">
+      <Link className='Link' to={`/animes/${cont.anime_list_id}`}>
       <div className="item">
         <img src={cont.url_img} alt={cont.title_ru} />
         <div className='smolInfoContainer'>

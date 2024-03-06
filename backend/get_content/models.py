@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 
 class Animes(models.Model):
+    anime_list_id = models.IntegerField(primary_key=True)
     url_img = models.TextField()
     title_ru = models.TextField()
     title_en = models.TextField()
@@ -11,6 +12,15 @@ class Animes(models.Model):
 
     class Meta:
         db_table = 'animes'
+
+class Anime_info(models.Model):
+    anime_id = models.IntegerField()
+    Episodes = models.IntegerField()
+    Genres = models.TextField()
+    Themes = models.TextField()
+    
+    class Meta:
+        db_table = 'anime_info'
 
 class Users(models.Model):
     GENDER_CHOICES = [

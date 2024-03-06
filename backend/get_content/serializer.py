@@ -1,12 +1,15 @@
 from rest_framework import serializers
-from .models import Animes
+from .models import Animes, Anime_info
 from .models import Users
 
 class MyModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Animes
         fields = '__all__'
-
+class InfoAnimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Anime_info
+        fields = '__all__'
 
 class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
