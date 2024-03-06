@@ -91,6 +91,8 @@ def get_access_token(client_id, client_secret, code, redirect_uri):
 # parsed_url = urlparse(redirect_url)
 # query_params = parse_qs(parsed_url.query)
 
+#Ошибка здесь "response_auth = requests.get(auth_url)", поэтому берет просто данную ссылку и ее парсит. То есть не переходит дальше
+
 # Запрашиваем данные для аутентификации
 client_id = "krfXoP58e9I2LpvUArHfdmkx1yUrBjgpoPbQTut0hDI"
 client_secret = "JesmUCRQb2bBJY8cx-DMJcZych6NIJ2kv3jHbTXWBLg"
