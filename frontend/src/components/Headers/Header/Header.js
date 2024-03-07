@@ -10,7 +10,7 @@ function Header({ currentUser, toggleTheme, isDarkMode }) {
         <div className="header">
         <h1><Link to="/" className="header-link" >Стартовая страница</Link></h1> {/* Обертываем надпись в Link и устанавливаем to="/" для перехода на стартовую страницу */}
           <div className="categories">
-            <div><Link to="/animes"  className="category">Аниме</Link></div>
+            <div><Link to="/animes/sort/-score"  className="category">Аниме</Link></div>
             <div><Link to="/book" className="category">Книги</Link></div>
             <div><Link to="/recommendations" className="category">Рекомендации</Link></div>
           </div>

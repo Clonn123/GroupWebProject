@@ -15,10 +15,17 @@ from django.db.models import Q
 # Users = get_user_model()
 
 class DataAPIView(APIView): 
-    def get(self, request):
-        data_list = Animes.objects.all()
+    def get(self, request, sort):
+        if (sort == '-score' or sort == '-descriptionData' or sort == '-title_ru'
+            or sort == 'score' or sort == 'descriptionData' or sort == 'title_ru'):
+            data_list = Animes.objects.order_by(f'{sort}')
+        else:
+            data_list = Animes.objects.all()
+            
+            
         serializer = MyModelSerializer(data_list, many=True)
         return Response(serializer.data)
+    
 class InfoAPIView(APIView): 
     def get(self, request, anime_id):
         try:

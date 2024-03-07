@@ -2,6 +2,8 @@ import './PageContent.css';
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import RatingComponent from '../SettintContent/RatingComponent.js'
+import StatusComponent from '../SettintContent/StatusComponent.js'
 
 const PageContent = () => {
   const { id } = useParams();
@@ -24,6 +26,8 @@ const PageContent = () => {
       {infoList && (
   <div>
     <h2>Детали аниме</h2>
+      <RatingComponent animeId={id} />
+      <StatusComponent animeId={id} />
     <div>
         <img src={infoList.anime_info2.url_img} alt={infoList.anime_info2.title_ru} />
         <p>Название на русском: {infoList.anime_info2.title_ru}</p>
