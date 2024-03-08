@@ -1,17 +1,15 @@
 .rating-component {
-    background-color: #c98989;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 300px;
-  }
-
+  background-color: #c98989;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 300px;
+}
 
 .status-component {
-    background-color: #c98989;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 300px;
+  background-color: #c98989;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 300px;
 }
-  

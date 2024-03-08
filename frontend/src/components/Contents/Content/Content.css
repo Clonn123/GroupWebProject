@@ -5,7 +5,9 @@
     margin: 0 auto;
     flex-wrap: wrap;
     margin-top: 10px;
+    
 }
+
 .Link{
     text-decoration: none;
     color: #170600;
@@ -22,8 +24,10 @@
     width: 160px;
     height: 300px;
     font-family: 'Arial', sans-serif;
-    font-weight: 150;
+    font-weight: 300;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Montserrat', sans-serif;
+    
 }
 
 .item:hover{
@@ -36,10 +40,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 160px;
-    font-weight: 150;
-    font-family: 'Arial', sans-serif;
+    font-weight: 450;
     margin-bottom: -10px;
     font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
   }
 .no_selected .item img{
     width: 150px;
@@ -54,7 +58,8 @@
     font-size: 14px; 
 }
 .no_selected .score{
-    font-size: 18px;  
+    font-size: 18px;
+    font-weight: 350;  
 }
 .no_selected .allInfoContainer {
     display: none;
@@ -73,8 +78,8 @@
     border-radius: 10px;
     width: 800px;
     height: 155px;
-    font-family: 'Arial', sans-serif;
-    font-weight: 150;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 350;
     display: flex; 
     justify-content: flex-start;
     align-items: flex-start;
@@ -84,8 +89,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-weight: 150;
-    font-family: 'Arial', sans-serif;
+    font-weight: 450;
+    font-family: 'Montserrat', sans-serif;
     font-size: 20px;
   }
 .selected .item:hover {

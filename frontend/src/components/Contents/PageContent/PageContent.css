@@ -1,0 +1,20 @@
+.page-content {
+  width: 90%;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+.anime-details{
+    display: flex;
+    justify-content: flex-start;
+}
+.anime_title{
+    margin-bottom: 50px;
+}
+.infoA{
+    margin-left: 30px;
+    max-width: 270px;
+}
+.plox{
+    width: 300px;
+    height: 200px;
+}

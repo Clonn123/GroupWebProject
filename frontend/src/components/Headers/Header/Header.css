@@ -1,6 +1,7 @@
 .header-container {
   padding: 10px 0;
-  position: relative; 
+  position: relative;
+  font-family: 'KoreanCalligraphy', sans-serif;  
 }
 
 .header-container::after {
