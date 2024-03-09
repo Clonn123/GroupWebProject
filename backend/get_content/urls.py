@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import DataAPIView, LoginAPIView, RegistrationAPIView, SettingsProfile, CheckEmailAPIView, CheckUsernameAPIView, InfoAPIView, SearchAPIView
+from .views import DataAPIView, LoginAPIView, RegistrationAPIView, SettingsProfile, CheckEmailAPIView, CheckUsernameAPIView, InfoAPIView, SearchAPIView, ScoreAPIView
 
 urlpatterns = [
     path('api/data/<str:sort>/', DataAPIView.as_view(), name='data_api_view'),
@@ -10,4 +10,6 @@ urlpatterns = [
     path('api/settings/', SettingsProfile.as_view(), name='settings_profile'),
     path('api/check-email/', CheckEmailAPIView.as_view(), name='check_email_api_view'),
     path('api/check-username/', CheckUsernameAPIView.as_view(), name='check_username_api_view'),
+    
+    path('api/score/', ScoreAPIView.as_view(), name='info_api_view'),
 ]

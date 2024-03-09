@@ -49,7 +49,10 @@ class SearchAPIView(APIView):
         results = Animes.objects.filter(Q(title_en__startswith=query))
         serializer = MyModelSerializer(results, many=True)
         return Response(serializer.data)
-    
+class ScoreAPIView(APIView):
+    def post(self, request):
+        
+        return Response(serializer.data)
 class SettingsProfile(APIView):#проверка по нику так ка нет id 
     def get(self, request):
         data_list = Users.objects.all()

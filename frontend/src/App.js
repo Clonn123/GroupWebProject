@@ -40,7 +40,7 @@ function App() {
     if (rememberMe) {    
         // Сохранение токена доступа в локальном хранилище
         localStorage.setItem('accessToken', generateToken(user.id));
-    }
+  }
   };
 
   const handleLogout = () => {

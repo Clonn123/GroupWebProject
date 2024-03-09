@@ -22,13 +22,29 @@ class Anime_info(models.Model):
     class Meta:
         db_table = 'anime_info'
 
+class Score(models.Model):
+    REV_CHOICES = [
+        ('просмотренно', 'росмотренно'),
+        ('запланированно', 'запланированно'),
+        ('брошенно', 'брошенно'),
+    ]
+    anime_id = models.IntegerField()
+    user_id = models.IntegerField()
+    score = models.IntegerField()
+    status = models.TextField(choices=REV_CHOICES)
+    review = models.TextField()
+    
+    class Meta:
+        db_table = 'score'
+
 class Users(models.Model):
     GENDER_CHOICES = [
         ('Мужской', 'Мужской'),
         ('Женский', 'Женский'),
         ('Другой', 'Другой'),
     ]
-        
+    
+    id = models.IntegerField(primary_key=True)
     identifier = models.CharField(max_length=32, default=uuid.uuid4)
     name = models.TextField()
     surname = models.TextField()

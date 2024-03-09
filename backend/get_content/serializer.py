@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Animes, Anime_info
+from .models import Animes, Anime_info, Score
 from .models import Users
 
 class MyModelSerializer(serializers.ModelSerializer):
@@ -9,6 +9,10 @@ class MyModelSerializer(serializers.ModelSerializer):
 class InfoAnimeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Anime_info
+        fields = '__all__'
+class ScoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Score
         fields = '__all__'
 
 class UserModelSerializer(serializers.ModelSerializer):
