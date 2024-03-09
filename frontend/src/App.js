@@ -91,7 +91,7 @@ function App() {
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
           <Route path="/" element={<UserList users={users} />} />
           <Route path="/animes/sort/:sorttype" element={<ContentList />} />
-          <Route path="/animes/:id" element={<PageContent />} />
+          <Route path="/animes/:id" element={<PageContent currentUser={currentUser}/>} />
           {currentUser && <Route path="/profile" element={<Profile currentUser={currentUser} onLogout={handleLogout} />} />}
         </Routes>
         </div>   
