@@ -164,4 +164,33 @@
 }
 
 
+.selected .hoverable {
+    position: relative;
+    display: inline-block;
+}
+
+.selected .hover-content {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 25%; /* Размещаем всплывающее окно под элементом при 100% отступе сверху */
+    left: 100%; /* Размещаем всплывающее окно по центру горизонтально */
+    transform: translate(-50%, 10px); /* Применяем смещение по горизонтали на
+     -50% и по вертикали на 10px, чтобы центрировать и немного поднять всплывающее окно */
+    background: linear-gradient(135deg, #b8aba1, #ada097, #b8aba1);
+    border: 1px solid #170600;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    z-index: 9999;
+}
+
+.selected.hoverable:hover .hover-content {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+
   

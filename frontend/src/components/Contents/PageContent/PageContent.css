@@ -18,3 +18,11 @@
     width: 300px;
     height: 200px;
 }
+
+.SettintContent{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+}

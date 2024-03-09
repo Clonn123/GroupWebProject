@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Content from '../Content/Content';
+import Nav from '../Navigations/Nav.js';
 import axios from 'axios';
 import '../Content/Content.css';
 import './ContentList.css';

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import RatingComponent from "../SettintContent/RatingComponent.js";
-import StatusComponent from "../SettintContent/StatusComponent.js";
+import ReviewComponent from "../SettintContent/ReviewComponent.js";
 import plox from './plox.png';
 
 const PageContent = () => {
@@ -37,14 +37,14 @@ const PageContent = () => {
             </div>
             <div className="infoA"> <h4>Информация</h4> 
               <p className="anime-description">
-                Тип: {infoList.anime_info2.descriptionEpisod}
+                <strong>Тип:</strong>  {infoList.anime_info2.descriptionEpisod}
               </p>
-              <p>Эпизоды: {infoList.anime_info.Episodes}</p>
+              <p><strong>Эпизоды:</strong> {infoList.anime_info.Episodes}</p>
               <p className="anime-description">
-                Дата: {infoList.anime_info2.descriptionData}
+                <strong>Дата:</strong> {infoList.anime_info2.descriptionData}
               </p>
-              <p>Жанры: {infoList.anime_info.Genres}</p>
-              <p>Темы: {infoList.anime_info.Themes}</p>
+              <p><strong>Жанры:</strong> {infoList.anime_info.Genres}</p>
+              <p><strong>Темы:</strong> {infoList.anime_info.Themes}</p>
             </div>
             <div className="infoB">
               <div className="additional-info">Да я вор, Плох?</div>
@@ -53,8 +53,11 @@ const PageContent = () => {
           </div>
         </>
       )}
-      <RatingComponent />
-      <StatusComponent />
+      <div className="SettintContent">
+        <RatingComponent />
+        <ReviewComponent />
+      </div>
+      
     </div>
   );
 };

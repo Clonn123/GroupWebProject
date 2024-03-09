@@ -1,32 +1,30 @@
-import React, { useState } from "react";
-import axios from "axios";
-import "./RS.css";
+import React, { useState } from 'react';
 
-const StatusComponent = ({ animeId }) => {
-  const [status, setStatus] = useState("");
+const StatusComponent = ({ setStatus }) => {
+  const [status, setStatusState] = useState('');
 
-  const handleStatusChange = async () => {
-    try {
-      await axios.post(`http://localhost:8000/api/anime/${animeId}/status`, {
-        status,
-      });
-      alert("Статус успешно установлен!");
-    } catch (error) {
-      console.error("Ошибка:", error);
-    }
+  const handleStatusChange = (newStatus) => {
+    setStatusState(newStatus);
+    setStatus(newStatus);
   };
 
   return (
     <div className="status-component">
-      <h3>Установить статус:</h3>
-      <select value={status} onChange={(e) => setStatus(e.target.value)}>
-        <option value="">Выберите статус</option>
-        <option value="просмотренно">Просмотренно</option>
-        <option value="запланированно">Запланированно</option>
-        <option value="брошенно">Брошенно</option>
-      </select>
-      <button onClick={handleStatusChange}>Установить</button>
+      <h4>Установить статус:</h4>
+      <div className="card-container">
+        <div className={`card ${status === 'просмотренно' ? 'selected green' : ''}`} onClick={() => handleStatusChange('просмотренно')}>
+          Просмотренно
+        </div>
+        <div className={`card ${status === 'запланированно' ? 'selected blue' : ''}`} onClick={() => handleStatusChange('запланированно')}>
+          Запланированно
+        </div>
+        <div className={`card ${status === 'брошенно' ? 'selected red' : ''}`} onClick={() => handleStatusChange('брошенно')}>
+          Брошенно
+        </div>
+      </div>
     </div>
   );
 };
+
 export default StatusComponent;
+
