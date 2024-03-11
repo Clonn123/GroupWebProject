@@ -14,6 +14,7 @@ from django.db.models import Q
 import requests
 import time
 import sqlite3
+import re
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, parse_qs
 
@@ -202,15 +203,70 @@ class AnimeListAPIView(APIView):
             return Response({"anime_titles": anime_titles}, status=status.HTTP_200_OK)
         else:
             return Response({"message": "Failed to get anime list"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+def isTable(anime_id):
+    connection = sqlite3.connect('./db.sqlite3')
+    cursor = connection.cursor()
 
+    sql_query = "SELECT * FROM animes WHERE anime_list_id = ?"
+    cursor.execute(sql_query, (anime_id,))
+
+    anime_exists = cursor.fetchone() is not None
+
+    connection.close()
+
+    return not anime_exists
+
+def writheBD(title_en, title_ru, url_img, descriptionEpisod, descriptionData, anime_list_id, score):
+    conn = sqlite3.connect('./db.sqlite3')
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "INSERT INTO animes (anime_list_id, title_en, title_ru, url_img, descriptionEpisod, descriptionData, "
+        "score) VALUES ("
+        "?, ?, ?, ?, ?, ?, ?)",
+        (anime_list_id, title_en, title_ru, url_img,
+         descriptionEpisod, descriptionData, score))
+
+    conn.commit()
+    conn.close()
+
+def writheInfo(anime_id, Episodes, Genres, Themes):
+    connection = sqlite3.connect('./db.sqlite3')
+    cursor = connection.cursor()
+
+    sql_query = "INSERT INTO anime_info (anime_id, Episodes, Genres, Themes) " \
+                "VALUES (?, ?, ?, ?)"
+    cursor.execute(sql_query, (anime_id, Episodes, Genres, Themes))
+
+    connection.commit()
+    connection.close()
+
+def find_missing_anime_list_ids():
+    connection = sqlite3.connect('./db.sqlite3')
+    cursor = connection.cursor()
+
+    sql_query = """
+        SELECT ti.title_id
+        FROM temporary_info ti
+        LEFT JOIN animes a ON ti.title_id = a.anime_list_id
+        WHERE a.anime_list_id IS NULL
+    """
+    cursor.execute(sql_query)
+
+    missing_anime_list_ids = [row[0] for row in cursor.fetchall()]
+
+    connection.close()
+
+    return missing_anime_list_ids
 
 def scrapingShiki(anime_id):
-    url = f'https://shikimori.one/animes/z{anime_id}'
+    url = f'https://shikimori.one/animes/y{anime_id}'
 
     headers = {
         'User-Agent': 'AnimeRecommended'
     }
     response = requests.get(url, headers=headers)
+    print(response)
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -221,6 +277,8 @@ def scrapingShiki(anime_id):
         for container in entry_info:
             key_element = container.find('div', class_='key')
             key_text = key_element.text.strip()
+            if key_text == 'Статус:':
+                status = container.find('div', class_='value')
             if key_text == 'Эпизоды:':
                 episodes_container = container.find('div', class_='value')
             if key_text == 'Жанры:' or key_text == 'Жанр:':
@@ -229,6 +287,29 @@ def scrapingShiki(anime_id):
                 themes_container = container.find('div', class_='value')
 
         print(anime_id)
+        name = soup.find('header', class_='head')
+        russian_title = soup.find('h1').contents[0]
+        english_title = name.find('meta', {'itemprop': 'name'})['content']
+        print(russian_title)
+        print(english_title)
+
+        Type = soup.find('div', class_='b-entry-info').contents[0]
+        type_element = Type.find('div', class_='value')
+        type_value = type_element.get_text(strip=True)
+        print(type_value)
+
+        img = soup.findAll('div', class_='c-poster')
+        for i in img:
+            meta_tag = i.find('meta', {'itemprop': 'image'})
+            content_value = meta_tag['content']
+        print(content_value)
+
+        pattern = r'\b\d{4}\b'
+        match = re.search(pattern, str(status)).group()
+        print(match)
+
+        score = soup.find('div', class_='c-info-right').find('meta', {'itemprop': 'ratingValue'})['content']
+        print(score)
 
         try:
             episodes = episodes_container.text.strip().split("/")[-1].strip()
@@ -246,7 +327,15 @@ def scrapingShiki(anime_id):
         except:
             themes = None
         print("Темы:", themes)
-        writheInfo(anime_id, episodes, genres, themes)
+
+        prov = isTable(anime_id)
+        if prov:
+            writheBD(english_title, russian_title, content_value, type_value, match, anime_id, score)
+            writheInfo(anime_id, episodes, genres, themes)
+            print(prov)
+        else:
+            print(prov)
+
         print("--------")
     
             
@@ -264,7 +353,7 @@ def get_user_id(access_token):
         print(f'Failed to get user ID. Status code: {response.status_code}')
         return None
     
-def writheInfo(title_id, title, status, score):
+def writheTemporaryInfo(title_id, title, status, score):
     connection = sqlite3.connect('./db.sqlite3')
     cursor = connection.cursor()
 
@@ -286,6 +375,8 @@ def clearTemporaryInfo():
     connection.close()
      
     # Функция для получения списка оцененных аниме пользователя с нормальными названиями
+
+
 def get_user_anime_ratings(access_token):
     user_id = get_user_id(access_token)
     if user_id is not None:
@@ -308,10 +399,15 @@ def get_user_anime_ratings(access_token):
                         'status': rating['status'],
                         'score': rating['score']
                     }
-                    writheInfo(anime_info['title_id'], anime_info['title'],
-                               anime_info['status'], anime_info['score'])
+                    writheTemporaryInfo(anime_info['title_id'], anime_info['title'],
+                               anime_info['status'], anime_info['score'])    
                     anime_titles.append(anime_info)
-                # if rating['target_type'] == "Manga": 
+                # if rating['target_type'] == "Manga":
+            not_bd_id = find_missing_anime_list_ids()
+            print(not_bd_id)
+            for item in not_bd_id:
+                scrapingShiki(item) 
+                
             return anime_titles
         else:
             print(f'Failed to get anime ratings. Status code: {response.status_code}')

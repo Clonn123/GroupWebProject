@@ -3,6 +3,10 @@
   margin: 0 auto;
   flex-wrap: wrap;
 }
+.anime-image{
+    width: 220px;
+    height: 310px;
+}
 .anime-details{
     display: flex;
     justify-content: flex-start;
