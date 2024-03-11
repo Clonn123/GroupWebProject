@@ -80,7 +80,7 @@ function Profile({ currentUser, onLogout }) {
               <h3>Список аниме:</h3>
               <ul>
                 {animeList.map((anime, index) => (
-                  <li key={index}>{anime.title}</li>
+                  <li key={index}>{["Название: " + anime.title + " ID: " + anime.title_id + " Статус: " + anime.status + " Оценка: " + anime.score]}</li>
                 ))}
               </ul>
             </div>

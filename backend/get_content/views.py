@@ -227,14 +227,17 @@ def get_user_anime_ratings(access_token):
             anime_ratings = response.json()
             anime_titles = []
             for rating in anime_ratings:
-                anime_id = rating['target_id']
-                anime_title = get_anime_title(anime_id, headers)
-                anime_info = {
-                    'title': anime_title,
-                    'status': rating['status'],
-                    'score': rating['score']
-                }
-                anime_titles.append(anime_info)
+                if rating['target_type'] == "Anime": 
+                    anime_id = rating['target_id']
+                    anime_title = get_anime_title(anime_id, headers)
+                    anime_info = {
+                        'title_id': rating['target_id'],
+                        'title': anime_title,
+                        'status': rating['status'],
+                        'score': rating['score']
+                    }
+                    anime_titles.append(anime_info)
+                # if rating['target_type'] == "Manga": 
             return anime_titles
         else:
             print(f'Failed to get anime ratings. Status code: {response.status_code}')
