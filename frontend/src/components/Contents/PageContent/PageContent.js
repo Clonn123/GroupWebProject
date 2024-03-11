@@ -6,26 +6,35 @@ import RatingComponent from "../SettintContent/RatingComponent.js";
 import ReviewComponent from "../SettintContent/ReviewComponent.js";
 import plox from './plox.png';
 
-const PageContent = () => {
+const PageContent = ({ currentUser }) => {
   const { id } = useParams();
   const [infoList, setInfoList] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
+    if (!currentUser || !currentUser.id) {
+      return; 
+    }
+    setIsLoading(true);
     axios
-      .get("http://127.0.0.1:8000/api/info/anime/" + id)
+      .get(`http://127.0.0.1:8000/api/info/anime/?id_user=${currentUser.id}&id_anime=${id}`)
       .then((response) => {
         setInfoList(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Ошибка:", error);
+        setIsLoading(false);
       });
   }, []);
-
+  
   return (
-    <div className="page-content">
-      {infoList && (
+    <>
+    <div className="page-content"> 
+    {isLoading && <div>Loading...</div>}
+    {!isLoading && infoList && (
         <>
           <h2 className="anime_title">
-            {infoList.anime_info2.title_en} / {infoList.anime_info2.title_en}
+            {infoList.anime_info2.title_ru} / {infoList.anime_info2.title_en}
           </h2>
           <div className="anime-details">
             <div>
@@ -47,18 +56,18 @@ const PageContent = () => {
               <p><strong>Темы:</strong> {infoList.anime_info.Themes}</p>
             </div>
             <div className="infoB">
-              <div className="additional-info">Да я вор, Плох?</div>
-              <img className="plox" src={plox} />
+              <div className="additional-info"><strong>Оценки других пользователей</strong></div>
             </div>
+          </div>
+          <div className="SettintContent">
+            <RatingComponent currentUser={currentUser} info={infoList.anime_info3}/>
+            <ReviewComponent currentUser={currentUser} info={infoList.anime_info3}/>
           </div>
         </>
       )}
-      <div className="SettintContent">
-        <RatingComponent />
-        <ReviewComponent />
-      </div>
-      
     </div>
+    </>
+    
   );
 };
 

@@ -21,7 +21,7 @@ function App() {
     { id: 2, name: 'Андрей', surname: 'Смирнов', username: 'Gifon', password: 'Gifon', email: 'gifon@mail.ru' }, 
   ]);
 
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState();
   const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
 
   
@@ -33,7 +33,7 @@ function App() {
       // Вызываем функцию для автоматического входа пользователя
       autoLogin(accessToken);
     }
-  }, []);
+  }, [currentUser]);
   
   const handleLogin = (user, rememberMe) => {
     setCurrentUser(user);
@@ -90,7 +90,7 @@ function App() {
           <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
           <Route path="/" element={<UserList users={users} />} />
-          <Route path="/animes/sort/:sorttype" element={<ContentList />} />
+          <Route path="/animes/sort/:sorttype" element={<ContentList currentUser={currentUser}/>} />
           <Route path="/animes/:id" element={<PageContent currentUser={currentUser}/>} />
           {currentUser && <Route path="/profile" element={<Profile currentUser={currentUser} onLogout={handleLogout} />} />}
         </Routes>

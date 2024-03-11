@@ -32,7 +32,6 @@ function SettingsPage( {currentUser} ) {
       .catch(error => {
       });;
     } catch (error) {
-
     }
   };
   

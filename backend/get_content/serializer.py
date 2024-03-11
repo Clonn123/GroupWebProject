@@ -10,10 +10,19 @@ class InfoAnimeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Anime_info
         fields = '__all__'
+        
 class ScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
         fields = '__all__'
+    def to_representation(self, instance):
+        representation = {
+            'anime_id': instance.anime_id,
+            'user_id': instance.user_id,
+            'status': instance.status,
+            'score': instance.score,
+        }
+        return representation
 
 class UserModelSerializer(serializers.ModelSerializer):
     class Meta:

@@ -68,9 +68,11 @@
 /* коммент */
 .review-component {
   margin-left: 15px;
+  
 }
 
 .review-textarea {
+  background-color: #d3d3d3;
   width: 100%;
   padding: 10px;
   font-size: 14px;
@@ -78,6 +80,7 @@
   border-radius: 5px;
   font-family: 'Montserrat', sans-serif;
   resize: vertical; /* Разрешить вертикальное изменение размера */
+  
 }
 
 .submit-button {
@@ -96,4 +99,13 @@
   background-color: #399542;
   color: #fff;
   border-color: #399542;
+}
+
+.isDel{
+  cursor: pointer;
+  color: #95393c;
+  width: max-content;
+}
+.isDel:hover{
+  text-decoration:underline;
 }

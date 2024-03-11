@@ -193,4 +193,39 @@
 }
 
 
+.watched-icon::after {
+    position: absolute;
+    margin: 5px;
+    border: 2px solid #ffffff; 
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .param1::after {
+    background-color: #399542; 
+    color: white;
+    content: '\2713'; 
+  }
+  
+  .param2::after {
+    background-color: #396a95; 
+    color: white;
+    content: '\002B';
+    font-size: 30px;
+  }
+  
+  .param3::after {
+    background-color: #95393c; 
+    color: white;
+    content: '\2715'; 
+  }
+  
+  
+
   
