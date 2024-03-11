@@ -14,6 +14,7 @@ from django.db.models import Q
 import requests
 import time
 import sqlite3
+from bs4 import BeautifulSoup
 from urllib.parse import urlparse, parse_qs
 
 # Users = get_user_model()
@@ -195,13 +196,61 @@ class AnimeListAPIView(APIView):
             return Response({"message": "Failed to get access token"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         anime_titles = get_user_anime_ratings(access_token)
+        #
         
         if anime_titles is not None:
             return Response({"anime_titles": anime_titles}, status=status.HTTP_200_OK)
         else:
             return Response({"message": "Failed to get anime list"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-    # Функция для получения id пользователя
+
+
+def scrapingShiki(anime_id):
+    url = f'https://shikimori.one/animes/z{anime_id}'
+
+    headers = {
+        'User-Agent': 'AnimeRecommended'
+    }
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        entry_info = soup.findAll('div', class_='line-container')
+
+        episodes_container, genres_container, themes_container = None, None, None
+        for container in entry_info:
+            key_element = container.find('div', class_='key')
+            key_text = key_element.text.strip()
+            if key_text == 'Эпизоды:':
+                episodes_container = container.find('div', class_='value')
+            if key_text == 'Жанры:' or key_text == 'Жанр:':
+                genres_container = container.find('div', class_='value')
+            if key_text == 'Темы:' or key_text == 'Тема:':
+                themes_container = container.find('div', class_='value')
+
+        print(anime_id)
+
+        try:
+            episodes = episodes_container.text.strip().split("/")[-1].strip()
+        except:
+            episodes = 1
+        print("Количество эпизодов:", episodes)
+
+        genre_elements = genres_container.find_all('span', class_='genre-ru')
+        genres = ', '.join([genre.text.strip() for genre in genre_elements])
+        print("Жанры:", genres)
+
+        try:
+            themes_elements = themes_container.find_all('span', class_='genre-ru')
+            themes = ', '.join([themes.text.strip() for themes in themes_elements])
+        except:
+            themes = None
+        print("Темы:", themes)
+        writheInfo(anime_id, episodes, genres, themes)
+        print("--------")
+    
+            
+# Функция для получения id пользователя
 def get_user_id(access_token):
     headers = {
         'User-Agent': 'MangaRecommendation',
