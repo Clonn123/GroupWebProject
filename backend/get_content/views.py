@@ -13,6 +13,7 @@ from datetime import datetime
 from django.db.models import Q
 import requests
 import time
+import sqlite3
 from urllib.parse import urlparse, parse_qs
 
 # Users = get_user_model()
@@ -214,6 +215,27 @@ def get_user_id(access_token):
         print(f'Failed to get user ID. Status code: {response.status_code}')
         return None
     
+def writheInfo(title_id, title, status, score):
+    connection = sqlite3.connect('/Users/andrejsmirnov/PycharmProjects/GroupWebProject/backend/db.sqlite3')
+    cursor = connection.cursor()
+
+    sql_query = "INSERT INTO temporary_info (title_id, title, status, score) " \
+                "VALUES (?, ?, ?, ?)"
+    cursor.execute(sql_query, (title_id, title, status, score))
+
+    connection.commit()
+    connection.close()
+    
+def clearTemporaryInfo():
+    connection = sqlite3.connect('/Users/andrejsmirnov/PycharmProjects/GroupWebProject/backend/db.sqlite3')
+    cursor = connection.cursor()
+
+    sql_query = "DELETE FROM temporary_info"
+    cursor.execute(sql_query)
+
+    connection.commit()
+    connection.close()
+     
     # Функция для получения списка оцененных аниме пользователя с нормальными названиями
 def get_user_anime_ratings(access_token):
     user_id = get_user_id(access_token)
@@ -226,6 +248,7 @@ def get_user_anime_ratings(access_token):
         if response.status_code == 200:
             anime_ratings = response.json()
             anime_titles = []
+            clearTemporaryInfo()
             for rating in anime_ratings:
                 if rating['target_type'] == "Anime": 
                     anime_id = rating['target_id']
@@ -236,6 +259,8 @@ def get_user_anime_ratings(access_token):
                         'status': rating['status'],
                         'score': rating['score']
                     }
+                    writheInfo(anime_info['title_id'], anime_info['title'],
+                               anime_info['status'], anime_info['score'])
                     anime_titles.append(anime_info)
                 # if rating['target_type'] == "Manga": 
             return anime_titles
