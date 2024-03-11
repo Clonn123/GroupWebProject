@@ -252,8 +252,8 @@ def get_anime_title(anime_id, headers):
         anime_data = response.json()
         return anime_data['russian']  # Здесь можно выбрать русское или английское название
     elif response.status_code == 429:
-        print('Слишком много запросов. Ждем 15 секунд...')
-        time.sleep(15)  # Добавляем задержку в 15 секунд
+        print('Слишком много запросов. Ждем 10 секунд...')
+        time.sleep(10)  # Добавляем задержку в 10 секунд
         return get_anime_title(anime_id, headers)  # Повторяем запрос
     else:
         print(f'Не удалось получить аниме. Код статуса: {response.status_code}')
