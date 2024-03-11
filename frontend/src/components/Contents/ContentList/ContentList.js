@@ -6,7 +6,7 @@ import axios from 'axios';
 import '../Content/Content.css';
 import './ContentList.css';
 
-function ContentList() {
+function ContentList( {currentUser} ) {
   const [dataList, setDataList] = useState([]);
   const [flexDirection, setFlexDirection] = useState('row');
   const [selectedIcon, setSelectedIcon] = useState('defaultSort');
@@ -30,6 +30,8 @@ function ContentList() {
         console.error('Ошибка:', error);
       });
   }, [sorttype]);
+
+  
 
   function toggleFlexDirection() {
     setFlexDirection('column');
@@ -89,7 +91,7 @@ function ContentList() {
       </div>
       <div style={{ flexDirection: flexDirection }} className={`Content-container ${flexDirection}`}>
         {dataList.map((cont, index) => (
-          <Content key={index} cont={cont} selectedIcon={selectedIcon} />
+          <Content key={index} cont={cont} selectedIcon={selectedIcon} currentUser={currentUser} />
         ))}
       </div>
     </div>

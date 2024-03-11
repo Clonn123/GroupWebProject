@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import DataAPIView, LoginAPIView, RegistrationAPIView, SettingsProfile, CheckEmailAPIView, CheckUsernameAPIView, InfoAPIView, SearchAPIView, ScoreAPIView
+from .views import DataAPIView, LoginAPIView, RegistrationAPIView, SettingsProfile, CheckEmailAPIView, CheckUsernameAPIView, InfoAPIView, SearchAPIView, ScoreAPIView, IsWatched
 
 urlpatterns = [
     path('api/data/<str:sort>/', DataAPIView.as_view(), name='data_api_view'),
-    path('api/info/anime/<int:anime_id>/', InfoAPIView.as_view(), name='info_api_view'),
+    path('api/info/anime/', InfoAPIView.as_view(), name='info_api_view'),
+    path('api/anime/', IsWatched.as_view(), name='info_api_view'),
     path('api/search', SearchAPIView.as_view(), name='search_api_view'),
     path('api/login/', LoginAPIView.as_view(), name='login_api_view'),
     path('api/register/', RegistrationAPIView.as_view(), name='register_api_view'),
