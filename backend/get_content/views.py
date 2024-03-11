@@ -216,7 +216,7 @@ def get_user_id(access_token):
         return None
     
 def writheInfo(title_id, title, status, score):
-    connection = sqlite3.connect('/Users/andrejsmirnov/PycharmProjects/GroupWebProject/backend/db.sqlite3')
+    connection = sqlite3.connect('./db.sqlite3')
     cursor = connection.cursor()
 
     sql_query = "INSERT INTO temporary_info (title_id, title, status, score) " \
@@ -227,7 +227,7 @@ def writheInfo(title_id, title, status, score):
     connection.close()
     
 def clearTemporaryInfo():
-    connection = sqlite3.connect('/Users/andrejsmirnov/PycharmProjects/GroupWebProject/backend/db.sqlite3')
+    connection = sqlite3.connect('./db.sqlite3')
     cursor = connection.cursor()
 
     sql_query = "DELETE FROM temporary_info"
