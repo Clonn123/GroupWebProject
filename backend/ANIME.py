@@ -55,7 +55,7 @@ def get_anime_title(anime_id, headers):
         time.sleep(15)  # Добавляем задержку в 15 секунд
         return get_anime_title(anime_id, headers)  # Повторяем запрос
     else:
-        print(f'Неудалось получить аниме. Код статуса: {response.status_code}')
+        print(f'Не удалось получить аниме. Код статуса: {response.status_code}')
         return None
 
 # Функция для получения access_token через процедуру аутентификации OAuth2
@@ -83,6 +83,7 @@ def get_access_token(client_id, client_secret, code, redirect_uri):
 
 # # Отправка запроса для аутентификации
 # response_auth = requests.get(auth_url)
+# Добавить хедер при запросе???
 # print("response_auth: "+str(response_auth))
 # # Получение URL-адреса, на который произойдет перенаправление
 # redirect_url = response_auth.url
@@ -96,7 +97,7 @@ def get_access_token(client_id, client_secret, code, redirect_uri):
 # Запрашиваем данные для аутентификации
 client_id = "krfXoP58e9I2LpvUArHfdmkx1yUrBjgpoPbQTut0hDI"
 client_secret = "JesmUCRQb2bBJY8cx-DMJcZych6NIJ2kv3jHbTXWBLg"
-redirect_uri = "http://localhost:3000/"
+redirect_uri = "http://localhost:3000/profile"
 code = input('Введите ваш код авторизации: ')
 # # Извлечение кода авторизации из параметров запроса
 # print("query_params: "+str(query_params))
