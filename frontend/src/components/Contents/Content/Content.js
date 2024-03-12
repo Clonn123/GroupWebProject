@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import "./Content.css";
-import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 function Content({ cont, selectedIcon, currentUser }) {
@@ -19,6 +19,8 @@ function Content({ cont, selectedIcon, currentUser }) {
       });
   }, [currentUser.id, cont.anime_list_id]);
 
+  
+
   return (
     <div
       className={`${selectedIcon === "infoSort" ? "selected" : "no_selected"}`}
@@ -30,9 +32,10 @@ function Content({ cont, selectedIcon, currentUser }) {
 
             {isWatched && (
               <div className="watched-icons-container">
-                {isWatched=="просмотренно" && <div className="watched-icon param1"></div>}
-                {isWatched=="запланированно" && <div className="watched-icon param2"></div>}
-                {isWatched=="брошенно" && <div className="watched-icon param3"> </div>}
+                {isWatched=="completed" && <div className="watched-icon param1"></div>}
+                {isWatched=="planned" && <div className="watched-icon param2"></div>}
+                {isWatched=="dropped" && <div className="watched-icon param3"> </div>}
+                {isWatched=="watching" && <div className="watched-icon param4"> </div>}
               </div>
             )}
             <div className="smolInfoContainer">

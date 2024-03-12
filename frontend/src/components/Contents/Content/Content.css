@@ -210,11 +210,11 @@
   .param1::after {
     background-color: #399542; 
     color: white;
-    content: '\2713'; 
+    content: '✔'; 
   }
   
   .param2::after {
-    background-color: #396a95; 
+    background-color: #a3aa41; 
     color: white;
     content: '\002B';
     font-size: 30px;
@@ -223,7 +223,14 @@
   .param3::after {
     background-color: #95393c; 
     color: white;
-    content: '\2715'; 
+    content: '✖'; 
+  }
+  .param4::after {
+    background-color: #396a95; 
+    color: white;
+    content: '▶'; 
+    font-size: 17px;
+    text-indent: 3px; 
   }
   
   

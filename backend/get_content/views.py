@@ -31,7 +31,37 @@ class DataAPIView(APIView):
             
         serializer = MyModelSerializer(data_list, many=True)
         return Response(serializer.data)
-    
+class MyList(APIView): 
+    def get(self, request, id, sort):
+        # Получаем все записи из модели Score для указанного user_id
+        score_records = Score.objects.filter(user_id=id)
+        
+        # Получаем все anime_id и score из этих записей
+        anime_score_data = score_records.values_list('anime_id', 'score')
+        
+        # Извлекаем все anime_id и score из кортежей
+        anime_ids, scores = zip(*anime_score_data)
+        
+        # Получаем все записи из модели Animes, связанные с этими anime_id
+        data_list = Animes.objects.filter(anime_list_id__in=anime_ids).order_by(sort)
+        
+        # Создаем список словарей с атрибутами anime_id, score и другими данными из модели Animes
+        serialized_data = []
+        for anime in data_list:
+            serialized_data.append({
+                'anime_list_id': anime.anime_list_id,
+                'url_img': anime.url_img,
+                'descriptionData': anime.descriptionData,
+                'descriptionEpisod': anime.descriptionEpisod,
+                'title_ru': anime.title_ru, 
+                'score': scores[anime_ids.index(anime.anime_list_id)] 
+            })
+        
+        if sort == '-score' or sort == 'score':
+            serialized_data = [item for item in serialized_data if item['score'] is not None]
+            serialized_data.sort(key=lambda x: x['score'], reverse=(sort == '-score'))
+        
+        return Response(serialized_data)   
     
 class InfoAPIView(APIView): 
     def get(self, request):
@@ -68,12 +98,14 @@ class IsWatched(APIView):
         id_anime = request.GET.get('id_anime')
         try:
             score_table = Score.objects.get(anime_id=id_anime, user_id=id_user)
-            if score_table.status == "просмотренно":
-                return Response("просмотренно")
-            elif score_table.status == "запланированно":
-                return Response("запланированно")
-            elif score_table.status == "брошенно":
-                return Response("брошенно")
+            if score_table.status == "completed":
+                return Response("completed")
+            elif score_table.status == "planned":
+                return Response("planned")
+            elif score_table.status == "dropped":
+                return Response("dropped")
+            elif score_table.status == "watching":
+                return Response("watching")
             
         except Score.DoesNotExist:
             return Response(False)
@@ -183,6 +215,8 @@ class CheckUsernameAPIView(APIView):
 class AnimeListAPIView(APIView):
     def post(self, request):
         auth_code = request.data.get('codeInUrl')
+        userId = request.data.get('userId')
+        
         print("Received authorization code:", auth_code)  # Выводим значение auth_code в консоль
         if not auth_code:
             return Response({"message": "Authorization code is missing"}, status=status.HTTP_400_BAD_REQUEST)
@@ -197,7 +231,10 @@ class AnimeListAPIView(APIView):
             return Response({"message": "Failed to get access token"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         anime_titles = get_user_anime_ratings(access_token)
-        #
+        # запись твоих оценок жи есть
+        for item in anime_titles:
+            write_score_to_database(userId, item)
+        remove_duplicate_scores(userId)
         
         if anime_titles is not None:
             return Response({"anime_titles": anime_titles}, status=status.HTTP_200_OK)
@@ -379,7 +416,28 @@ def clearTemporaryInfo():
      
     # Функция для получения списка оцененных аниме пользователя с нормальными названиями
 
+def write_score_to_database(user_id, anime_info):
+    try:
+        score = Score(
+            user_id=user_id,
+            anime_id=anime_info['title_id'],
+            status=anime_info['status'],
+            score=anime_info['score']
+        )
+        
+        score.save()
+        
+        return True  
+    except Exception as e:
+        print("Ошибка при записи в базу данных:", e)
+        return False  
+def remove_duplicate_scores(user_id):
+    # Получаем список уникальных anime_id для заданного user_id
+    unique_anime_ids = Score.objects.filter(user_id=user_id).values_list('anime_id', flat=True).distinct()
 
+    # Удаляем записи с повторяющимися anime_id
+    Score.objects.filter(user_id=user_id).exclude(anime_id__in=unique_anime_ids).delete()
+    
 def get_user_anime_ratings(access_token):
     user_id = get_user_id(access_token)
     if user_id is not None:
@@ -410,7 +468,6 @@ def get_user_anime_ratings(access_token):
             print(not_bd_id)
             for item in not_bd_id:
                 scrapingShiki(item) 
-                
             return anime_titles
         else:
             print(f'Failed to get anime ratings. Status code: {response.status_code}')

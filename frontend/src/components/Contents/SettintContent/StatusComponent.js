@@ -35,23 +35,29 @@ const StatusComponent = ({ setStatus, currentUser, info, setIsDel }) => {
       <div className="card-container">
         <div
           className={`card ${
-            Status === "просмотренно" ? "selected green" : ""
+            Status === "completed" ? "selected green" : ""
           }`}
-          onClick={() => handleStatusChange("просмотренно")}
+          onClick={() => handleStatusChange("completed")}
         >
           Просмотренно
         </div>
         <div
+          className={`card ${Status === "watching" ? "selected blue" : ""}`}
+          onClick={() => handleStatusChange("watching")}
+        >
+          Смотрю
+        </div>
+        <div
           className={`card ${
-            Status === "запланированно" ? "selected blue" : ""
+            Status === "planned" ? "selected yl" : ""
           }`}
-          onClick={() => handleStatusChange("запланированно")}
+          onClick={() => handleStatusChange("planned")}
         >
           Запланированно
         </div>
         <div
-          className={`card ${Status === "брошенно" ? "selected red" : ""}`}
-          onClick={() => handleStatusChange("брошенно")}
+          className={`card ${Status === "dropped" ? "selected red" : ""}`}
+          onClick={() => handleStatusChange("dropped")}
         >
           Брошенно
         </div>

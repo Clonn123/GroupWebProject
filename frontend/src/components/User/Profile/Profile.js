@@ -31,7 +31,10 @@ function Profile({ currentUser, onLogout }) {
     // console.info("Code: "+codeInUrl)
     if (codeInUrl != '') {
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/anime-list/', { codeInUrl });
+        const response = await axios.post('http://127.0.0.1:8000/api/anime-list/', {
+        codeInUrl: codeInUrl,
+        userId: currentUser.id
+        });
         console.info(response);
         setAnimeList(response.data.anime_titles);
       } catch (error) {
@@ -63,16 +66,15 @@ function Profile({ currentUser, onLogout }) {
           <div>Возраст: {currentUser.age}</div>
         </div>
       </div>
-      
       <hr className="separator" />
-        <ShikimoriButton />
-
         <button className='onLogout_but' onClick={onLogout}>
             <Link to="/" className="link">Выйти</Link>
         </button>
-
+      
+      <div>      
+        <ShikimoriButton />
         <button className='fetch_anime_button' onClick={handleClick}>
-            Получить список аниме
+            Синхранизировать
         </button>
 
         {animeList.length > 0 && (
@@ -85,6 +87,8 @@ function Profile({ currentUser, onLogout }) {
               </ul>
             </div>
           )}
+      </div>
+      
       </div>
       <Menu currentUser={currentUser} />
     </div>

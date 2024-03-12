@@ -4,9 +4,9 @@ import Content from '../Content/Content';
 import Nav from '../Navigations/Nav.js';
 import axios from 'axios';
 import '../Content/Content.css';
-import './ContentList.css';
+import '../ContentList/ContentList.css';
 
-function ContentList( {currentUser} ) {
+function MyList( {currentUser} ) {
   const [dataList, setDataList] = useState([]);
   const [flexDirection, setFlexDirection] = useState('row');
   const [selectedIcon, setSelectedIcon] = useState('defaultSort');
@@ -14,6 +14,7 @@ function ContentList( {currentUser} ) {
   const [sort, setSort] = useState('По рейтингу');
   const [sortName, setSortNAme] = useState('score');
   const { sorttype } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate()
 
   const [sortBT, setSortBT] = useState('-');
@@ -28,7 +29,7 @@ function ContentList( {currentUser} ) {
     }
     setIsLoading(true);
 
-    axios.get(`http://127.0.0.1:8000/api/data/${sorttype}`)
+    axios.get(`http://127.0.0.1:8000/api/data/mylist/${id}/${sorttype}`)
       .then(response => {
         setDataList(response.data);
         setIsLoading(false);
@@ -54,19 +55,19 @@ function ContentList( {currentUser} ) {
   function handleSortChange(ru_type, type, BT){
     setSort(ru_type);
     setSortNAme(type)
-    navigate(`/animes/sort/${BT}${type}`);
+    navigate(`/myList/${id}/${BT}${type}`);
   }
   function sortBTChange(type, text, sort){
     setSortBT(type)
     settextSort(text)
-    navigate(`/animes/sort/${type}${sort}`);
+    navigate(`/myList/${id}/${type}${sort}`);
   }
 
 
   return (
     <div className='head'>
       <div className='notice'>
-        <h1 className='title'>Аниме</h1>
+        <h1 className='title'>Мой список аниме</h1>
         <div className='navigation'>
           <img
             style={{ background: selectedIcon === 'defaultSort' ? '#976832' : 'none' }}
@@ -94,7 +95,7 @@ function ContentList( {currentUser} ) {
           <div className='downSort' onClick={() => sortBTChange('-', 'По убыванию', sortName)}>По убыванию</div>
           <div className='upSort' onClick={() => sortBTChange('', 'По возростанию', sortName)}>По возростанию</div>
         </div>
-        <div className='notice2' >На данной странице отображены аниме, отсортированные: {sort} и {textSort}</div>
+        <div className='notice2' >Мой список, отсортированный: {sort} и {textSort}</div>
         {isLoading && <h2>Loading...</h2>}
       </div>
 
@@ -108,4 +109,4 @@ function ContentList( {currentUser} ) {
   );
 }
 
-export default ContentList;
+export default MyList;

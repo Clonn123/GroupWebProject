@@ -1,6 +1,6 @@
 .rating-component {
   margin-bottom: 10px;
-  width: 400px;
+  width: 480px;
 }
 
 .slider {
@@ -30,7 +30,7 @@
 .status-component {
   margin-top: 30px;
   margin-bottom: 10px;
-  width:400px;
+  width:480px;
 }
 .card-container {
   display: flex;
@@ -53,6 +53,11 @@
   color: #fff;
   border-color: #95393c;
 }
+.selected.yl{
+  background-color: #a3aa41;
+  color: #fff;
+  border-color: #a3aa41;
+}
 .selected.green{
   background-color: #399542;
   color: #fff;
@@ -63,6 +68,7 @@
   color: #fff;
   border-color: #396a95;
 }
+
 
 
 /* коммент */

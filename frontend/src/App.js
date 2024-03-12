@@ -9,6 +9,7 @@ import RegistrationForm from './components/Authorization/RegistrationForm/Regist
 import ContentList from './components/Contents/ContentList/ContentList.js';
 import PageContent from './components/Contents/PageContent/PageContent.js';
 import UserList from './components/User/UserList/UserList.js';
+import MyList from './components/Contents/MyContent/MeList.js';
 import BotHeader from './components/Headers/BotHeader/BotHeader.js';
 import LoginForm from './components/Authorization/LoginForm/LoginForm.js';
 import Profile from './components/User/Profile/Profile.js';
@@ -90,6 +91,7 @@ function App() {
           <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
           <Route path="/" element={<UserList users={users} />} />
+          <Route path="/myList/:id/:sorttype" element={<MyList currentUser={currentUser} />} />
           <Route path="/animes/sort/:sorttype" element={<ContentList currentUser={currentUser}/>} />
           <Route path="/animes/:id" element={<PageContent currentUser={currentUser}/>} />
           {currentUser && <Route path="/profile" element={<Profile currentUser={currentUser} onLogout={handleLogout} />} />}

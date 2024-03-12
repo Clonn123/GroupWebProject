@@ -30,7 +30,7 @@ const PageContent = ({ currentUser }) => {
   return (
     <>
     <div className="page-content"> 
-    {isLoading && <div>Loading...</div>}
+    {isLoading && <h2>Loading...</h2>}
     {!isLoading && infoList && (
         <>
           <h2 className="anime_title">

@@ -43,7 +43,7 @@ const RatingComponent = ({ currentUser, info }) => {
           info={info}
           setIsDel = {setIsDel}
         />
-        {status === "просмотренно" && (
+        {status === "completed" && (
           <>
             <h4>Установить оценку:</h4>
             <input

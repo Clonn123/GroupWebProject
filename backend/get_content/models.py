@@ -24,9 +24,10 @@ class Anime_info(models.Model):
 
 class Score(models.Model):
     REV_CHOICES = [
-        ('просмотренно', 'росмотренно'),
-        ('запланированно', 'запланированно'),
-        ('брошенно', 'брошенно'),
+        ('completed', 'completed'),
+        ('planned', 'planned'),
+        ('dropped', 'dropped'),
+        ('watching', 'watching'),
     ]
     anime_id = models.IntegerField()
     user_id = models.IntegerField()
