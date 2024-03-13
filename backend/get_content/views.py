@@ -18,6 +18,7 @@ import re
 from bs4 import BeautifulSoup
 from django.db.models import Avg
 from urllib.parse import urlparse, parse_qs
+from django.contrib.auth.hashers import make_password, check_password
 
 # Users = get_user_model()
 
@@ -184,7 +185,7 @@ class LoginAPIView(APIView):
 def authenticate_user(username_check, password):
     try:
         user = Users.objects.get(username=username_check)
-        if user.password == password:
+        if check_password(password, user.password):
             return user
     except Users.DoesNotExist:
         pass
@@ -193,6 +194,18 @@ def authenticate_user(username_check, password):
 class RegistrationAPIView(APIView): 
     def post(self, request):
         data = request.data
+
+        # Проверяем уникальность имени пользователя и адреса электронной почты
+        username = data['username']
+        email = data['email']
+        if Users.objects.filter(username=username).exists():
+            return Response({"error": "Username already exists"}, status=status.HTTP_401_UNAUTHORIZED)
+        if Users.objects.filter(email=email).exists():
+            return Response({"error": "Email already exists"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Хешируем пароль
+        data['password'] = make_password(data['password'])
+
         data['age'] = self.calculate_age(data.get('birthdate'))
         serializer = UserModelSerializer(data=data, partial=True)
         if serializer.is_valid():
