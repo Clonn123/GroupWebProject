@@ -1,0 +1,7 @@
+.recHeader{
+    width: 80%;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    margin-top: 30px;
+    font-size: 14px;
+}

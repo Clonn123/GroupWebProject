@@ -18,7 +18,7 @@ function Header({ currentUser, toggleTheme, isDarkMode, onLogout }) {
           <div className="categories">
             <div><Link to="/animes/sort/-score"  className="category">Аниме</Link></div>
             <div><Link to="/book" className="category">Книги</Link></div>
-            <div><Link to="/recommendations" className="category">Рекомендации</Link></div>
+            <div><Link to="/anime/recommendations" className="category">Рекомендации</Link></div>
           </div>
           <SearchBar />
           <div className="registration-link">
