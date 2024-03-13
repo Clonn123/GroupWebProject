@@ -186,7 +186,7 @@ class RegistrationAPIView(APIView):
     def post(self, request):
         data = request.data
         data['age'] = self.calculate_age(data.get('birthdate'))
-        serializer = UserModelSerializer(data=data)
+        serializer = UserModelSerializer(data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
