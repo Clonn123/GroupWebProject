@@ -5,6 +5,7 @@ import axios from "axios";
 import RatingComponent from "../SettintContent/RatingComponent.js";
 import ReviewComponent from "../SettintContent/ReviewComponent.js";
 import plox from './plox.png';
+import cat from './cat.mp4'
 
 const PageContent = ({ currentUser }) => {
   const { id } = useParams();
@@ -44,7 +45,7 @@ const PageContent = ({ currentUser }) => {
                 alt={infoList.anime_info2.title_ru}
               />
             </div>
-            <div className="infoA"> <h4>Информация</h4> 
+            <div className="infoA"> <h4>Информация:</h4> 
               <p className="anime-description">
                 <strong>Тип:</strong>  {infoList.anime_info2.descriptionEpisod}
               </p>
@@ -56,7 +57,18 @@ const PageContent = ({ currentUser }) => {
               <p><strong>Темы:</strong> {infoList.anime_info.Themes}</p>
             </div>
             <div className="infoB">
+              <div className="additional-info"><h4>Рейтинг:</h4></div>
+              <p>ViewNami: <strong>{infoList.score}</strong> </p>
+              <a className="a" href={`https://shikimori.one/animes/${infoList.anime_info2.anime_list_id}`}>
+                shikimori: <strong>{infoList.anime_info2.score}</strong>
+              </a>
+            </div>
+            <div className="infoC">
               <div className="additional-info"><strong>Оценки других пользователей</strong></div>
+              <video controls width="426" height="240">
+              <source src={cat} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
           <div className="SettintContent">

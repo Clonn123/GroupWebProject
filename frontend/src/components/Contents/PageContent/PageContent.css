@@ -18,6 +18,30 @@
     margin-left: 30px;
     max-width: 270px;
 }
+.infoA h4{
+    cursor: auto;
+}
+.infoB{
+    margin-left: 50px;
+    max-width: 200px;
+}
+.infoB p{
+    font-size: 24px;
+    margin-top: 0px;
+}
+.infoB .a{
+    font-size: 24px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #170600;
+}
+.infoB .a:hover{
+    text-decoration: underline;
+}
+
+.infoC{
+    margin-left: 100px;
+}
 .plox{
     width: 300px;
     height: 200px;

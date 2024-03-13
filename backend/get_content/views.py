@@ -16,6 +16,7 @@ import time
 import sqlite3
 import re
 from bs4 import BeautifulSoup
+from django.db.models import Avg
 from urllib.parse import urlparse, parse_qs
 
 # Users = get_user_model()
@@ -77,16 +78,23 @@ class InfoAPIView(APIView):
             try:
                 anime_info3 = Score.objects.get(anime_id=id_anime, user_id=id_user)
                 serializer3 = ScoreSerializer(anime_info3)
+                
+                scores_for_anime = Score.objects.filter(anime_id=id_anime)
+                scores = scores_for_anime.values_list('score', flat=True)
+                average_score = scores.aggregate(avg_score=Avg('score'))['avg_score']
+                
                 response_data = {
                 "anime_info": serializer.data,
                 "anime_info2": serializer2.data,
-                "anime_info3": serializer3.data
+                "anime_info3": serializer3.data,
+                "score": average_score
             }
             except:
                 response_data = {
                 "anime_info": serializer.data,
                 "anime_info2": serializer2.data,
-                "anime_info3": False
+                "anime_info3": False,
+                "score": 0
             }
             
             return Response(response_data)
@@ -508,3 +516,9 @@ def get_access_token(client_id, client_secret, code, redirect_uri):
     else:
         print(f'Failed to get access token. Status code: {response.status_code}')
         return None
+
+#гордо рекомендации
+
+def Recommendations_SVD():
+    pass
+    
