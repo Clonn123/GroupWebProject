@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import "./Recommendations.css";
+import axios from 'axios';
+import ContentRec from '../Content/ContentRec';
 
+function MyRecommendations({ currentUser }) {
+  const [dataList, setDataList] = useState([]);
 
-function myRecommendations() {
+  useEffect(() => {
+    axios.get(`http://127.0.0.1:8000/api/rec/anime/?id_user=${currentUser.id}`)
+    .then(response => {
+      setDataList(response.data);
+    })
+    .catch(error => {
+      console.error('Ошибка:', error);
+    });
+  }, [currentUser]);
+
   return (
-    <div className="recHeader">
+    <div className="NN">
       <h2>Персонализированные рекомендации</h2>
       <div>Фильтрация: нет / слабая / средняя / сильная / полная</div>
       <div>
@@ -25,9 +38,15 @@ function myRecommendations() {
         Для успешного подбора рекомендаций необходимо наличие в твоём аниме
         списке 20-30 просмотренных и оценённых произведений.
       </div>
-     
+
+      <div className='Rec-container'>
+        {dataList.map((cont, index) => (
+          <ContentRec key={index} cont={cont} currentUser={currentUser}/>
+        ))}
+      </div>
     </div>
   );
 }
 
-export default myRecommendations;
+export default MyRecommendations;
+
