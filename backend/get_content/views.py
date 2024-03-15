@@ -33,12 +33,11 @@ class DataAPIView(APIView):
         else:
             data_list = Animes.objects.all()
             
-            
         paginator = Paginator(data_list, 20)  # Разбиваем данные на страницы, по 20 элементов на каждой
         page_number = request.GET.get('pageNumber')  # Получаем номер страницы из запроса
         page_obj = paginator.get_page(page_number)  # Получаем объект страницы
         print(page_number)
-        
+    
         serializer = MyModelSerializer(page_obj, many=True)
         
         totalCount = int(data_list.count()/20)+1

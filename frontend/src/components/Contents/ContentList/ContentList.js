@@ -18,7 +18,7 @@ function ContentList( {currentUser} ) {
 
   const [sortBT, setSortBT] = useState('-');
   const [textSort, settextSort] = useState('По убыванию');
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(false); 
 
   const [pageNumber, SetpageNumber] = useState(2);
   const [fetch, SetFetch] = useState(false)
@@ -27,13 +27,13 @@ function ContentList( {currentUser} ) {
   
   const Scrole = (e) =>{
     if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100
-      ) {
-      console.log("scrole")
-      SetFetch(true)
-    }
-  }
-
-  useEffect(() => {
+      ) { 
+        localStorage.setItem('scrollPosition', e.target.documentElement.scrollTop);
+        SetFetch(true)    
+    }  
+  } 
+   
+  useEffect(() => { 
     document.addEventListener('scroll', Scrole)
     return function (){
       document.removeEventListener('scroll', Scrole)
@@ -41,6 +41,11 @@ function ContentList( {currentUser} ) {
   }, []);
    
   useEffect(() => {
+    if (!currentUser || !currentUser.id) {
+      return; 
+    }
+    setIsLoading(true);
+
     SetpageNumber(2)
     SettotalCount(2)
     axios
@@ -53,12 +58,10 @@ function ContentList( {currentUser} ) {
       console.error('Ошибка:', error);
       setIsLoading(false);
     });
-  }, [sorttype]); 
+  }, [sorttype, currentUser]); 
   
   
   useEffect(() =>{
-    console.log(pageNumber)
-    console.log(totalCount) 
     if (fetch && pageNumber <= totalCount){
       axios
       .get(`http://127.0.0.1:8000/api/data/${sorttype}/?pageNumber=${pageNumber}`)
@@ -75,7 +78,7 @@ function ContentList( {currentUser} ) {
       }); 
     }
   }, [fetch, sorttype, currentUser])
-  
+
 
   function toggleFlexDirection() {
     setFlexDirection('column');
