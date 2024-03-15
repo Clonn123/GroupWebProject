@@ -5,19 +5,14 @@
     margin: 0 auto;
     flex-wrap: wrap;
     margin-top: 10px;
-
-}
-.notice{
-    width: 68%;
-    flex-wrap: wrap;
-    margin: 0 auto;
-    margin-top: 30px;
-}
-.title{
-    margin: 0;
 }
 
-.item {
+.Link{
+    text-decoration: none;
+    color: #170600;
+}
+
+.no_selected .item{
     margin: 10px 10px;
     max-width: min-content;
     max-height: max-content;
@@ -28,52 +23,217 @@
     width: 160px;
     height: 300px;
     font-family: 'Arial', sans-serif;
-    font-weight: 150;
+    font-weight: 300;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Montserrat', sans-serif;
     
 }
 
-.h2Item {
+.item:hover{
+    text-decoration: underline;
+    color: #2c4b95;
+}
+
+.no_selected .h2Item{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 160px;
-    font-weight: 150;
-    font-family: 'Arial', sans-serif;
+    font-weight: 450;
+    margin-bottom: -10px;
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
   }
-  
-  
-.item img {
+.no_selected .item img{
     width: 150px;
     height: 200px;
-    margin-bottom: -20px; 
+    margin-top: 4px;
+    margin-bottom: -15px; 
+    border-radius: 10px;
 }
 
-.item p {
-    margin-top: -15px; 
+.no_selected .item p:not(.score) {
+    margin-top: -14px;
+    font-size: 14px; 
+}
+.no_selected .score{
+    font-size: 18px;
+    font-weight: 350;  
+}
+.no_selected .allInfoContainer {
+    display: none;
 }
 
-.navigation{
-    opacity: 1;
+
+/* Другой стиль */
+.selected .smolInfoContainer {
+    display: block;
+}
+
+.selected .item{
+    margin: 10px 10px;
+    padding: 10px;
+    background: linear-gradient(135deg, #b8aba1, #ada097, #b8aba1);
+    border-radius: 10px;
+    width: 800px;
+    height: 155px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 350;
+    display: flex; 
+    justify-content: flex-start;
+    align-items: flex-start;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+.selected .h2Item{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 450;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+  }
+.selected .item:hover {
+    text-decoration: underline;
+    color: #2c4b95;
+}
+
+.selected .item img {
+    flex: 0 0 auto; 
+    width: 110px;
+    height: 155px;
+    border-radius: 10px;
+    margin-right: 10px; 
+    margin-bottom: 0;
+    margin-top: 0;  
+}
+
+.selected .item p {
+    height: 10px;
     
 }
 
-
-.sort-menu {
-    list-style: none;
-    padding: 0;
+.selected .score {
+    margin-top: -10px;
+    margin-bottom: 40px;
+    font-size: 24px;
+    font-weight: 550;  
 }
 
-.sort-menu li {
-    margin-bottom: 10px;
-    cursor: pointer;
+.selected .allInfoContainer{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    padding: 10px 10px;
+    font-size: 14px;
+    max-height: 130px;
+    max-width:500px
 }
 
-.sort-menu li:hover {
-    text-decoration: underline;
+
+
+
+
+/* Окно */
+.hoverable {
+    position: relative;
+    display: inline-block;
+}
+
+.hover-content {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    width: 150px;
+    top: 25%; /* Размещаем всплывающее окно под элементом при 100% отступе сверху */
+    left: 135%; /* Размещаем всплывающее окно по центру горизонтально */
+    transform: translate(-50%, 10px); /* Применяем смещение по горизонтали на
+     -50% и по вертикали на 10px, чтобы центрировать и немного поднять всплывающее окно */
+    background: linear-gradient(135deg, #b8aba1, #ada097, #b8aba1);
+    border: 1px solid #170600;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    z-index: 9999;
+}
+
+.hoverable:hover .hover-content {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, 0);
 }
 
 
+.selected .hoverable {
+    position: relative;
+    display: inline-block;
+}
+
+.selected .hover-content {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    width: 200px;
+    top: 25%; /* Размещаем всплывающее окно под элементом при 100% отступе сверху */
+    left: 100%; /* Размещаем всплывающее окно по центру горизонтально */
+    transform: translate(-50%, 10px); /* Применяем смещение по горизонтали на
+     -50% и по вертикали на 10px, чтобы центрировать и немного поднять всплывающее окно */
+    background: linear-gradient(135deg, #b8aba1, #ada097, #b8aba1);
+    border: 1px solid #170600;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    z-index: 9999;
+}
+
+.selected.hoverable:hover .hover-content {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
 
 
+.watched-icon::after {
+    position: absolute;
+    margin: 5px;
+    border: 2px solid #ffffff; 
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .param1::after {
+    background-color: #399542; 
+    color: white;
+    content: '✔'; 
+  }
+  
+  .param2::after {
+    background-color: #a3aa41; 
+    color: white;
+    content: '\002B';
+    font-size: 30px;
+  }
+  
+  .param3::after {
+    background-color: #95393c; 
+    color: white;
+    content: '✖'; 
+  }
+  .param4::after {
+    background-color: #396a95; 
+    color: white;
+    content: '▶'; 
+    font-size: 17px;
+    text-indent: 3px; 
+  }
+  
+  
 
   
