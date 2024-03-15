@@ -20,7 +20,7 @@ function App() {
 
   const [users, setUsers] = useState([
     { id: 1, name: 'Артем', surname: 'Полозников', username: 'Clonn123', password: 'Clonn123', email: 'art-clon@mail.ru', gender: "Мужчина", age: "21" },
-    { id: 2, name: 'Андрей', surname: 'Смирнов', username: 'Gifon', password: 'Gifon', email: 'gifon@mail.ru' }, 
+    { id: 2, name: 'Андрей', surname: 'Смирнов', username: 'Gifon', password: 'Gifon', email: 'gifon@mail.ru', gender: "Мужчина", age: "21"  }, 
   ]);
 
   const [currentUser, setCurrentUser] = useState();
@@ -93,7 +93,6 @@ function App() {
           <Route path="/login" element={<LoginForm users={users} onLogin={handleLogin} />} />
           <Route path="/" element={<UserList users={users} />} />
           <Route path="/anime/recommendations" element={<Recommendations currentUser={currentUser} />} />
-
           <Route path="/myList/:id/:sorttype" element={<MyList currentUser={currentUser} />} />
           <Route path="/animes/sort/:sorttype" element={<ContentList currentUser={currentUser}/>} />
           <Route path="/animes/:id" element={<PageContent currentUser={currentUser}/>} />

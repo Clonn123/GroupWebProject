@@ -5,14 +5,22 @@ import ContentRec from '../Content/ContentRec';
 
 function MyRecommendations({ currentUser }) {
   const [dataList, setDataList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!currentUser || !currentUser.id) {
+      return; 
+    }
+    setIsLoading(true);
+
     axios.get(`http://127.0.0.1:8000/api/rec/anime/?id_user=${currentUser.id}`)
     .then(response => {
       setDataList(response.data);
+      setIsLoading(false);
     })
     .catch(error => {
       console.error('Ошибка:', error);
+      setIsLoading(false);
     });
   }, [currentUser]);
 
@@ -39,11 +47,14 @@ function MyRecommendations({ currentUser }) {
         списке 20-30 просмотренных и оценённых произведений.
       </div>
 
+      {isLoading && <h2>Loading...</h2>}
+      {!isLoading && dataList && (
       <div className='Rec-container'>
         {dataList.map((cont, index) => (
           <ContentRec key={index} cont={cont} currentUser={currentUser}/>
         ))}
       </div>
+      )}
     </div>
   );
 }

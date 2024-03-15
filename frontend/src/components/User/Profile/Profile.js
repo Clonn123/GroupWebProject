@@ -74,7 +74,7 @@ function Profile({ currentUser, onLogout }) {
       <div>      
         <ShikimoriButton />
         <button className='fetch_anime_button' onClick={handleClick}>
-            Синхранизировать
+            Синхронизировать
         </button>
 
         {animeList.length > 0 && (

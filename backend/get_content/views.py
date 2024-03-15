@@ -20,6 +20,7 @@ from django.db.models import Avg
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from django.core.paginator import Paginator
 from urllib.parse import urlparse, parse_qs
 
 # Users = get_user_model()
@@ -33,8 +34,20 @@ class DataAPIView(APIView):
             data_list = Animes.objects.all()
             
             
-        serializer = MyModelSerializer(data_list, many=True)
-        return Response(serializer.data)
+        paginator = Paginator(data_list, 20)  # Разбиваем данные на страницы, по 20 элементов на каждой
+        page_number = request.GET.get('pageNumber')  # Получаем номер страницы из запроса
+        page_obj = paginator.get_page(page_number)  # Получаем объект страницы
+        print(page_number)
+        
+        serializer = MyModelSerializer(page_obj, many=True)
+        
+        totalCount = int(data_list.count()/20)+1
+        response_data = {
+            'total_elements': totalCount,
+            'data': serializer.data
+        }
+        return Response(response_data)
+    
 class MyList(APIView): 
     def get(self, request, id, sort):
         # Получаем все записи из модели Score для указанного user_id
@@ -147,6 +160,14 @@ class ScoreAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class DelObject(APIView):
+    def post(self, request):
+        anime_id = request.data.get('anime_id')
+        user_id = request.data.get('user_id')
+        score_table = Score.objects.get(anime_id=anime_id, user_id=user_id)
+        score_table.delete()
+        return Response({'message': 'Объект успешно удален из списка'})
+        
     
 class SettingsProfile(APIView):#проверка по нику так ка нет id 
     def get(self, request):
@@ -655,13 +676,13 @@ def content_based_filtering_sklearn(user_preferences, anime_data):
     # Вычисляем косинусную близость между предпочтениями пользователя и характеристиками аниме
     cosine_similarities = cosine_similarity(user_preferences_tfidf, tfidf_matrix)
 
-    # Умножаем косинусные близости на оценки пользователя (нихуя не делает)
+    '''# Умножаем косинусные близости на оценки пользователя (нихуя не делает)
     user_scores = np.array([anime['score_user'] for anime in user_preferences])
     user_scores = np.tile(user_scores.reshape(-1, 1), (1, cosine_similarities.shape[1]))
-    weighted_cosine_similarities = cosine_similarities * user_scores
+    weighted_cosine_similarities = cosine_similarities * user_scores'''
 
     # Получаем индексы аниме, наиболее близкие к предпочтениям пользователя
-    similar_anime_indices = weighted_cosine_similarities.argsort()[0][::-1]
+    similar_anime_indices = cosine_similarities.argsort()[0][::-1]
     recommendations = [anime_data[index] for index in similar_anime_indices]
 
     return recommendations      
