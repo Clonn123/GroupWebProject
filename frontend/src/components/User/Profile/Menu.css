@@ -13,7 +13,7 @@
     color: #170600; /* Установил цвет текста */
 }
 
-.menu div{
+.menu div {
     border: 1.8px solid transparent; /* Убрал границу по умолчанию */
     background-color: transparent;
     padding: 12px 20px; /* Увеличил отступы внутри элемента */
@@ -21,9 +21,6 @@
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
     margin-bottom: 8px; /* Увеличил отступ между элементами */
-}
-.Link{
-    text-decoration: none;
 }
 
 .menu div:hover {

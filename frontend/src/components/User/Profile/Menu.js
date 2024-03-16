@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import './Menu.css';
 import SettingsPage from './SettingProfile';
 
@@ -19,9 +18,9 @@ function Menu({currentUser}) {
         <h3>Меню</h3>
         <hr className="separator" />
         <ln>
-          <Link className='Link' to="/"><div>Главная</div></Link>
-          <Link className='Link' to={`/myList/${currentUser.id}/-score`}><div>Список Аниме</div></Link>
-          <Link className='Link' to="/anime/recommendations"><div>Рекомендации</div></Link>
+          <div>Главная</div>
+          <div>Список Аниме</div>
+          <div>Рекомендации</div>
           <div>Друзья</div>
         </ln>
         

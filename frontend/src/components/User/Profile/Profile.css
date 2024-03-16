@@ -28,39 +28,16 @@ h4:hover {
     background: none;
     padding: 8px 16px; 
     border-radius: 5px; 
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
     text-decoration: none;
-    font-size: 14px;
-    width: 90px;
-    margin-bottom: 15px;
-    cursor: pointer;
+    font-family: 'KoreanCalligraphy', sans-serif;
 }
 
 .onLogout_but:hover {
-    background-color: #95393c;
-    border-color: #95393c;
-    color: #fff;
+    background-color: #92632d;
     opacity: 0.9; 
 }
-.fetch_anime_button{
-    margin-top: 10px;
-    color: #170600;
-    border: 1.5px solid #170600; 
-    background: none;
-    padding: 8px 16px; 
-    border-radius: 5px; 
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    text-decoration: none;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-.fetch_anime_button:hover {
-    cursor: pointer;
-    background-color: #399542;
-    border-color: #399542;
-    color: #fff;
-    opacity: 0.9; 
-}
+
 .link {
     text-decoration: none;
     color: inherit;
@@ -95,5 +72,3 @@ h4:hover {
     opacity: 1;
     max-height: 1000px; 
 }
-
-

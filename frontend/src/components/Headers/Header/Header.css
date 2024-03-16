@@ -1,7 +1,6 @@
 .header-container {
   padding: 10px 0;
-  position: relative;
-  font-family: 'KoreanCalligraphy', sans-serif;
+  position: relative; 
 }
 
 .header-container::after {
@@ -16,7 +15,7 @@
 
 .header {
   display: flex;
-  justify-content:  space-between;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -35,6 +34,7 @@ h1{
   transition: opacity 0.2s;
   margin-left: 20px;
   color: #170600;
+  
 }
 
 .category:last-child {
@@ -55,10 +55,10 @@ h1{
   font-size: 16px;
   border: 1.5px solid #170600; 
   background: linear-gradient(135deg, #b8aba1, #ada097, #b8aba1);
-  font-family: 'KoreanCalligraphy', sans-serif;
+  font-family: 'KoreanCalligraphy', sans-serif; 
 }
 .search-bar input[type="text"]::placeholder {
-  color: #17060098; 
+  color: #17060098; /* Цвет плейсхолдера */
   font-family: 'KoreanCalligraphy', sans-serif;
 }
 .registration-link a {
@@ -85,25 +85,3 @@ h1{
 }
 
 
-.dropdown {
-  position: relative;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%; 
-  left: 20%;
-  transform: translateX(-50%); 
-  z-index: 1; 
-  background-color: #95652e; /* Цвет фона */
-  border-radius: 4px; /* Закругляем углы */
-  padding: 8px; /* Отступы внутри меню */
-  display: none; /* По умолчанию меню скрыто */
-}
-.dropdown-menu ul {
-  list-style: none; 
-  padding: 0;
-}
-.dropdown:hover .dropdown-menu {
-  display: block; 
-}

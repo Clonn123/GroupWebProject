@@ -20,6 +20,7 @@ function SettingsPage( {currentUser} ) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Form submitted:', { photo, nickname, firstName, lastName, gender, birthdate });
 
     try {
       axios.put('http://127.0.0.1:8000/api/settings/', {
@@ -32,6 +33,7 @@ function SettingsPage( {currentUser} ) {
       .catch(error => {
       });;
     } catch (error) {
+
     }
   };
   

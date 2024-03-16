@@ -1,47 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import ThemeToggleButton from './ThemeToggleButton.js'
-import SearchBar from './SearchBar.js'
 
-function Header({ currentUser, toggleTheme, isDarkMode, onLogout }) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
+function Header({ currentUser, toggleTheme, isDarkMode }) {
   return (
     <div className="header-container">
         <div className="header">
         <h1><Link to="/" className="header-link" >Стартовая страница</Link></h1> {/* Обертываем надпись в Link и устанавливаем to="/" для перехода на стартовую страницу */}
           <div className="categories">
-            <div><Link to="/animes/sort/-score"  className="category">Аниме</Link></div>
+            <div><Link to="/animes"  className="category">Аниме</Link></div>
             <div><Link to="/book" className="category">Книги</Link></div>
-            <div><Link to="/anime/recommendations" className="category">Рекомендации</Link></div>
+            <div><Link to="/recommendations" className="category">Рекомендации</Link></div>
           </div>
-          <SearchBar />
+          <div className="search-bar">
+            <input type="text" placeholder="Поиск..."/>
+          </div>
           <div className="registration-link">
           {currentUser ? (
-              <div className="dropdown">
-              <Link to="/profile">{currentUser.username} ▾</Link>
-              <div className="dropdown-menu">
-                <ul>
-                  <li>
-                    <Link to="/profile">Профиль</Link>
-                  </li>
-                  <li>
-                    <Link to={`/myList/${currentUser.id}/-score`}>Лист</Link>
-                  </li>
-                  <li>
-                    <Link to="/help">Помощь</Link>
-                  </li>
-                  <li>
-                    <Link onClick={onLogout} to="/logout">Выход</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
+              <Link to="/profile">{currentUser.username}</Link>//имя пользователя сюда и его аву
             ) : (
               <>
                 <Link to="/registration">Регистрация</Link>

@@ -8,7 +8,6 @@
 }
 
 
-
 :root {
   --background: linear-gradient(135deg, #96816e, #96816E, #987F69); 
 }
@@ -25,7 +24,7 @@ body {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'KoreanCalligraphy', sans-serif;
   font-weight: 450;
 }
 

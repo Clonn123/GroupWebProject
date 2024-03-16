@@ -27,19 +27,6 @@ function RegistrationForm() {
       }
   
     try {
-      // Проверяем, существует ли пользователь с такой почтой
-      const emailExist = await axios.post('http://127.0.0.1:8000/api/check-email/', { email });
-      if (emailExist.data) {
-        setError('Пользователь с этой почтой уже существует');
-        return;
-      }
-      // Проверяем, существует ли пользователь с таким логином
-      const usernameExist = await axios.post('http://127.0.0.1:8000/api/check-username/', { username });
-      if (usernameExist.data) {
-        setError('Пользователь с этим логином уже существует');
-        return;
-      }
-
       axios.post('http://127.0.0.1:8000/api/register/', {
           email,
           name,
@@ -55,10 +42,11 @@ function RegistrationForm() {
       setShowModal(true); // Показать модальное окно
       })
       .catch(error => {
-        console.error('Ошибка при регистрации:', error);
+        console.error('Ошибка:', error);
         setSuccessMessage('');
       });;
     } catch (error) {
+        setError('Ошибка:', error);
     }
   };
 
