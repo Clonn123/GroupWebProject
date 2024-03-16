@@ -19,6 +19,8 @@ from bs4 import BeautifulSoup
 from django.db.models import Avg
 from urllib.parse import urlparse, parse_qs
 from django.contrib.auth.hashers import make_password, check_password
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 # Users = get_user_model()
 
@@ -177,8 +179,18 @@ class LoginAPIView(APIView):
 
         user = authenticate_user(username, password)
         if user:
-            serializer = UserModelSerializer(user)
-            return Response(serializer.data)
+            # Генерируем access токен для пользователя
+            access_token = AccessToken.for_user(user)
+            # Добавляем идентификатор пользователя в токен
+            access_token['user_id'] = user.id
+             # Сериализуем токен
+            # token_serializer = TokenObtainPairSerializer(access_token)
+
+            # Возвращаем access токен и данные пользователя
+            return Response({
+                'access_token': str(access_token),
+                # 'refresh_token': token_serializer.data
+            })
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -190,6 +202,16 @@ def authenticate_user(username_check, password):
     except Users.DoesNotExist:
         pass
     return None
+
+class UserAPIView(APIView):
+    def get(self, request, user_id):
+        get_id = user_id
+        try:
+            user_profile = Users.objects.get(id=get_id)
+            serializer = UserModelSerializer(user_profile)
+            return Response(serializer.data)
+        except UserProfile.DoesNotExist:
+            return Response({"message": "User profile not found"}, status=status.HTTP_404_NOT_FOUND)
 
 class RegistrationAPIView(APIView): 
     def post(self, request):

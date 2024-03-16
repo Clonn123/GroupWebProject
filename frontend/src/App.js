@@ -24,49 +24,46 @@ function App() {
   ]);
 
   const [currentUser, setCurrentUser] = useState();
-  const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
-
-  
 
   useEffect(() => {
     // Проверяем наличие токена в localStorage при загрузке компонента
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       // Вызываем функцию для автоматического входа пользователя
       autoLogin(accessToken);
     }
-  }, [currentUser]);
+  }, []);
   
-  const handleLogin = (user, rememberMe) => {
-    setCurrentUser(user);
-    if (rememberMe) {    
-        // Сохранение токена доступа в локальном хранилище
-        localStorage.setItem('accessToken', generateToken(user.id));
-  }
+  const handleLogin = (accessToken, rememberMe) => {
+    if (rememberMe) {
+      localStorage.setItem('accessToken', accessToken);
+    }
+    // axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    autoLogin(accessToken);
   };
 
   const handleLogout = () => {
     setCurrentUser(null);
-    // Удаляем токен из localStorage при выходе пользователя
     localStorage.removeItem('accessToken');
+    // delete axios.defaults.headers.common['Authorization'];
   };
 
-  const autoLogin = () => {
-    const accessToken = localStorage.getItem('accessToken');
-  
-    if (accessToken) {
-      // Находим пользователя по токену
-      const user = users.find(u => generateToken(u.id) === accessToken);
-  
-      if (user) {
-        setCurrentUser(user);
-      }
+  const autoLogin = async (accessToken) => {
+    try {
+      const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));
+      console.info(decodedToken)
+      const user_id = decodedToken["user_id"];
+
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      const response = await axios.get(`http://127.0.0.1:8000/api/user/${user_id}`);
+      setCurrentUser(response.data);
+    } catch (error) {
+      console.error('Ошибка:', error);
+      handleLogout();
     }
   };
 
-  const generateToken = (userId) => {
-    return `token_${userId}`;
-  };
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   const toggleTheme = () => {

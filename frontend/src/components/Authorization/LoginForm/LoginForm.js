@@ -19,7 +19,10 @@ function LoginForm({ users, onLogin }) {
         username: login,
         password: password,
       }).then((response) => {
-        onLogin(response.data, rememberMe);
+        // Получаем access токен из ответа
+        const accessToken = response.data.access_token;
+
+        onLogin(accessToken, rememberMe);
       })
       .catch(error => {
         console.error('Ошибка:', error);
