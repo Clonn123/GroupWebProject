@@ -15,6 +15,7 @@ import requests
 import time
 import sqlite3
 import re
+from urllib.parse import unquote
 from bs4 import BeautifulSoup
 from django.db.models import Avg
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -49,16 +50,9 @@ class DataAPIView(APIView):
     
 class MyList(APIView): 
     def get(self, request, id, sort):
-        # Получаем все записи из модели Score для указанного user_id
         score_records = Score.objects.filter(user_id=id)
-        
-        # Получаем все anime_id и score из этих записей
         anime_score_data = score_records.values_list('anime_id', 'score')
-        
-        # Извлекаем все anime_id и score из кортежей
         anime_ids, scores = zip(*anime_score_data)
-        
-        # Получаем все записи из модели Animes, связанные с этими anime_id
         data_list = Animes.objects.filter(anime_list_id__in=anime_ids).order_by(sort)
         
         # Создаем список словарей с атрибутами anime_id, score и другими данными из модели Animes
@@ -134,13 +128,17 @@ class IsWatched(APIView):
             return Response(False)
         
 
-
 class SearchAPIView(APIView):
     def get(self, request):
         query = request.query_params.get('query', '')
-        results = Animes.objects.filter(Q(title_en__startswith=query))
+        ru = unquote(query)
+        Ru = ru.capitalize()
+        results = Animes.objects.filter(
+            Q(title_ru__icontains=ru) | Q(title_en__icontains=query)
+            | Q(title_ru__icontains=Ru))
         serializer = MyModelSerializer(results, many=True)
         return Response(serializer.data)
+
     
 class ScoreAPIView(APIView):
     def put(self, request):

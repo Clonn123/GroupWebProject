@@ -6,7 +6,7 @@ import axios from 'axios';
 import '../Content/Content.css';
 import './ContentList.css';
 
-function ContentList( {currentUser} ) {
+function ContentList( {currentUser, searchResults} ) {
   const [dataList, setDataList] = useState([]);
   const [flexDirection, setFlexDirection] = useState('row');
   const [selectedIcon, setSelectedIcon] = useState('defaultSort');

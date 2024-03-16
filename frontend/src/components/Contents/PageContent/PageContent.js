@@ -27,7 +27,7 @@ const PageContent = ({ currentUser }) => {
         console.error("Ошибка:", error);
         setIsLoading(false);
       });
-  }, [currentUser]);
+  }, [currentUser, id]);
   
   return (
     <>
