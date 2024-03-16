@@ -29,7 +29,7 @@ function LoginForm({ users, onLogin }) {
       navigate('/profile');
     } catch (error) {
       // В случае ошибки выводим сообщение об ошибке
-      setError('Invalid username or password');
+      setError('Неверный логин или пароль');
     }
   };
 

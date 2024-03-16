@@ -42,7 +42,7 @@ class Users(models.Model):
     GENDER_CHOICES = [
         ('Мужской', 'Мужской'),
         ('Женский', 'Женский'),
-        ('Другой', 'Другой'),
+        ('Альтернативный', 'Альтернативный'),
     ]
     
     id = models.IntegerField(primary_key=True)
