@@ -14,6 +14,8 @@ function MyRecommendations({ currentUser }) {
   const [CBFMethod, SetCBFMethod] = useState(true);
   const [SVDMethod, SetSVDMethod] = useState(false);
 
+  const [method, SetMethod] = useState('CBF');
+
   const Scrole = (e) => {
     if (
       e.target.documentElement.scrollHeight -
@@ -46,7 +48,7 @@ function MyRecommendations({ currentUser }) {
       .get(
         `http://127.0.0.1:8000/api/rec/anime/?id_user=${
           currentUser.id
-        }&pageNumber=${1}`
+        }&pageNumber=${1}&method=${method}`
       )
       .then((response) => {
         setDataList(response.data);
@@ -62,13 +64,13 @@ function MyRecommendations({ currentUser }) {
         console.error("Ошибка:", error);
         setIsLoading(false);
       });
-  }, [currentUser]);
+  }, [currentUser, method]);
 
   useEffect(() => {
     if (fetch) {
       axios
         .get(
-          `http://127.0.0.1:8000/api/rec/anime/?id_user=${currentUser.id}&pageNumber=${pageNumber}`
+          `http://127.0.0.1:8000/api/rec/anime/?id_user=${currentUser.id}&pageNumber=${pageNumber}&method=${method}`
         )
         .then((response) => {
           setDataList([...dataList, ...response.data]);
@@ -81,14 +83,16 @@ function MyRecommendations({ currentUser }) {
           setIsLoading(false);
         });
     }
-  }, [fetch, currentUser]);
+  }, [fetch, currentUser, method]);
 
   function FunCBFMethod(type) {
     if (type == "CBF") {
       SetCBFMethod(true);
+      SetMethod('CBF')
       SetSVDMethod(false);
     } else {
       SetCBFMethod(false);
+      SetMethod('SVD')
       SetSVDMethod(true);
     }
   }
