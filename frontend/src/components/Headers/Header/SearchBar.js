@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import SearchResultsDropdown from '../../Contents/Content/SearchModal';
+
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+
+  const handleDocumentClick = (event) => {
+    const searchBar = document.querySelector('.search-bar');
+    if (searchBar && !searchBar.contains(event.target)) {
+      // Если клик был выполнен вне компонента поиска, очистите строку поиска
+      setSearchQuery('');
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('click', handleDocumentClick);
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, []);
 
   const handleSearch = async (query) => {
     try {
@@ -18,6 +34,10 @@ const SearchBar = () => {
     setSearchQuery(event.target.value);
     handleSearch(event.target.value);
   };
+  const handleItemClick = () => {
+    setSearchQuery(''); 
+  };
+
 
   return (
     <div className="search-bar">
@@ -28,14 +48,7 @@ const SearchBar = () => {
         onChange={handleChange}
       />
       {searchQuery && (
-        <div className="search-results">
-        {searchResults.map((result) => (
-          <div key={result.anime_list_id}>
-            <p>{result.title_ru}</p>
-            {/* Другие свойства результата поиска */}
-          </div>
-        ))}
-      </div>
+        <SearchResultsDropdown results={searchResults} onItemClick={handleItemClick} />
       )}
       
     </div>

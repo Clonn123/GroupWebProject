@@ -15,9 +15,9 @@ function ContentRec({ cont }) {
             <img src={cont.url_img} alt={cont.title_ru} />
             <div className="smolInfoContainer">
               <h2 className="h2Item">{cont.title_ru}</h2>
-              <p className="score">{cont.score}</p>
-              <p>{cont.descriptionEpisod}</p>
-              <p>{cont.descriptionData}</p>
+              <p className="score">{cont.score_real}</p>
+              <p>{cont.type}</p>
+              <p>{cont.data}</p>
             </div>
             <div className="allInfoContainer">Инфа</div>
           </div>
@@ -25,9 +25,9 @@ function ContentRec({ cont }) {
         <span class="hover-content">
           <strong>чтобы грузить ещё надо обращаться к серверу с другим запросом</strong>
           <p className="">{cont.title_ru}</p>
-          <p className="score">{cont.score}</p>
-          <p>{cont.descriptionEpisod}</p>
-          <p>{cont.descriptionData}</p>
+          <p className="score">{cont.score_real}</p>
+          <p>{cont.type}</p>
+          <p>{cont.data}</p>
         </span>
       </div>
     </div>

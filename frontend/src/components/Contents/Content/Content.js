@@ -48,7 +48,6 @@ function Content({ cont, selectedIcon, currentUser }) {
           </div>
         </Link>
         <span class="hover-content">
-          <strong>чтобы грузить ещё надо обращаться к серверу с другим запросом</strong>
           <p className="">{cont.title_ru}</p>
           <p className="score">{cont.score}</p>
           <p>{cont.descriptionEpisod}</p>

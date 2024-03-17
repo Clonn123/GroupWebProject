@@ -1,63 +1,151 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import "./Recommendations.css";
-import axios from 'axios';
-import ContentRec from '../Content/ContentRec';
+import axios from "axios";
+import ContentRec from "../Content/ContentRec";
 
 function MyRecommendations({ currentUser }) {
   const [dataList, setDataList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRec, setIsRec] = useState(false);
+
+  const [pageNumber, SetpageNumber] = useState(2);
+  const [fetch, SetFetch] = useState(false);
+
+  const [CBFMethod, SetCBFMethod] = useState(true);
+  const [SVDMethod, SetSVDMethod] = useState(false);
+
+  const Scrole = (e) => {
+    if (
+      e.target.documentElement.scrollHeight -
+        (e.target.documentElement.scrollTop + window.innerHeight) <
+      100
+    ) {
+      localStorage.setItem(
+        "scrollPosition",
+        e.target.documentElement.scrollTop
+      );
+      SetFetch(true);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("scroll", Scrole);
+    return function () {
+      document.removeEventListener("scroll", Scrole);
+    };
+  }, []);
 
   useEffect(() => {
     if (!currentUser || !currentUser.id) {
-      return; 
+      return;
     }
     setIsLoading(true);
+    SetpageNumber(2);
 
-    axios.get(`http://127.0.0.1:8000/api/rec/anime/?id_user=${currentUser.id}`)
-    .then(response => {
-      setDataList(response.data);
-      setIsLoading(false);
-    })
-    .catch(error => {
-      console.error('Ошибка:', error);
-      setIsLoading(false);
-    });
+    axios
+      .get(
+        `http://127.0.0.1:8000/api/rec/anime/?id_user=${
+          currentUser.id
+        }&pageNumber=${1}`
+      )
+      .then((response) => {
+        setDataList(response.data);
+        setIsLoading(false);
+
+        if (response.data == false) {
+          setIsRec(false);
+        } else {
+          setIsRec(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Ошибка:", error);
+        setIsLoading(false);
+      });
   }, [currentUser]);
+
+  useEffect(() => {
+    if (fetch) {
+      axios
+        .get(
+          `http://127.0.0.1:8000/api/rec/anime/?id_user=${currentUser.id}&pageNumber=${pageNumber}`
+        )
+        .then((response) => {
+          setDataList([...dataList, ...response.data]);
+          setIsLoading(false);
+          SetFetch(false);
+          SetpageNumber((prevState) => prevState + 1);
+        })
+        .catch((error) => {
+          console.error("Ошибка:", error);
+          setIsLoading(false);
+        });
+    }
+  }, [fetch, currentUser]);
+
+  function FunCBFMethod(type) {
+    if (type == "CBF") {
+      SetCBFMethod(true);
+      SetSVDMethod(false);
+    } else {
+      SetCBFMethod(false);
+      SetSVDMethod(true);
+    }
+  }
 
   return (
     <div className="NN">
       <h2>Персонализированные рекомендации</h2>
-      <div>Фильтрация: нет / слабая / средняя / сильная / полная</div>
-      <div>
-        Чем слабее выбрана фильтрация, тем больше ты получишь результатов, и тем
-        неожиданнее они могут оказаться.
+      <div className="Method">
+        {" "}
+        <strong>Метод:</strong>
+        <div className="CBF" onClick={() => FunCBFMethod("CBF")}>
+          CBF
+        </div>
+        <div> / </div>
+        <div className="SVD" onClick={() => FunCBFMethod("SVD")}>
+          SVD
+        </div>
+      </div>
+      <div className="infoMetod">
+        {CBFMethod && (
+          <div>
+            Content-Based Filtering, CBF - это метод рекомендательных систем, который основан на анализе
+            содержания элементов и предпочтений пользователя. Основная идея
+            заключается в том, чтобы рекомендовать элементы, которые похожи на
+            те, которые пользователь уже оценил положительно.
+          </div>
+        )}
+        {SVDMethod && <div>Описание метода SVD</div>}
       </div>
       <hr className="separator" />
       <div>
         На этой странице для тебя автоматически подбираются рекомендации к
-        чтению на основе твоего списка манги. Исходя из поставленных тобой
-        оценок, сайт находит других пользователей сайта, имеющих схожие с твоими
-        вкусы. На основе списков этих людей составляется каталог того, что,
+        просмотру на основе твоего списка аниме. Исходя из поставленных тобой
+        оценок, сайт с помощью различных методов состовляет каталог того, что,
         возможно, будет тебе интересно.
       </div>
       <hr className="separator" />
-      <h2>Не удалось подобрать рекомендации!</h2>
-      <div>
-        Для успешного подбора рекомендаций необходимо наличие в твоём аниме
-        списке 20-30 просмотренных и оценённых произведений.
-      </div>
+      {isRec == false && (
+        <>
+          <h2>Не удалось подобрать рекомендации!</h2>
+          <div>
+            Для успешного подбора рекомендаций необходимо наличие в твоём аниме
+            списке не менее 20 просмотренных и оценённых произведений.
+          </div>
+        </>
+      )}
 
       {isLoading && <h2>Loading...</h2>}
       {!isLoading && dataList && (
-      <div className='Rec-container'>
-        {dataList.map((cont, index) => (
-          <ContentRec key={index} cont={cont} currentUser={currentUser}/>
-        ))}
-      </div>
+        <div className="Rec-container">
+          {dataList.map((cont, index) => (
+            <ContentRec key={index} cont={cont} currentUser={currentUser} />
+          ))}
+        </div>
       )}
     </div>
   );
 }
 
 export default MyRecommendations;
-
