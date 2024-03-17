@@ -43,11 +43,11 @@ class Users(models.Model):
     GENDER_CHOICES = [
         ('Мужской', 'Мужской'),
         ('Женский', 'Женский'),
-        ('Другой', 'Другой'),
+        ('Альтернативный', 'Альтернативный'),
     ]
     
     id = models.IntegerField(primary_key=True)
-    identifier = models.CharField(max_length=32, default=uuid.uuid4)
+    identifier = models.CharField(max_length=32, default=uuid.uuid4) #Это поле вероятно нам не пригодится в итоге, но пока пусть посидит
     name = models.TextField()
     surname = models.TextField()
     username = models.TextField()

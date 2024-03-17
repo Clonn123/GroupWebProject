@@ -23,6 +23,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from django.core.paginator import Paginator
 from urllib.parse import urlparse, parse_qs
+from django.contrib.auth.hashers import make_password, check_password
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 # Users = get_user_model()
 
@@ -197,25 +200,57 @@ class LoginAPIView(APIView):
 
         user = authenticate_user(username, password)
         if user:
-            serializer = UserModelSerializer(user)
-            return Response(serializer.data)
+            # Генерируем access токен для пользователя
+            access_token = AccessToken.for_user(user)
+            # Добавляем идентификатор пользователя в токен
+            access_token['user_id'] = user.id
+             # Сериализуем токен
+            # token_serializer = TokenObtainPairSerializer(access_token)
+
+            # Возвращаем access токен и данные пользователя
+            return Response({
+                'access_token': str(access_token),
+                # 'refresh_token': token_serializer.data
+            })
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 def authenticate_user(username_check, password):
     try:
         user = Users.objects.get(username=username_check)
-        if user.password == password:
+        if check_password(password, user.password):
             return user
     except Users.DoesNotExist:
         pass
     return None
 
+class UserAPIView(APIView):
+    def get(self, request, user_id):
+        get_id = user_id
+        try:
+            user_profile = Users.objects.get(id=get_id)
+            serializer = UserModelSerializer(user_profile)
+            return Response(serializer.data)
+        except UserProfile.DoesNotExist:
+            return Response({"message": "User profile not found"}, status=status.HTTP_404_NOT_FOUND)
+
 class RegistrationAPIView(APIView): 
     def post(self, request):
         data = request.data
+
+        # Проверяем уникальность имени пользователя и адреса электронной почты
+        username = data['username']
+        email = data['email']
+        if Users.objects.filter(username=username).exists():
+            return Response({"error": "Username already exists"}, status=status.HTTP_401_UNAUTHORIZED)
+        if Users.objects.filter(email=email).exists():
+            return Response({"error": "Email already exists"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Хешируем пароль
+        data['password'] = make_password(data['password'])
+
         data['age'] = self.calculate_age(data.get('birthdate'))
-        serializer = UserModelSerializer(data=data)
+        serializer = UserModelSerializer(data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -226,20 +261,6 @@ class RegistrationAPIView(APIView):
         today = datetime.today()
         age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
         return age
-    
-class CheckEmailAPIView(APIView):
-    def post(self, request):
-        emailCheck = request.data.get('email')
-        if Users.objects.filter(email=emailCheck).exists():
-            return Response(True)
-        else: return Response(False)
-
-class CheckUsernameAPIView(APIView):
-    def post(self, request):
-        usernameCheck = request.data.get('username')
-        if Users.objects.filter(username=usernameCheck).exists():
-            return Response(True)
-        else: return Response(False)
 
 class AnimeListAPIView(APIView):
     def post(self, request):

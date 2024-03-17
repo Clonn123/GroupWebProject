@@ -10,8 +10,7 @@ function RegistrationForm() {
     const [surname, setSurname] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [gender, setGender] = useState('other');
-    const [age, setAge] = useState('');
+    const [gender, setGender] = useState('Альтернативный');
     const [birthdate, setBirthdate] = useState('');
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -21,25 +20,12 @@ function RegistrationForm() {
     const handleSubmit = async (event) => {
       event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
 
-      if (!email || !name || !surname || !username || !password || !gender || !birthdate) {
+      if (!email || !name || !surname || !username || !password || !birthdate) {
         setError('Пожалуйста, заполните все поля');
         return;
       }
   
     try {
-      // Проверяем, существует ли пользователь с такой почтой
-      const emailExist = await axios.post('http://127.0.0.1:8000/api/check-email/', { email });
-      if (emailExist.data) {
-        setError('Пользователь с этой почтой уже существует');
-        return;
-      }
-      // Проверяем, существует ли пользователь с таким логином
-      const usernameExist = await axios.post('http://127.0.0.1:8000/api/check-username/', { username });
-      if (usernameExist.data) {
-        setError('Пользователь с этим логином уже существует');
-        return;
-      }
-
       axios.post('http://127.0.0.1:8000/api/register/', {
           email,
           name,
@@ -49,14 +35,19 @@ function RegistrationForm() {
           gender,
           birthdate
       }).then((response) => {
-        
-      // Успешно зарегистрирован
-      setSuccessMessage('Пользователь успешно создан');
-      setShowModal(true); // Показать модальное окно
+        if (response.status === 201) {
+          // Успешно зарегистрирован
+          setSuccessMessage('Пользователь успешно создан');
+          setShowModal(true); // Показать модальное окно
+        }
       })
       .catch(error => {
-        console.error('Ошибка при регистрации:', error);
-        setSuccessMessage('');
+        if (error.response.status === 401) {
+          setError('Пользователь с таким логином или почтой уже существует');
+      } else {
+          console.error('Ошибка при регистрации:', error);
+          setSuccessMessage('');
+      }
       });;
     } catch (error) {
     }
@@ -105,16 +96,10 @@ function RegistrationForm() {
               value={gender}
               onChange={(e) => setGender(e.target.value)}
           >
-              <option value="Другой">Другой</option>
+              <option value="Альтернативный">Альтернативный</option>
               <option value="Мужской">Мужской</option>
               <option value="Женский">Женский</option>              
           </select>
-          {/* <input
-              type="number"
-              placeholder="Возраст"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-          /> */}
           <input
               type="date"
               placeholder="Дата рождения"
