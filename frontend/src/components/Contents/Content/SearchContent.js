@@ -7,7 +7,7 @@ function SearchContent({ cont }) {
 
   return (
     <div> 
-      <div class="hoverable">
+      <div class="SearchContent">
         <Link className="Link" to={`/animes/${cont.anime_list_id}`}>
           <div className="item">
             <img src={cont.url_img} alt={cont.title_ru} />

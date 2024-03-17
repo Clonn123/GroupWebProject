@@ -686,6 +686,13 @@ def content_based_filtering_sklearn(user_preferences, anime_data):
 class Recommendations_CBF(APIView):
     def get(self, request):
         id_user = request.GET.get('id_user')
+        page_number = request.GET.get('pageNumber')
+        
+        count = Score.objects.filter(user_id=id_user)
+        if len(count) < 20:
+            return Response(False)
+        
+        
         user_info = get_info_user(id_user)
         user_info_list = user_info[0] 
         
@@ -700,10 +707,25 @@ class Recommendations_CBF(APIView):
         
 
         recommendations = content_based_filtering_sklearn(user_info_list, full_info_list)
-        '''for anime in recommendations:
-            print(anime)'''
-
-        return Response(recommendations)
+        paginator = Paginator(recommendations, 20) 
+        page_obj = paginator.get_page(page_number)
+        
+        serialized_data = []
+        for recommendation in page_obj:
+            recommendation_data = {
+                "anime_id": recommendation.get("anime_id"),
+                "type": recommendation.get("type"),
+                "title_ru": recommendation.get("title_ru"),
+                "url_img": recommendation.get("url_img"),
+                "data": recommendation.get("data"),
+                "score_real": recommendation.get("score_real"),
+                "episodes": recommendation.get("episodes"),
+                "Genres": recommendation.get("Genres"),
+                "Themes": recommendation.get("Themes")
+            }
+            serialized_data.append(recommendation_data)
+        
+        return Response(serialized_data)
         
     
     

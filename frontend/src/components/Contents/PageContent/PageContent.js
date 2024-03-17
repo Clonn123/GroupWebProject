@@ -56,6 +56,7 @@ const PageContent = ({ currentUser }) => {
               </p>
               <p><strong>Жанры:</strong> {infoList.anime_info.Genres}</p>
               <p><strong>Темы:</strong> {infoList.anime_info.Themes}</p>
+              <p><strong>Студия:</strong> {infoList.anime_info2.studios}</p>
             </div>
             <div className="infoB">
               <div className="additional-info"><h4>Рейтинг:</h4></div>

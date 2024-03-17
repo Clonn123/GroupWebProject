@@ -16,7 +16,7 @@
   
   
 
-.item {
+.SearchContent .item {
   margin: 10px 10px;
   max-width: min-content;
   max-height: max-content;
@@ -32,7 +32,7 @@
   font-family: "Montserrat", sans-serif;
 }
 
-.h2Item {
+.SearchContent .h2Item {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -42,21 +42,21 @@
   font-size: 20px;
   font-family: "Montserrat", sans-serif;
 }
-.item img {
+.SearchContent .item img {
   width: 150px;
   height: 200px;
   margin-top: 4px;
   margin-bottom: -15px;
   border-radius: 10px;
 }
-.item p:not(.score) {
+.SearchContent .item p:not(.score) {
   margin-top: -14px;
   font-size: 14px;
 }
-.score {
+.SearchContent .score {
   font-size: 18px;
   font-weight: 350;
 }
-.allInfoContainer {
+.SearchContent .allInfoContainer {
   display: none;
 }
