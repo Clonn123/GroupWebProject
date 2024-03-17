@@ -15,8 +15,13 @@ import requests
 import time
 import sqlite3
 import re
+from urllib.parse import unquote
 from bs4 import BeautifulSoup
 from django.db.models import Avg
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+from django.core.paginator import Paginator
 from urllib.parse import urlparse, parse_qs
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework_simplejwt.tokens import AccessToken
@@ -32,21 +37,25 @@ class DataAPIView(APIView):
         else:
             data_list = Animes.objects.all()
             
-            
-        serializer = MyModelSerializer(data_list, many=True)
-        return Response(serializer.data)
+        paginator = Paginator(data_list, 20)  # Разбиваем данные на страницы, по 20 элементов на каждой
+        page_number = request.GET.get('pageNumber')  # Получаем номер страницы из запроса
+        page_obj = paginator.get_page(page_number)  # Получаем объект страницы
+        print(page_number)
+    
+        serializer = MyModelSerializer(page_obj, many=True)
+        
+        totalCount = int(data_list.count()/20)+1
+        response_data = {
+            'total_elements': totalCount,
+            'data': serializer.data
+        }
+        return Response(response_data)
+    
 class MyList(APIView): 
     def get(self, request, id, sort):
-        # Получаем все записи из модели Score для указанного user_id
         score_records = Score.objects.filter(user_id=id)
-        
-        # Получаем все anime_id и score из этих записей
         anime_score_data = score_records.values_list('anime_id', 'score')
-        
-        # Извлекаем все anime_id и score из кортежей
         anime_ids, scores = zip(*anime_score_data)
-        
-        # Получаем все записи из модели Animes, связанные с этими anime_id
         data_list = Animes.objects.filter(anime_list_id__in=anime_ids).order_by(sort)
         
         # Создаем список словарей с атрибутами anime_id, score и другими данными из модели Animes
@@ -122,13 +131,17 @@ class IsWatched(APIView):
             return Response(False)
         
 
-
 class SearchAPIView(APIView):
     def get(self, request):
         query = request.query_params.get('query', '')
-        results = Animes.objects.filter(Q(title_en__startswith=query))
+        ru = unquote(query)
+        Ru = ru.capitalize()
+        results = Animes.objects.filter(
+            Q(title_ru__icontains=ru) | Q(title_en__icontains=query)
+            | Q(title_ru__icontains=Ru))
         serializer = MyModelSerializer(results, many=True)
         return Response(serializer.data)
+
     
 class ScoreAPIView(APIView):
     def put(self, request):
@@ -147,6 +160,14 @@ class ScoreAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class DelObject(APIView):
+    def post(self, request):
+        anime_id = request.data.get('anime_id')
+        user_id = request.data.get('user_id')
+        score_table = Score.objects.get(anime_id=anime_id, user_id=user_id)
+        score_table.delete()
+        return Response({'message': 'Объект успешно удален из списка'})
+        
     
 class SettingsProfile(APIView):#проверка по нику так ка нет id 
     def get(self, request):
@@ -537,9 +558,195 @@ def get_access_token(client_id, client_secret, code, redirect_uri):
     else:
         print(f'Failed to get access token. Status code: {response.status_code}')
         return None
+def convert_to_ssv(data):
+        ssv_data = []
+        for item in data:
+            ssv_item = ' '.join(str(value) for value in item.values())
+            ssv_data.append(ssv_item)
+        return '\n'.join(ssv_data)
+    
+def save_ssv_file(data, filename):
+    # Создаем строку с заголовками столбцов
+    header = 'anime_id, type, data, score_real, episodes, Genres, Themes\n'
+    
+    with open(filename, 'w') as file:
+        # Записываем заголовок в файл
+        file.write(header)
+        
+        # Записываем данные в файл
+        for item in data:
+            # Вставляем объединенную строку вместо Genres и Themes
+            genres_themes = f"{item.get('Genres', ' ')} {item.get('Themes', ' ')}"
+            ssv_item = ', '.join([
+                str(item.get('anime_id', '')),
+                str(item.get('type', '')),
+                str(item.get('data', '')),
+                str(item.get('score_real', '')),
+                str(item.get('episodes', '')),
+                genres_themes
+            ])
+            file.write(ssv_item + '\n')
+
 
 #гордо рекомендации
+def get_info_user(id_user):
+    scores = Score.objects.filter(user_id=id_user)
+    serializer = ScoreSerializer(scores, many=True)
+    
+    anime_ids = [score.anime_id for score in scores]
+    all_info = Animes.objects.filter(anime_list_id__in=anime_ids)
+    serializer2 = MyModelSerializer(all_info, many=True)
+    
+    anime_info = Anime_info.objects.filter(anime_id__in=anime_ids)
+    serializer3 = InfoAnimeSerializer(anime_info, many=True)
+    
+    data_dict = {}
+    
+    for i, score_data in enumerate(serializer.data):
+        anime_id = score_data['anime_id']
+        if anime_id not in data_dict:
+            data_dict[anime_id] = {
+                'anime_id': anime_id,
+                'type': None,
+                'data': None,
+                'score_user': None,
+                'score_real': None,
+                'episodes': None,
+                'Genres': None,
+                'Themes': None,
+            }
+        data_dict[anime_id]['score_user'] = score_data['score']
+    
+    for i, anime_data in enumerate(serializer2.data):
+        anime_id = anime_data['anime_list_id']
+        if anime_id not in data_dict:
+            data_dict[anime_id] = {
+                'anime_id': anime_id,
+                'type': None,
+                'data': None,
+                'score_user': None,
+                'score_real': None,
+                'episodes': None,
+                'Genres': None,
+                'Themes': None,
+            }
+        data_dict[anime_id]['type'] = anime_data['descriptionEpisod']
+        data_dict[anime_id]['data'] = anime_data['descriptionData']
+        data_dict[anime_id]['score_real'] = anime_data['score']
+    
+    for i, info_data in enumerate(serializer3.data):
+        anime_id = info_data['anime_id']
+        if anime_id not in data_dict:
+            data_dict[anime_id] = {
+                'anime_id': anime_id,
+                'type': None,
+                'data': None,
+                'score_user': None,
+                'score_real': None,
+                'episodes': None,
+                'Genres': None,
+                'Themes': None,
+            }
+        data_dict[anime_id]['episodes'] = info_data['Episodes']
+        data_dict[anime_id]['Genres'] = info_data['Genres']
+        data_dict[anime_id]['Themes'] = info_data['Themes']
+    
+    data = list(data_dict.values())
+    ssv_data = convert_to_ssv(data)
+    
+    return [data, ssv_data, anime_ids]
 
-def Recommendations_SVD():
-    pass
+def get_full_info(anime_ids_to_exclude):
+    full_info = []
+    anime_list = Animes.objects.exclude(anime_list_id__in=anime_ids_to_exclude)
+    #anime_list = Animes.objects.all()
+    for anime in anime_list:
+        anime_serializer = MyModelSerializer(anime)
+        info = Anime_info.objects.get(anime_id=anime.anime_list_id)
+        info_serializer = InfoAnimeSerializer(info)
+        full_info.append({
+            'anime_id': anime_serializer.data['anime_list_id'],
+            'type': anime_serializer.data['descriptionEpisod'],
+            
+            'title_ru': anime_serializer.data['title_ru'],
+            'url_img': anime_serializer.data['url_img'],
+            
+            'data': anime_serializer.data['descriptionData'],
+            'score_real': anime_serializer.data['score'],
+            'episodes': info_serializer.data['Episodes'],
+            'Genres': info_serializer.data['Genres'],
+            'Themes': info_serializer.data['Themes'],
+        })
+    
+    ssv_data = convert_to_ssv(full_info)
+    return [full_info, ssv_data]
+
+def content_based_filtering_sklearn(user_preferences, anime_data):
+    vectorizer = TfidfVectorizer()
+    
+    anime_descriptions = [f"{anime['type']} {anime['data']} {anime['Genres']} {anime['Themes']} {anime['score_real']}" for anime in anime_data]
+    user_preferences_descriptions = [f"{anime['type']} {anime['data']} {anime['Genres']} {anime['Themes']} {anime['score_user']}" for anime in user_preferences]
+    
+    # Создаем TF-IDF векторизаторизацию
+    tfidf_matrix = vectorizer.fit_transform(anime_descriptions)
+    user_preferences_tfidf = vectorizer.transform(user_preferences_descriptions)
+    
+    # Вычисляем косинусную близость между предпочтениями пользователя и характеристиками аниме
+    cosine_similarities = cosine_similarity(user_preferences_tfidf, tfidf_matrix)
+
+    '''# Умножаем косинусные близости на оценки пользователя (нихуя не делает)
+    user_scores = np.array([anime['score_user'] for anime in user_preferences])
+    user_scores = np.tile(user_scores.reshape(-1, 1), (1, cosine_similarities.shape[1]))
+    weighted_cosine_similarities = cosine_similarities * user_scores'''
+
+    # Получаем индексы аниме, наиболее близкие к предпочтениям пользователя
+    similar_anime_indices = cosine_similarities.argsort()[0][::-1]
+    recommendations = [anime_data[index] for index in similar_anime_indices]
+
+    return recommendations      
+class Recommendations_CBF(APIView):
+    def get(self, request):
+        id_user = request.GET.get('id_user')
+        page_number = request.GET.get('pageNumber')
+        
+        count = Score.objects.filter(user_id=id_user)
+        if len(count) < 20:
+            return Response(False)
+        
+        
+        user_info = get_info_user(id_user)
+        user_info_list = user_info[0] 
+        
+        excluded_anime_ids = user_info[2] 
+        full_info = get_full_info(excluded_anime_ids)
+        full_info_list = full_info[0] 
+        
+        response_data = {
+            'user_info_list': user_info_list,
+            'full_info_list': full_info_list,
+        }
+        
+
+        recommendations = content_based_filtering_sklearn(user_info_list, full_info_list)
+        paginator = Paginator(recommendations, 20) 
+        page_obj = paginator.get_page(page_number)
+        
+        serialized_data = []
+        for recommendation in page_obj:
+            recommendation_data = {
+                "anime_id": recommendation.get("anime_id"),
+                "type": recommendation.get("type"),
+                "title_ru": recommendation.get("title_ru"),
+                "url_img": recommendation.get("url_img"),
+                "data": recommendation.get("data"),
+                "score_real": recommendation.get("score_real"),
+                "episodes": recommendation.get("episodes"),
+                "Genres": recommendation.get("Genres"),
+                "Themes": recommendation.get("Themes")
+            }
+            serialized_data.append(recommendation_data)
+        
+        return Response(serialized_data)
+        
+    
     

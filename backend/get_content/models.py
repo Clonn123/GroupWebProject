@@ -9,6 +9,7 @@ class Animes(models.Model):
     descriptionEpisod = models.TextField()
     descriptionData = models.TextField()
     score = models.FloatField()
+    studios = models.TextField()
 
     class Meta:
         db_table = 'animes'

@@ -6,7 +6,7 @@ import axios from 'axios';
 import '../Content/Content.css';
 import './ContentList.css';
 
-function ContentList( {currentUser} ) {
+function ContentList( {currentUser, searchResults} ) {
   const [dataList, setDataList] = useState([]);
   const [flexDirection, setFlexDirection] = useState('row');
   const [selectedIcon, setSelectedIcon] = useState('defaultSort');
@@ -18,28 +18,67 @@ function ContentList( {currentUser} ) {
 
   const [sortBT, setSortBT] = useState('-');
   const [textSort, settextSort] = useState('По убыванию');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); 
+
+  const [pageNumber, SetpageNumber] = useState(2);
+  const [fetch, SetFetch] = useState(false)
+  const [totalCount, SettotalCount] = useState(2)
+
   
-
-
+  const Scrole = (e) =>{
+    if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100
+      ) { 
+        localStorage.setItem('scrollPosition', e.target.documentElement.scrollTop);
+        SetFetch(true)    
+    }  
+  } 
+   
+  useEffect(() => { 
+    document.addEventListener('scroll', Scrole)
+    return function (){
+      document.removeEventListener('scroll', Scrole)
+    }
+  }, []);
+   
   useEffect(() => {
     if (!currentUser || !currentUser.id) {
       return; 
     }
     setIsLoading(true);
 
-    axios.get(`http://127.0.0.1:8000/api/data/${sorttype}`)
+    SetpageNumber(2)
+    SettotalCount(2)
+    axios
+    .get(`http://127.0.0.1:8000/api/data/${sorttype}/?pageNumber=${1}`)
+    .then(response => {
+      setDataList(response.data['data']);
+      setIsLoading(false);
+    })
+    .catch(error => {
+      console.error('Ошибка:', error);
+      setIsLoading(false);
+    });
+  }, [sorttype, currentUser]); 
+  
+  
+  useEffect(() =>{
+    if (fetch && pageNumber <= totalCount){
+      axios
+      .get(`http://127.0.0.1:8000/api/data/${sorttype}/?pageNumber=${pageNumber}`)
       .then(response => {
-        setDataList(response.data);
+        setDataList([...dataList, ...response.data['data']]);
         setIsLoading(false);
+        SetFetch(false)
+        SettotalCount(response.data['total_elements'])
+        SetpageNumber(prevState => prevState + 1)
       })
       .catch(error => {
         console.error('Ошибка:', error);
         setIsLoading(false);
-      });
-  }, [sorttype, currentUser]);
+      }); 
+    }
+  }, [fetch, sorttype, currentUser])
 
-  
 
   function toggleFlexDirection() {
     setFlexDirection('column');
@@ -99,9 +138,9 @@ function ContentList( {currentUser} ) {
       </div>
 
       <div style={{ flexDirection: flexDirection }} className={`Content-container ${flexDirection}`}>
-        {dataList.map((cont, index) => (
-          <Content key={index} cont={cont} selectedIcon={selectedIcon} currentUser={currentUser}/>
-        ))}
+      {dataList.map((cont, index) => (
+        <Content key={index} cont={cont} selectedIcon={selectedIcon} currentUser={currentUser}/>
+      ))}
       </div>
       
     </div>

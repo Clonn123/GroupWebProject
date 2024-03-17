@@ -16,6 +16,7 @@ const PageContent = ({ currentUser }) => {
       return; 
     }
     setIsLoading(true);
+
     axios
       .get(`http://127.0.0.1:8000/api/info/anime/?id_user=${currentUser.id}&id_anime=${id}`)
       .then((response) => {
@@ -26,7 +27,7 @@ const PageContent = ({ currentUser }) => {
         console.error("Ошибка:", error);
         setIsLoading(false);
       });
-  }, []);
+  }, [currentUser, id]);
   
   return (
     <>
@@ -55,6 +56,7 @@ const PageContent = ({ currentUser }) => {
               </p>
               <p><strong>Жанры:</strong> {infoList.anime_info.Genres}</p>
               <p><strong>Темы:</strong> {infoList.anime_info.Themes}</p>
+              <p><strong>Студия:</strong> {infoList.anime_info2.studios}</p>
             </div>
             <div className="infoB">
               <div className="additional-info"><h4>Рейтинг:</h4></div>

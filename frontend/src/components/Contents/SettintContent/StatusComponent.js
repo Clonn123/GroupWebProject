@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const StatusComponent = ({ setStatus, currentUser, info, setIsDel }) => {
+const StatusComponent = ({ setStatus, currentUser, status, setIsDel, setStatusState }) => {
   const { id } = useParams();
 
   const [id_user, setId_user] = useState(currentUser.id);
   const [id_anime, setId_anime] = useState(id);
-  const [Status, setStatusState] = useState(info.status);
 
   const handleSubmit = async (Status) => {
     try {
@@ -35,28 +34,28 @@ const StatusComponent = ({ setStatus, currentUser, info, setIsDel }) => {
       <div className="card-container">
         <div
           className={`card ${
-            Status === "completed" ? "selected green" : ""
+            status === "completed" ? "selected green" : ""
           }`}
           onClick={() => handleStatusChange("completed")}
         >
           Просмотренно
         </div>
         <div
-          className={`card ${Status === "watching" ? "selected blue" : ""}`}
+          className={`card ${status === "watching" ? "selected blue" : ""}`}
           onClick={() => handleStatusChange("watching")}
         >
           Смотрю
         </div>
         <div
           className={`card ${
-            Status === "planned" ? "selected yl" : ""
+            status === "planned" ? "selected yl" : ""
           }`}
           onClick={() => handleStatusChange("planned")}
         >
           Запланированно
         </div>
         <div
-          className={`card ${Status === "dropped" ? "selected red" : ""}`}
+          className={`card ${status === "dropped" ? "selected red" : ""}`}
           onClick={() => handleStatusChange("dropped")}
         >
           Брошенно

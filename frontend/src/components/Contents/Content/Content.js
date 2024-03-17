@@ -24,7 +24,7 @@ function Content({ cont, selectedIcon, currentUser }) {
   return (
     <div
       className={`${selectedIcon === "infoSort" ? "selected" : "no_selected"}`}
-    >
+    > 
       <div class="hoverable">
         <Link className="Link" to={`/animes/${cont.anime_list_id}`}>
           <div className="item">
@@ -48,7 +48,6 @@ function Content({ cont, selectedIcon, currentUser }) {
           </div>
         </Link>
         <span class="hover-content">
-          <strong>чтобы грузить ещё надо обращаться к серверу с другим запросом</strong>
           <p className="">{cont.title_ru}</p>
           <p className="score">{cont.score}</p>
           <p>{cont.descriptionEpisod}</p>

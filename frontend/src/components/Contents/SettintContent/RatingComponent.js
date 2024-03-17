@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./RS.css";
@@ -9,6 +9,8 @@ const RatingComponent = ({ currentUser, info }) => {
   const [rating, setRating] = useState(info.score);
   const [status, setStatus] = useState(info.status);
   const [isDel, setIsDel] = useState(info);
+
+  const [Status, setStatusState] = useState(info.status);
 
   const [id_user, setId_user] = useState(currentUser.id);
   const [id_anime, setId_anime] = useState(id);
@@ -34,14 +36,30 @@ const RatingComponent = ({ currentUser, info }) => {
     console.log("Установлена оценка:", newRating);
   };
 
+  const delObject = async () =>{
+    setIsDel(false)
+    setStatus(null)
+    setStatusState(null)
+    try {
+      axios
+        .post("http://127.0.0.1:8000/api/anime/del", {
+          anime_id: id_anime,
+          user_id: id_user,
+        })
+        .then((response) => {})
+        .catch((error) => {});
+    } catch (error) {}
+  }
+
   return (
     <div>
       <div className="rating-component">
         <StatusComponent
           setStatus={setStatus}
           currentUser={currentUser}
-          info={info}
+          setStatusState={setStatusState}
           setIsDel = {setIsDel}
+          status = {status}
         />
         {status === "completed" && (
           <>
@@ -57,7 +75,7 @@ const RatingComponent = ({ currentUser, info }) => {
             <p>Ваша оценка: {rating}</p>
           </>
         )}
-        {isDel && <div className="isDel">Удалить из списка</div>}
+        {isDel && <div onClick={delObject} className="isDel">Удалить из списка</div>}
       </div>
     </div>
   );

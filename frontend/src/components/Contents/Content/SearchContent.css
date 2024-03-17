@@ -1,0 +1,62 @@
+.search-results-dropdown {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 100%;
+    background-color: #e7e2df;
+    z-index: 1000; 
+    max-height: max-content;
+    overflow-y: auto;
+  }
+  
+  
+
+.SearchContent .item {
+  margin: 10px 10px;
+  max-width: min-content;
+  max-height: max-content;
+  padding: 7px;
+  background: linear-gradient(135deg, #b8aba1, #ada097, #b8aba1);
+  border-radius: 10px;
+  text-align: center;
+  width: 160px;
+  height: 300px;
+  font-family: "Arial", sans-serif;
+  font-weight: 300;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: "Montserrat", sans-serif;
+}
+
+.SearchContent .h2Item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 160px;
+  font-weight: 450;
+  margin-bottom: -10px;
+  font-size: 20px;
+  font-family: "Montserrat", sans-serif;
+}
+.SearchContent .item img {
+  width: 150px;
+  height: 200px;
+  margin-top: 4px;
+  margin-bottom: -15px;
+  border-radius: 10px;
+}
+.SearchContent .item p:not(.score) {
+  margin-top: -14px;
+  font-size: 14px;
+}
+.SearchContent .score {
+  font-size: 18px;
+  font-weight: 350;
+}
+.SearchContent .allInfoContainer {
+  display: none;
+}
