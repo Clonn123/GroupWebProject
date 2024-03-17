@@ -18,7 +18,7 @@ function ContentList( {currentUser, searchResults} ) {
 
   const [sortBT, setSortBT] = useState('-');
   const [textSort, settextSort] = useState('По убыванию');
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(true); 
 
   const [pageNumber, SetpageNumber] = useState(2);
   const [fetch, SetFetch] = useState(false)
