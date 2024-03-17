@@ -19,6 +19,7 @@ from urllib.parse import unquote
 from bs4 import BeautifulSoup
 from django.db.models import Avg
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from django.core.paginator import Paginator
@@ -281,10 +282,11 @@ class AnimeListAPIView(APIView):
             return Response({"message": "Failed to get access token"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         anime_titles = get_user_anime_ratings(access_token)
+        
         # запись твоих оценок жи есть
         for item in anime_titles:
             write_score_to_database(userId, item)
-        remove_duplicate_scores(userId)
+        remove_duplicate_scores()
         
         if anime_titles is not None:
             return Response({"anime_titles": anime_titles}, status=status.HTTP_200_OK)
@@ -345,7 +347,40 @@ def find_missing_anime_list_ids():
     connection.close()
 
     return missing_anime_list_ids
+def write_studio_to_db(anime_list_id, studio):
+    conn = sqlite3.connect('./db.sqlite3')
+    cursor = conn.cursor()
 
+    cursor.execute(
+        "UPDATE animes SET studios = ? WHERE anime_list_id = ?",
+        (studio, anime_list_id)
+    )
+    conn.commit()
+    conn.close()
+def scrape_studio(id):
+    url = f'https://myanimelist.net/anime/{id}'
+
+    response = requests.get(url)
+    if response.status_code != 200:
+        time.sleep(10)
+        
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        studio_elements = soup.find_all('div', class_='spaceit_pad')
+
+        studio_name = ''
+        for studio_element in studio_elements:
+            text = studio_element.get_text()
+            if 'Studios:' in text:
+                studio_name = studio_element.find('a').get_text()
+                print(studio_name)
+
+        if studio_name == '':
+            write_studio_to_db(id, "нет")
+        else:
+            write_studio_to_db(id, studio_name)
 def scrapingShiki(anime_id):
     url = f'https://shikimori.one/animes/y{anime_id}'
 
@@ -481,12 +516,14 @@ def write_score_to_database(user_id, anime_info):
     except Exception as e:
         print("Ошибка при записи в базу данных:", e)
         return False  
-def remove_duplicate_scores(user_id):
-    # Получаем список уникальных anime_id для заданного user_id
-    unique_anime_ids = Score.objects.filter(user_id=user_id).values_list('anime_id', flat=True).distinct()
+def remove_duplicate_scores():
+    connection = sqlite3.connect('./db.sqlite3')
+    cursor = connection.cursor()
 
-    # Удаляем записи с повторяющимися anime_id
-    Score.objects.filter(user_id=user_id).exclude(anime_id__in=unique_anime_ids).delete()
+    cursor.execute('DELETE FROM score WHERE rowid NOT IN (SELECT MIN(rowid) FROM score GROUP BY user_id, anime_id)')
+
+    connection.commit()
+    connection.close()
     
 def get_user_anime_ratings(access_token):
     user_id = get_user_id(access_token)
@@ -517,7 +554,8 @@ def get_user_anime_ratings(access_token):
             not_bd_id = find_missing_anime_list_ids()
             print(not_bd_id)
             for item in not_bd_id:
-                scrapingShiki(item) 
+                scrapingShiki(item)
+                scrape_studio(item) 
             return anime_titles
         else:
             print(f'Failed to get anime ratings. Status code: {response.status_code}')
@@ -612,6 +650,7 @@ def get_info_user(id_user):
                 'score_user': None,
                 'score_real': None,
                 'episodes': None,
+                'studios': None,
                 'Genres': None,
                 'Themes': None,
             }
@@ -627,6 +666,7 @@ def get_info_user(id_user):
                 'score_user': None,
                 'score_real': None,
                 'episodes': None,
+                'studios': None,
                 'Genres': None,
                 'Themes': None,
             }
@@ -644,6 +684,7 @@ def get_info_user(id_user):
                 'score_user': None,
                 'score_real': None,
                 'episodes': None,
+                'studios': None,
                 'Genres': None,
                 'Themes': None,
             }
@@ -673,6 +714,8 @@ def get_full_info(anime_ids_to_exclude):
             
             'data': anime_serializer.data['descriptionData'],
             'score_real': anime_serializer.data['score'],
+            'studios': anime_serializer.data['studios'],
+            
             'episodes': info_serializer.data['Episodes'],
             'Genres': info_serializer.data['Genres'],
             'Themes': info_serializer.data['Themes'],
@@ -684,8 +727,8 @@ def get_full_info(anime_ids_to_exclude):
 def content_based_filtering_sklearn(user_preferences, anime_data):
     vectorizer = TfidfVectorizer()
     
-    anime_descriptions = [f"{anime['type']} {anime['data']} {anime['Genres']} {anime['Themes']} {anime['score_real']}" for anime in anime_data]
-    user_preferences_descriptions = [f"{anime['type']} {anime['data']} {anime['Genres']} {anime['Themes']} {anime['score_user']}" for anime in user_preferences]
+    anime_descriptions = [f"{anime['type']} {anime['data']} {anime['Genres']} {anime['Themes']} {anime['score_real']} {anime['studios']}" for anime in anime_data]
+    user_preferences_descriptions = [f"{anime['type']} {anime['data']} {anime['Genres']} {anime['Themes']} {anime['score_user']} {anime['studios']}" for anime in user_preferences]
     
     # Создаем TF-IDF векторизаторизацию
     tfidf_matrix = vectorizer.fit_transform(anime_descriptions)
@@ -703,11 +746,35 @@ def content_based_filtering_sklearn(user_preferences, anime_data):
     similar_anime_indices = cosine_similarities.argsort()[0][::-1]
     recommendations = [anime_data[index] for index in similar_anime_indices]
 
-    return recommendations      
+    return recommendations
+
+def svd_based_filtering(user_preferences, anime_data):
+    vectorizer = TfidfVectorizer()
+    anime_descriptions = [f"{anime['type']} {anime['data']} {anime['Genres']} {anime['Themes']} {anime['score_real']} {anime['studios']}" for anime in anime_data]
+    user_preferences_descriptions = [f"{anime['type']} {anime['data']} {anime['Genres']} {anime['Themes']} {anime['score_user']} {anime['studios']}" for anime in user_preferences]
+    tfidf_matrix = vectorizer.fit_transform(anime_descriptions)
+    user_preferences_tfidf = vectorizer.transform(user_preferences_descriptions)
+
+    # Применяем метод SVD для сокращения размерности
+    svd = TruncatedSVD(n_components=100)
+    tfidf_svd = svd.fit_transform(tfidf_matrix)
+    user_preferences_tfidf_svd = svd.transform(user_preferences_tfidf)
+
+    # Вычисляем косинусную близость между предпочтениями пользователя и характеристиками аниме после сокращения размерности
+    cosine_similarities_svd = cosine_similarity(user_preferences_tfidf_svd, tfidf_svd)
+
+    # Получаем индексы аниме, наиболее близкие к предпочтениям пользователя
+    similar_anime_indices = cosine_similarities_svd.argsort()[0][::-1]
+    recommendations = [anime_data[index] for index in similar_anime_indices]
+
+    return recommendations
+      
 class Recommendations_CBF(APIView):
     def get(self, request):
         id_user = request.GET.get('id_user')
         page_number = request.GET.get('pageNumber')
+        method = request.GET.get('method')
+        print(method)
         
         count = Score.objects.filter(user_id=id_user)
         if len(count) < 20:
@@ -724,12 +791,18 @@ class Recommendations_CBF(APIView):
         response_data = {
             'user_info_list': user_info_list,
             'full_info_list': full_info_list,
-        }
+        } 
         
-
-        recommendations = content_based_filtering_sklearn(user_info_list, full_info_list)
-        paginator = Paginator(recommendations, 20) 
-        page_obj = paginator.get_page(page_number)
+        if method == 'CBF':
+            recommendations = content_based_filtering_sklearn(user_info_list, full_info_list)
+            paginator = Paginator(recommendations, 20)
+            page_obj = paginator.get_page(page_number)
+             
+        if method == 'SVD':
+            recommendations = svd_based_filtering(user_info_list, full_info_list)
+            paginator = Paginator(recommendations, 20)
+            page_obj = paginator.get_page(page_number)
+            
         
         serialized_data = []
         for recommendation in page_obj:
@@ -744,7 +817,8 @@ class Recommendations_CBF(APIView):
                 "Genres": recommendation.get("Genres"),
                 "Themes": recommendation.get("Themes")
             }
-            serialized_data.append(recommendation_data)
+            serialized_data.append(recommendation_data) 
+
         
         return Response(serialized_data)
         
