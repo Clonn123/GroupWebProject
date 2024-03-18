@@ -357,6 +357,7 @@ def write_studio_to_db(anime_list_id, studio):
     )
     conn.commit()
     conn.close()
+    
 def scrape_studio(id):
     url = f'https://myanimelist.net/anime/{id}'
 
@@ -455,6 +456,7 @@ def scrapingShiki(anime_id):
             if prov:
                 writheBD(english_title, russian_title, content_value, type_value, match, anime_id, score)
                 writheInfo(anime_id, episodes, genres, themes)
+                scrape_studio(anime_id)
                 print(prov)
             else:
                 print(prov)
@@ -554,8 +556,7 @@ def get_user_anime_ratings(access_token):
             not_bd_id = find_missing_anime_list_ids()
             print(not_bd_id)
             for item in not_bd_id:
-                scrapingShiki(item)
-                scrape_studio(item) 
+                scrapingShiki(item) 
             return anime_titles
         else:
             print(f'Failed to get anime ratings. Status code: {response.status_code}')
@@ -737,10 +738,10 @@ def content_based_filtering_sklearn(user_preferences, anime_data):
     # Вычисляем косинусную близость между предпочтениями пользователя и характеристиками аниме
     cosine_similarities = cosine_similarity(user_preferences_tfidf, tfidf_matrix)
 
-    '''# Умножаем косинусные близости на оценки пользователя (нихуя не делает)
+    # Умножаем косинусные близости на оценки пользователя (нихуя не делает)
     user_scores = np.array([anime['score_user'] for anime in user_preferences])
     user_scores = np.tile(user_scores.reshape(-1, 1), (1, cosine_similarities.shape[1]))
-    weighted_cosine_similarities = cosine_similarities * user_scores'''
+    weighted_cosine_similarities = cosine_similarities * user_scores
 
     # Получаем индексы аниме, наиболее близкие к предпочтениям пользователя
     similar_anime_indices = cosine_similarities.argsort()[0][::-1]
