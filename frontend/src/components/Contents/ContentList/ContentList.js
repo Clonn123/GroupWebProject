@@ -23,6 +23,13 @@ function ContentList({ currentUser }) {
   const [fetch, setFetch] = useState(false);
   const [totalCount, setTotalCount] = useState(2);
 
+  // Идеи:
+  // 1) Хранить в хранилище количество итераций (прогрузок данных)
+  // 2) Прогружать на это количество итераций
+  // 3) https://gist.github.com/claus/992a5596d6532ac91b24abe24e10ae81
+  // 4) Сейчас кидает до 20 элемента, а ниже не пускает, так как данные не прогрузились остальные (Как загрузить, вот главный вопрос)
+  // 5) Нужно менять логику, чтобы он не useEffect использовал, а функции, так как иначе это все при перезагрузке срабатывает, что неверно видимо
+
   const handleScroll = () => {
     localStorage.setItem('scrollPosition', window.scrollY);
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
