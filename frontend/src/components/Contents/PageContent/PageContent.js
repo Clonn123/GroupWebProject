@@ -66,11 +66,11 @@ const PageContent = ({ currentUser }) => {
               </a>
             </div>
             <div className="infoC">
-              <div className="additional-info"><strong>Оценки других пользователей</strong></div>
-              <video controls width="426" height="240">
-              <source src={cat} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <div className="additional-info"><strong>Оценки других пользователей:</strong></div>
+        
+              <div>Fahrenheit: 9</div>
+              <div>華氏: 7</div>
+              <div>Никита2006: 10</div>
             </div>
           </div>
           <div className="SettintContent">
