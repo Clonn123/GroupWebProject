@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Avatar from './Avatar';
 import Menu from './Menu';
 import SettingsPage from './SettingProfile';
-import { Link } from 'react-router-dom';
 import { ProfileContext } from './context';
 import ShikimoriButton from './ShikimoriButton'; // Импортируем компонент OAuthButton
-import axios from 'axios';
-
 
 function Profile({ currentUser, onLogout }) {
   const [showPersonalInfo, setShowPersonalInfo] = useState(false);
@@ -32,8 +31,8 @@ function Profile({ currentUser, onLogout }) {
     if (codeInUrl != '') {
       try {
         const response = await axios.post('http://127.0.0.1:8000/api/anime-list/', {
-        codeInUrl: codeInUrl,
-        userId: currentUser.id
+          codeInUrl,
+          userId: currentUser.id,
         });
         console.info(response);
         setAnimeList(response.data.anime_titles);
@@ -46,52 +45,64 @@ function Profile({ currentUser, onLogout }) {
   };
 
   return (
-    <ProfileContext.Provider value={{ setUserImage, userImage, animeList }} >
-    <div className='profile'>
-      <div className='youself'>
-        <div className='chenge_profile'>
-          <Avatar />
-        </div>
-          <h2 className='name'>{currentUser.username}</h2>
+    <ProfileContext.Provider value={{ setUserImage, userImage, animeList }}>
+      <div className="profile">
+        <div className="youself">
+          <div className="chenge_profile">
+            <Avatar />
+          </div>
+          <h2 className="name">{currentUser.username}</h2>
           <hr className="separator" />
-      <h4 onClick={togglePersonalInfo} style={{ cursor: 'pointer' }}>
-        {showPersonalInfo ? 'Личная информация:' : 'Личная информация...'}
-      </h4>
+          <h4 onClick={togglePersonalInfo} style={{ cursor: 'pointer' }}>
+            {showPersonalInfo ? 'Личная информация:' : 'Личная информация...'}
+          </h4>
 
-      <div className={`info-container ${showPersonalInfo ? 'visible' : ''}`}>
-      <div>
-          <div>Имя: {currentUser.name}</div>
-          <div>Фамилия: {currentUser.surname}</div>
-          <div>Пол: {currentUser.gender}</div>
-          <div>Возраст: {currentUser.age}</div>
-        </div>
-      </div>
-      <hr className="separator" />
-        <button className='onLogout_but' onClick={onLogout}>
+          <div className={`info-container ${showPersonalInfo ? 'visible' : ''}`}>
+            <div>
+              <div>
+                Имя:
+                {currentUser.name}
+              </div>
+              <div>
+                Фамилия:
+                {currentUser.surname}
+              </div>
+              <div>
+                Пол:
+                {currentUser.gender}
+              </div>
+              <div>
+                Возраст:
+                {currentUser.age}
+              </div>
+            </div>
+          </div>
+          <hr className="separator" />
+          <button className="onLogout_but" onClick={onLogout}>
             <Link to="/" className="link">Выйти</Link>
-        </button>
-      
-      <div>      
-        <ShikimoriButton />
-        <button className='fetch_anime_button' onClick={handleClick}>
-            Синхронизировать
-        </button>
+          </button>
 
-        {animeList.length > 0 && (
+          <div>
+            <ShikimoriButton />
+            <button className="fetch_anime_button" onClick={handleClick}>
+              Синхронизировать
+            </button>
+
+            {animeList.length > 0 && (
             <div>
               <h3>Список аниме:</h3>
               <ul>
                 {animeList.map((anime, index) => (
-                  <li key={index}>{["Название: " + anime.title + " ID: " + anime.title_id + " Статус: " + anime.status + " Оценка: " + anime.score]}</li>
+                  <li key={index}>{[`Название: ${anime.title} ID: ${anime.title_id} Статус: ${anime.status} Оценка: ${anime.score}`]}</li>
                 ))}
               </ul>
             </div>
-          )}
+            )}
+          </div>
+
+        </div>
+        <Menu currentUser={currentUser} />
       </div>
-      
-      </div>
-      <Menu currentUser={currentUser} />
-    </div>
     </ProfileContext.Provider>
   );
 }

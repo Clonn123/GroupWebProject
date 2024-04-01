@@ -1,12 +1,11 @@
 import React, { useState, useContext } from 'react';
 import './SettingProfile.css';
+import axios from 'axios';
 import SaveButton from './Save';
 import Avatar from './Avatar';
 import { ProfileContext } from './context';
-import axios from 'axios';
 
-
-function SettingsPage( {currentUser} ) {
+function SettingsPage({ currentUser }) {
   const [photo, setPhoto] = useState('');
   const [nickname, setNickname] = useState(currentUser.username);
   const [firstName, setFirstName] = useState(currentUser.name);
@@ -14,9 +13,8 @@ function SettingsPage( {currentUser} ) {
   const [gender, setGender] = useState(currentUser.gender);
   const [birthdate, setBirthdate] = useState(currentUser.age);
   const [previewPhoto, setPreviewPhoto] = useState(null);
-  
-  const imageCtx = useContext(ProfileContext);
 
+  const imageCtx = useContext(ProfileContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,12 +27,11 @@ function SettingsPage( {currentUser} ) {
 
       }).then((response) => {
       })
-      .catch(error => {
-      });;
+        .catch((error) => {
+        });
     } catch (error) {
     }
   };
-  
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -49,12 +46,10 @@ function SettingsPage( {currentUser} ) {
     }
   };
 
-  
-
   return (
-    <div className='settint-container'>
-      <form className='formsetting' onSubmit={handleSubmit}>
-      <h2>Настройки</h2>
+    <div className="settint-container">
+      <form className="formsetting" onSubmit={handleSubmit}>
+        <h2>Настройки</h2>
         <div>
           <label htmlFor="photo">Фото:</label>
           <input type="file" id="photo" onChange={handlePhotoChange} />

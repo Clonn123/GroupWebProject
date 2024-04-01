@@ -1,8 +1,8 @@
 import React from 'react';
-import SearchContent from '../../Contents/Content/SearchContent';
-import "./SearchContent.css";
+import SearchContent from './SearchContent';
+import './SearchContent.css';
 
-const SearchResultsDropdown = ({ results, onItemClick }) => {
+function SearchResultsDropdown({ results, onItemClick }) {
   return (
     <div className="search-results-dropdown">
       {results.map((cont, index) => (
@@ -12,7 +12,6 @@ const SearchResultsDropdown = ({ results, onItemClick }) => {
       ))}
     </div>
   );
-};
+}
 
 export default SearchResultsDropdown;
-

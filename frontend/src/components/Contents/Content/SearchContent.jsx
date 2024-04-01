@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import "./SearchContent.css";
-import axios from "axios";
+import './SearchContent.css';
+import axios from 'axios';
 
 function SearchContent({ cont }) {
-
   return (
-    <div> 
-      <div class="SearchContent">
+    <div>
+      <div className="SearchContent">
         <Link className="Link" to={`/animes/${cont.anime_list_id}`}>
           <div className="item">
             <img src={cont.url_img} alt={cont.title_ru} />

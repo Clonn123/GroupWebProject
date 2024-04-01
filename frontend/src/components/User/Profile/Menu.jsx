@@ -3,39 +3,37 @@ import { Link } from 'react-router-dom';
 import './Menu.css';
 import SettingsPage from './SettingProfile';
 
-function Menu({currentUser}) {
+function Menu({ currentUser }) {
   const [showSettint, setSettting] = useState(false);
 
   const togglesSettting = () => {
     setSettting(!showSettint);
   };
-  
-    return (
-      <>
+
+  return (
+    <>
       <div className={`settings-container ${showSettint ? 'visible' : ''}`}>
-        <SettingsPage currentUser={currentUser}/>
+        <SettingsPage currentUser={currentUser} />
       </div>
-        <div className='menu'>
+      <div className="menu">
         <h3>Меню</h3>
         <hr className="separator" />
         <ln>
-          <Link className='Link' to="/"><div>Главная</div></Link>
-          <Link className='Link' to={`/myList/${currentUser.id}/-score`}><div>Список Аниме</div></Link>
-          <Link className='Link' to="/anime/recommendations"><div>Рекомендации</div></Link>
+          <Link className="Link" to="/"><div>Главная</div></Link>
+          <Link className="Link" to={`/myList/${currentUser.id}/-score`}><div>Список Аниме</div></Link>
+          <Link className="Link" to="/anime/recommendations"><div>Рекомендации</div></Link>
           <div>Друзья</div>
         </ln>
-        
+
         <hr className="separator" />
         <div onClick={togglesSettting}>
           {showSettint ? 'Скрыть настройки' : 'Настройки'}
         </div>
       </div>
-      
-      </>
-        
-      
-      
-    );
-  }
-  
-  export default Menu;
+
+    </>
+
+  );
+}
+
+export default Menu;

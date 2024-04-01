@@ -17,16 +17,16 @@ function LoginForm({ users, onLogin }) {
     try {
       axios.post('http://127.0.0.1:8000/api/login/', {
         username: login,
-        password: password,
+        password,
       }).then((response) => {
         // Получаем access токен из ответа
         const accessToken = response.data.access_token;
 
         onLogin(accessToken, rememberMe);
       })
-      .catch(error => {
-        console.error('Ошибка:', error);
-      });;
+        .catch((error) => {
+          console.error('Ошибка:', error);
+        });
 
       // Если успешно вошли, перенаправляем пользователя на страницу профиля
       navigate('/profile');
@@ -62,7 +62,10 @@ function LoginForm({ users, onLogin }) {
         </label>
         <button type="submit">Войти</button>
         {error && <p className="error-message">{error}</p>}
-        <p>Нет аккаунта? <Link to="/registration">Зарегистрируйтесь</Link></p>
+        <p>
+          Нет аккаунта?
+          <Link to="/registration">Зарегистрируйтесь</Link>
+        </p>
       </form>
     </div>
   );

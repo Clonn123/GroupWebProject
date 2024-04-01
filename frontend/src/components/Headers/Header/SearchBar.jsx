@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchResultsDropdown from '../../Contents/Content/SearchModal';
 
-
-const SearchBar = () => {
+function SearchBar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -35,9 +34,8 @@ const SearchBar = () => {
     handleSearch(event.target.value);
   };
   const handleItemClick = () => {
-    setSearchQuery(''); 
+    setSearchQuery('');
   };
-
 
   return (
     <div className="search-bar">
@@ -50,9 +48,9 @@ const SearchBar = () => {
       {searchQuery && (
         <SearchResultsDropdown results={searchResults} onItemClick={handleItemClick} />
       )}
-      
+
     </div>
   );
-};
+}
 
 export default SearchBar;

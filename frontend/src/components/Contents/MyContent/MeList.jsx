@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import Content from '../Content/Content';
-import Nav from '../Navigations/Nav.js';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Content from '../Content/Content.jsx';
 import '../Content/Content.css';
 import '../ContentList/ContentList.css';
 
-function MyList( {currentUser} ) {
+function MyList({ currentUser }) {
   const [dataList, setDataList] = useState([]);
   const [flexDirection, setFlexDirection] = useState('row');
   const [selectedIcon, setSelectedIcon] = useState('defaultSort');
@@ -15,36 +14,32 @@ function MyList( {currentUser} ) {
   const [sortName, setSortNAme] = useState('score');
   const { sorttype } = useParams();
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [sortBT, setSortBT] = useState('-');
   const [textSort, settextSort] = useState('По убыванию');
   const [isLoading, setIsLoading] = useState(true);
-  
-
 
   useEffect(() => {
     if (!currentUser || !currentUser.id) {
-      return; 
+      return;
     }
     setIsLoading(true);
 
     axios.get(`http://127.0.0.1:8000/api/data/mylist/${id}/${sorttype}`)
-      .then(response => {
+      .then((response) => {
         setDataList(response.data);
         setIsLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Ошибка:', error);
         setIsLoading(false);
       });
   }, [sorttype, currentUser]);
 
-  
-
   function toggleFlexDirection() {
     setFlexDirection('column');
-    setSelectedIcon('infoSort'); 
+    setSelectedIcon('infoSort');
   }
 
   function defoultFlexDirection() {
@@ -52,26 +47,25 @@ function MyList( {currentUser} ) {
     setSelectedIcon('defaultSort');
   }
 
-  function handleSortChange(ru_type, type, BT){
+  function handleSortChange(ru_type, type, BT) {
     setSort(ru_type);
-    setSortNAme(type)
+    setSortNAme(type);
     navigate(`/myList/${id}/${BT}${type}`);
   }
-  function sortBTChange(type, text, sort){
-    setSortBT(type)
-    settextSort(text)
+  function sortBTChange(type, text, sort) {
+    setSortBT(type);
+    settextSort(text);
     navigate(`/myList/${id}/${type}${sort}`);
   }
 
-
   return (
-    <div className='head'>
-      <div className='notice'>
-        <h1 className='title'>Мой список аниме</h1>
-        <div className='navigation'>
+    <div className="head">
+      <div className="notice">
+        <h1 className="title">Мой список аниме</h1>
+        <div className="navigation">
           <img
             style={{ background: selectedIcon === 'defaultSort' ? '#976832' : 'none' }}
-            className='defaultSort'
+            className="defaultSort"
             onClick={defoultFlexDirection}
             width="32"
             height="32"
@@ -80,31 +74,37 @@ function MyList( {currentUser} ) {
           />
           <img
             style={{ background: selectedIcon === 'infoSort' ? '#976832' : 'none' }}
-            className='infoSort'
+            className="infoSort"
             onClick={toggleFlexDirection}
             width="32"
             height="32"
             src="https://img.icons8.com/fluency-systems-regular/48/grid-3.png"
             alt="grid-3"
           />
-          <div className='raitingSort' onClick={() => handleSortChange('По рейтингу', 'score', sortBT)}>По рейтингу</div>
-          <div className='dataSort' onClick={() => handleSortChange('По дате', 'descriptionData', sortBT)}>По дате</div>
-          <div className='ABCSort' onClick={() => handleSortChange('По алфавиту', 'title_ru', sortBT)}>По алфавиту</div>
+          <div className="raitingSort" onClick={() => handleSortChange('По рейтингу', 'score', sortBT)}>По рейтингу</div>
+          <div className="dataSort" onClick={() => handleSortChange('По дате', 'descriptionData', sortBT)}>По дате</div>
+          <div className="ABCSort" onClick={() => handleSortChange('По алфавиту', 'title_ru', sortBT)}>По алфавиту</div>
           <div>|</div>
 
-          <div className='downSort' onClick={() => sortBTChange('-', 'По убыванию', sortName)}>По убыванию</div>
-          <div className='upSort' onClick={() => sortBTChange('', 'По возростанию', sortName)}>По возростанию</div>
+          <div className="downSort" onClick={() => sortBTChange('-', 'По убыванию', sortName)}>По убыванию</div>
+          <div className="upSort" onClick={() => sortBTChange('', 'По возростанию', sortName)}>По возростанию</div>
         </div>
-        <div className='notice2' >Мой список, отсортированный: {sort} и {textSort}</div>
+        <div className="notice2">
+          Мой список, отсортированный:
+          {sort}
+          {' '}
+          и
+          {textSort}
+        </div>
         {isLoading && <h2>Loading...</h2>}
       </div>
 
-      <div style={{ flexDirection: flexDirection }} className={`Content-container ${flexDirection}`}>
+      <div style={{ flexDirection }} className={`Content-container ${flexDirection}`}>
         {dataList.map((cont, index) => (
-          <Content key={index} cont={cont} selectedIcon={selectedIcon} currentUser={currentUser}/>
+          <Content key={index} cont={cont} selectedIcon={selectedIcon} currentUser={currentUser} />
         ))}
       </div>
-      
+
     </div>
   );
 }

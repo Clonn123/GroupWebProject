@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import "./Recommendations.css";
-import axios from "axios";
-import ContentRec from "../Content/ContentRec";
+import React, { useEffect, useState } from 'react';
+import './Recommendations.css';
+import axios from 'axios';
+import ContentRec from '../Content/ContentRec';
 
 function MyRecommendations({ currentUser }) {
   const [dataList, setDataList] = useState([]);
@@ -18,22 +18,22 @@ function MyRecommendations({ currentUser }) {
 
   const Scrole = (e) => {
     if (
-      e.target.documentElement.scrollHeight -
-        (e.target.documentElement.scrollTop + window.innerHeight) <
-      100
+      e.target.documentElement.scrollHeight
+        - (e.target.documentElement.scrollTop + window.innerHeight)
+      < 100
     ) {
       localStorage.setItem(
-        "scrollPosition",
-        e.target.documentElement.scrollTop
+        'scrollPosition',
+        e.target.documentElement.scrollTop,
       );
       SetFetch(true);
     }
   };
 
   useEffect(() => {
-    document.addEventListener("scroll", Scrole);
+    document.addEventListener('scroll', Scrole);
     return function () {
-      document.removeEventListener("scroll", Scrole);
+      document.removeEventListener('scroll', Scrole);
     };
   }, []);
 
@@ -48,7 +48,7 @@ function MyRecommendations({ currentUser }) {
       .get(
         `http://127.0.0.1:8000/api/rec/anime/?id_user=${
           currentUser.id
-        }&pageNumber=${1}&method=${method}`
+        }&pageNumber=${1}&method=${method}`,
       )
       .then((response) => {
         setDataList(response.data);
@@ -61,7 +61,7 @@ function MyRecommendations({ currentUser }) {
         }
       })
       .catch((error) => {
-        console.error("Ошибка:", error);
+        console.error('Ошибка:', error);
         setIsLoading(false);
       });
   }, [currentUser, method]);
@@ -70,7 +70,7 @@ function MyRecommendations({ currentUser }) {
     if (fetch) {
       axios
         .get(
-          `http://127.0.0.1:8000/api/rec/anime/?id_user=${currentUser.id}&pageNumber=${pageNumber}&method=${method}`
+          `http://127.0.0.1:8000/api/rec/anime/?id_user=${currentUser.id}&pageNumber=${pageNumber}&method=${method}`,
         )
         .then((response) => {
           setDataList([...dataList, ...response.data]);
@@ -79,20 +79,20 @@ function MyRecommendations({ currentUser }) {
           SetpageNumber((prevState) => prevState + 1);
         })
         .catch((error) => {
-          console.error("Ошибка:", error);
+          console.error('Ошибка:', error);
           setIsLoading(false);
         });
     }
   }, [fetch, currentUser, method]);
 
   function FunCBFMethod(type) {
-    if (type == "CBF") {
+    if (type == 'CBF') {
       SetCBFMethod(true);
-      SetMethod('CBF')
+      SetMethod('CBF');
       SetSVDMethod(false);
     } else {
       SetCBFMethod(false);
-      SetMethod('SVD')
+      SetMethod('SVD');
       SetSVDMethod(true);
     }
   }
@@ -101,13 +101,13 @@ function MyRecommendations({ currentUser }) {
     <div className="NN">
       <h2>Персонализированные рекомендации</h2>
       <div className="Method">
-        {" "}
+        {' '}
         <strong>Метод:</strong>
-        <div className="CBF" onClick={() => FunCBFMethod("CBF")}>
+        <div className="CBF" onClick={() => FunCBFMethod('CBF')}>
           CBF
         </div>
         <div> / </div>
-        <div className="SVD" onClick={() => FunCBFMethod("SVD")}>
+        <div className="SVD" onClick={() => FunCBFMethod('SVD')}>
           SVD
         </div>
       </div>

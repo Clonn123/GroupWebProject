@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import "./RS.css";
+import './RS.css';
 
-const ReviewComponent = ({ onSubmit }) => {
+function ReviewComponent({ onSubmit }) {
   const [reviewText, setReviewText] = useState('');
 
   const handleInputChange = (e) => {
@@ -15,7 +15,6 @@ const ReviewComponent = ({ onSubmit }) => {
   };
 
   return (
-    <>
     <div className="review-component">
       <h4 className="review-title">Написать отзыв:</h4>
       <textarea
@@ -27,9 +26,8 @@ const ReviewComponent = ({ onSubmit }) => {
       />
       <button className="submit-button" onClick={handleSubmit}>Отправить</button>
     </div>
-    </>
-    
+
   );
-};
+}
 
 export default ReviewComponent;

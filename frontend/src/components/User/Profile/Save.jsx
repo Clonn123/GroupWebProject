@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Save.css'; // Подключаем файл стилей
 
-const SaveButton = () => {
+function SaveButton() {
   const [isSaved, setIsSaved] = useState(false);
 
   const handleClick = () => {
@@ -13,6 +13,6 @@ const SaveButton = () => {
       {isSaved ? 'Сохранено!' : 'Сохранить'}
     </button>
   );
-};
+}
 
 export default SaveButton;
