@@ -17,8 +17,9 @@ function Header({ currentUser, toggleTheme, isDarkMode, onLogout }) {
         <h1><Link to="/" className="header-link" >Стартовая страница</Link></h1> {/* Обертываем надпись в Link и устанавливаем to="/" для перехода на стартовую страницу */}
           <div className="categories">
             <div><Link to="/animes/sort/-score"  className="category">Аниме</Link></div>
-            <div><Link to="/book" className="category">Книги</Link></div>
-            <div><Link to="/anime/recommendations" className="category">Рекомендации</Link></div>
+            <div><Link to="/data-manga/sort/-score" className="category">Манга</Link></div>
+            <div><Link to="/manga/recommendations" className="category">Рекомендации манги</Link></div>
+            <div><Link to="/anime/recommendations" className="category">Рекомендации аниме</Link></div>
           </div>
           <SearchBar />
           <div className="registration-link">
@@ -31,7 +32,8 @@ function Header({ currentUser, toggleTheme, isDarkMode, onLogout }) {
                     <Link to="/profile">Профиль</Link>
                   </li>
                   <li>
-                    <Link to={`/myList/${currentUser.id}/-score`}>Лист</Link>
+                    <Link to={`/myListManga/${currentUser.id}/-score`}>Список манги</Link>
+                    <Link to={`/myList/${currentUser.id}/-score`}>Лист аниме</Link>
                   </li>
                   <li>
                     <Link to="/help">Помощь</Link>
@@ -48,7 +50,6 @@ function Header({ currentUser, toggleTheme, isDarkMode, onLogout }) {
                 <Link to="/login">Вход</Link>
               </>
             )}
-            <ThemeToggleButton toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
           </div>
           
         </div>

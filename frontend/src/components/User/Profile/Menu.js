@@ -21,7 +21,9 @@ function Menu({currentUser}) {
         <ln>
           <Link className='Link' to="/"><div>Главная</div></Link>
           <Link className='Link' to={`/myList/${currentUser.id}/-score`}><div>Список Аниме</div></Link>
-          <Link className='Link' to="/anime/recommendations"><div>Рекомендации</div></Link>
+          <Link className='Link' to={`/myListManga/${currentUser.id}/-score`}><div>Список манги</div></Link>
+          <Link className='Link' to="/manga/recommendations"><div>Рекомендации манги</div></Link>
+          <Link className='Link' to="/anime/recommendations"><div>Рекомендации аниме</div></Link>
           <div>Друзья</div>
         </ln>
         

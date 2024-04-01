@@ -23,7 +23,7 @@ const SearchBar = () => {
 
   const handleSearch = async (query) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/search?query=${query}`);
+      const response = await axios.get(`http://127.0.0.1:8000/api/search-manga?query=${query}`);
       setSearchResults(response.data);
     } catch (error) {
       console.error('Ошибка при выполнении запроса:', error);
