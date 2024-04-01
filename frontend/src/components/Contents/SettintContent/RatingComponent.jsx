@@ -33,7 +33,7 @@ function RatingComponent({ currentUser, info }) {
     setRating(newRating);
     handleSubmit(newRating);
 
-    console.log('Установлена оценка:', newRating);
+    console.log('Установлена оценка: ', newRating);
   };
 
   const delObject = async () => {
@@ -73,14 +73,12 @@ function RatingComponent({ currentUser, info }) {
               onChange={handleRatingChange}
             />
             <p>
-              Ваша оценка:
-              {rating}
-            </p>
+              Ваша оценка: {rating} </p>
           </>
         )}
         {isDel && <div onClick={delObject} className="isDel">Удалить из списка</div>}
       </div>
     </div>
-  );
+  ); 
 }
 export default RatingComponent;
