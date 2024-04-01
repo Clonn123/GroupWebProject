@@ -13,6 +13,7 @@ function Profile({ currentUser, onLogout }) {
   const [showPersonalInfo, setShowPersonalInfo] = useState(false);
   const [codeInUrl, setCodeInUrl] = useState('');
   const [animeList, setAnimeList] = useState([]);
+  const [mangaList, setMangaList] = useState([]);
 
   const [userImage, setUserImage] = useState('');
   const togglePersonalInfo = () => {
@@ -37,6 +38,7 @@ function Profile({ currentUser, onLogout }) {
         });
         console.info(response);
         setAnimeList(response.data.anime_titles);
+        setMangaList(response.data.manga_titles);
       } catch (error) {
         console.error('Ошибка при обработке запроса:', error);
       }
@@ -46,7 +48,7 @@ function Profile({ currentUser, onLogout }) {
   };
 
   return (
-    <ProfileContext.Provider value={{ setUserImage, userImage, animeList }} >
+    <ProfileContext.Provider value={{ setUserImage, userImage, animeList, mangaList }} >
     <div className='profile'>
       <div className='youself'>
         <div className='chenge_profile'>
@@ -77,7 +79,7 @@ function Profile({ currentUser, onLogout }) {
             Синхронизировать
         </button>
 
-        {animeList.length > 0 && (
+        {/* {animeList.length > 0 && (
             <div>
               <h3>Список аниме:</h3>
               <ul>
@@ -86,9 +88,29 @@ function Profile({ currentUser, onLogout }) {
                 ))}
               </ul>
             </div>
+          )} */}
+          {mangaList.length > 0 && (
+            <div>
+              <h3>Ваш список манги загружен с Шикимори!</h3>
+              {/* <h3>Список манги:</h3> */}
+              {/* <ul>
+                {mangaList.map((manga, index) => (
+                  <li key={index}>{["Название: " + manga.title + " ID: " + manga.title_id + " Статус: " + manga.status + " Оценка: " + manga.score]}</li>
+                ))}
+              </ul> */}
+            </div>
           )}
       </div>
-      
+      {/* <style>
+        {`
+          html {
+            height: 100%;
+            margin: 0 auto;
+            font-family: 'Montserrat', sans-serif;
+          }
+        `}
+      </style> */}
+
       </div>
       <Menu currentUser={currentUser} />
     </div>

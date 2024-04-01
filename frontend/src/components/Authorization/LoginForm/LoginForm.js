@@ -64,6 +64,15 @@ function LoginForm({ users, onLogin }) {
         {error && <p className="error-message">{error}</p>}
         <p>Нет аккаунта? <Link to="/registration">Зарегистрируйтесь</Link></p>
       </form>
+      {/* <style>
+        {`
+          html {
+            height: 100%;
+            margin: 0 auto;
+            font-family: 'Montserrat', sans-serif;
+          }
+        `}
+      </style> */}
     </div>
   );
 }

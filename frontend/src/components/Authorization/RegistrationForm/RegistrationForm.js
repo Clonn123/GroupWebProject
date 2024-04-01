@@ -60,6 +60,15 @@ function RegistrationForm() {
   
     return (
       <div className="registration-form">
+        {/* <style>
+        {`
+          html {
+            height: 100%;
+            margin: 0 auto;
+            font-family: 'Montserrat', sans-serif;
+          }
+        `}
+      </style> */}
         <h2>Форма регистрации</h2>
         <form onSubmit={handleSubmit}>
           <input

@@ -8,7 +8,7 @@ function SearchContent({ cont }) {
   return (
     <div> 
       <div class="SearchContent">
-        <Link className="Link" to={`/animes/${cont.anime_list_id}`}>
+        <Link className="Link" to={`/mangas/${cont.manga_list_id}`}>
           <div className="item">
             <img src={cont.url_img} alt={cont.title_ru} />
             <div className="smolInfoContainer">

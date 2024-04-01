@@ -7,14 +7,18 @@ import './css/DarkTheme.css';
 import ThemeToggleButton from './components/Headers/Header/ThemeToggleButton.js' 
 import RegistrationForm from './components/Authorization/RegistrationForm/RegistrationForm.js';
 import ContentList from './components/Contents/ContentList/ContentList.js';
+import ContentListManga from './components/Contents/ContentList/ContentListManga.js';
 import PageContent from './components/Contents/PageContent/PageContent.js';
 import UserList from './components/User/UserList/UserList.js';
 import MyList from './components/Contents/MyContent/MeList.js';
 import Recommendations from './components/Contents/Recommendations/Recommendations.js';
+import MyListManga from './components/Contents/MyContent/MyListManga.js';
+import RecommendationsManga from './components/Contents/Recommendations/RecommendationsManga.js';
 import BotHeader from './components/Headers/BotHeader/BotHeader.js';
 import LoginForm from './components/Authorization/LoginForm/LoginForm.js';
 import Profile from './components/User/Profile/Profile.js';
 import axios from 'axios';
+import PageContentManga from './components/Contents/PageContent/PageContentManga.js';
 
 function App() {
 
@@ -93,6 +97,10 @@ function App() {
           <Route path="/myList/:id/:sorttype" element={<MyList currentUser={currentUser} />} />
           <Route path="/animes/sort/:sorttype" element={<ContentList currentUser={currentUser}/>} />
           <Route path="/animes/:id" element={<PageContent currentUser={currentUser}/>} />
+          <Route path="/manga/recommendations" element={<RecommendationsManga currentUser={currentUser} />} />
+          <Route path="/myListManga/:id/:sorttype" element={<MyListManga currentUser={currentUser} />} />
+          <Route path="/data-manga/sort/:sorttype" element={<ContentListManga currentUser={currentUser}/>} />
+          <Route path="/mangas/:id" element={<PageContentManga currentUser={currentUser}/>} />
           {currentUser && <Route path="/profile" element={<Profile currentUser={currentUser} onLogout={handleLogout} />} />}
         </Routes>
         </div>   
