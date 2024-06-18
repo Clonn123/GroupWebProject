@@ -28,12 +28,16 @@ h1{
 
 .categories {
   display: flex;
+  justify-content: center;
+}
+.spp{
+  padding-left: 10px;
 }
 
 .category {
   text-decoration: none;
   transition: opacity 0.2s;
-  margin-left: 20px;
+  margin-left: 10px;
   color: #170600;
 }
 
@@ -74,10 +78,12 @@ h1{
 }
 
 .header-link {
+  font-size: 34px;
   text-decoration: none; /* Убираем подчеркивание ссылки */
   transition: opacity 0.2s;
   color: #170600;
   font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .header-link:hover :not(h1) {
@@ -97,8 +103,11 @@ h1{
   z-index: 1; 
   background-color: #95652e; /* Цвет фона */
   border-radius: 4px; /* Закругляем углы */
-  padding: 8px; /* Отступы внутри меню */
+  padding: 2px; /* Отступы внутри меню */
   display: none; /* По умолчанию меню скрыто */
+  width: max-content;
+  border: 2px solid #170600; 
+  
 }
 .dropdown-menu ul {
   list-style: none; 
@@ -106,4 +115,11 @@ h1{
 }
 .dropdown:hover .dropdown-menu {
   display: block; 
+}
+.separatorHeader{
+  border: none;
+    border-left: 1px solid #170600;
+    margin: 15px 0;
+    width: 100%;
+
 }

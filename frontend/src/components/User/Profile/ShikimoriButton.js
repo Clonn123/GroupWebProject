@@ -15,7 +15,7 @@ function ShikimoriButton() {
             textDecoration: 'none',
             fontSize: '14px',
             width: '90px',
-            marginBottom: '15px',
+            marginBottom: '20px',
             cursor: 'pointer',
           }}
             // Добавляем стили для псевдокласса :hover

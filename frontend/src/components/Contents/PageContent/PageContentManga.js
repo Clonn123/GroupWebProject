@@ -48,13 +48,13 @@ const PageContentManga = ({ currentUser }) => {
               <p className="anime-description">
                 <strong>Тип:</strong>  {infoList.manga_info2.descriptionEpisod}
               </p>
-              <p><strong>Эпизоды:</strong> {infoList.manga_info.Episodes}</p>
+              <p><strong>Главы:</strong> {infoList.manga_info.Episodes}</p>
               <p className="anime-description">
                 <strong>Дата:</strong> {infoList.manga_info2.descriptionData}
               </p>
               <p><strong>Жанры:</strong> {infoList.manga_info.Genres}</p>
               <p><strong>Темы:</strong> {infoList.manga_info.Themes}</p>
-              <p><strong>Студия:</strong> {infoList.manga_info2.studios}</p>
+              <p><strong>Автор:</strong> {infoList.manga_info2.authors}</p>
             </div>
             <div className="infoB">
               <div className="additional-info"><h4>Рейтинг:</h4></div>

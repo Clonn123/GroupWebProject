@@ -8,8 +8,8 @@ import './ContentList.css';
 
 function ContentListManga( {currentUser, searchResults} ) {
   const [dataList, setDataList] = useState([]);
-  const [flexDirection, setFlexDirection] = useState('column');
-  const [selectedIcon, setSelectedIcon] = useState('infoSort');
+  const [flexDirection, setFlexDirection] = useState('row');
+  const [selectedIcon, setSelectedIcon] = useState('defaultSort');
 
   const [sort, setSort] = useState('По рейтингу');
   const [sortName, setSortNAme] = useState('score');
@@ -113,7 +113,7 @@ function ContentListManga( {currentUser, searchResults} ) {
             onClick={defoultFlexDirection}
             width="32"
             height="32"
-            src="https://img.icons8.com/parakeet-line/48/grid.png"
+            src="https://img.icons8.com/fluency-systems-regular/48/grid.png"
             alt="grid"
           />
           <img
@@ -122,7 +122,7 @@ function ContentListManga( {currentUser, searchResults} ) {
             onClick={toggleFlexDirection}
             width="30"
             height="30"
-            src="https://img.icons8.com/ios/50/grid-3.png"
+            src="https://img.icons8.com/fluency-systems-regular/48/grid-3.png"
             alt="grid-3"
           />
           <div className='raitingSort' onClick={() => handleSortChange('По рейтингу', 'score', sortBT)}>По рейтингу</div>
